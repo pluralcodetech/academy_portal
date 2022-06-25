@@ -53,7 +53,7 @@
             </li>
             <li>
                 <a href="setting.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Settings</span></a>
-            </li><br><br><br><br><br><br><br>
+            </li><br><br><br><br><br>
             <li>
              <a onclick="logAdminOut(event)" style="text-decoration: none;"><i class="fas fa-sign-out mr-2" style="color: #fff;"></i><span class="logspan">Logout</span></a>
             </li>
@@ -68,11 +68,35 @@
                    <i class="fa fa-bars"></i>
                </label>
            </h2>
+           <div class="sect-card">
+            <div class="box-card">
+                <a href="https://pluralcode.academy/payment/" class="aty">https://pluralcode.academy/payment/</a>
+            </div>
+            <div class="text-right mt-2">
+               <i class="fas fa-copy fal" onclick="getTheText(event)"></i>
+            </div>
+        </div>
            
         </header>
 
        <main>
-        <div class="dash-cards mb-5">
+        <div id="re-modal" class="mymodal mb-5">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="closehModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label for="">Set time</label>
+                        <input type="date" name="myDate" class="mb-2 form-control myDate">
+                        <center>
+                          <button class="se-btn" onclick="assignTimeSlot(event)">Set Time</button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="dash-cards mb-5 mt-5">
             <div class="card-single">
                 <div class="card-body">
                     <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
@@ -144,13 +168,12 @@
           <div class="jumbotron bg-light">
               <div class="head-shift">
                 <div class="input-group rounded">
-                    <input type="text" class="form-control rounded myname mt-4" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <input type="text" class="form-control rounded myname" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     <span class="input-group-text border-0" id="search-addon">
                     <i class="fas fa-search" onclick="searchAdbyName(event)"></i>
                     </span>
                 </div>
                 <form>
-                    <label class="label">Course</label>
                       <select class="form-control spincourse" id="input" onchange="visorCourse(event)">
                     </select>
                 </form>

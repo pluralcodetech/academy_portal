@@ -438,6 +438,7 @@ hr {
 
 .logspan {
     color: #fff;
+    cursor: pointer;
 }
 
 
@@ -571,6 +572,14 @@ hr {
     display: flex;
     justify-content: flex-end;
     column-gap: 50px;
+}
+@media screen and (max-width: 650px) {
+    .head-shift {
+        flex-direction: column;
+    }
+    .head-shift2 {
+        flex-direction: column;
+    }
 }
 
 .input-group {
@@ -846,7 +855,7 @@ hr {
     display: none;
 }
 
-.upd-btn, .del-btn {
+.upd-btn, .del-btn, .se-btn {
     border: 0;
     outline: none;
     box-shadow: none;
@@ -855,6 +864,11 @@ hr {
     padding: 10px;
     margin-right: 15px;
     border-radius: 8px;
+}
+
+.se-btn {
+    background: #0C1E5B;
+    padding: 12px 15px;
 }
 
 .mymodal {
@@ -978,6 +992,12 @@ hr {
     color: #6280e4;;
 }
 
+@media screen and (max-width: 650px) {
+    .search-card {
+        width: 100%;
+    }
+}
+
 .upd-btn, .del-btn {
     border: 0;
     outline: none;
@@ -1030,6 +1050,12 @@ hr {
     border-radius: 5px;
 }
 
+@media screen and (max-width: 650px) {
+    .create-form {
+        width: 100%;
+    }
+}
+
 .ass-btn {
     border: 0;
     outline: none;
@@ -1074,4 +1100,23 @@ hr {
 
 .las {
     background-color:#0C1E5B !important;
+}
+
+.sect-card {
+    padding: 6px 25px;
+    background: #fff;
+    border-radius: 10px;
+    /* height: 200px; */
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+.box-card a {
+    text-decoration: none;
+    color: #0C1E5B;
+}
+
+.fal {
+    padding: 10px;
+    background: #e7e7e4;
+    border-radius: 50%;
 }

@@ -139,38 +139,36 @@ function adminLog(event) {
     }
 }
 
-window.onload = function runTime() {
-    setTimeout(function destroyCookie() {
-        const cookwa = localStorage.getItem("adminLogin");
-        const theCook = JSON.parse(cookwa);
-        const cookTok = theCook.token;
-    
-        const cookHead = new Headers();
-        cookHead.append("Authorization", `Bearer ${cookTok}`);
-    
-        const getCookie = localStorage.getItem("unNum");
-        const cookForm = new FormData();
-        cookForm.append("id", getCookie);
-    
-        const cookReq = {
-            method: 'POST',
-            headers: cookHead,
-            body: cookForm
-        };
-    
-        const url = "https://pluralcode.academy/pluralcode_payments/api/admin/logout_expired_cookies";
-        fetch(url, cookReq)
-        .then(response => response.json())
-        .then(result => {
-            console.log(result)
-            if(result.status === "success") {
-                localStorage.clear();
-                window.location.href = "adminlog.html";
-            }
-        })
-        .catch(error => console.log('error', error));
-    }, 3000000);
-}
+setTimeout(function destroyCookie() {
+    const cookwa = localStorage.getItem("adminLogin");
+    const theCook = JSON.parse(cookwa);
+    const cookTok = theCook.token;
+
+    const cookHead = new Headers();
+    cookHead.append("Authorization", `Bearer ${cookTok}`);
+
+    const getCookie = localStorage.getItem("unNum");
+    const cookForm = new FormData();
+    cookForm.append("id", getCookie);
+
+    const cookReq = {
+        method: 'POST',
+        headers: cookHead,
+        body: cookForm
+    };
+
+    const url = "https://pluralcode.academy/pluralcode_payments/api/admin/logout_expired_cookies";
+    fetch(url, cookReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if(result.status === "success") {
+            localStorage.clear();
+            window.location.href = "adminlog.html";
+        }
+    })
+    .catch(error => console.log('error', error));
+}, 100000);
 
 
 
@@ -1254,9 +1252,6 @@ function getAdvisory() {
                     <td>${item.phone_number}</td>
                     <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                     <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
-                        <div class="spinner-border spinner-border-sm text-light spin" role="status">
-                            <span class="sr-only"></span>
-                        </div>
                         ${item.status}
                         </button>
                     </td>
@@ -1271,52 +1266,96 @@ function getAdvisory() {
 }
 getAdvisory();
 
+// function to pass ID to reschedule
+function rescheduleTime(reId) {
+
+    const myModal = document.getElementById("re-modal");
+    myModal.style.display = "block";
+
+    localStorage.setItem("getDule", reId);
+
+}
+
+function closehModal() {
+    const myModal = document.getElementById("re-modal");
+    myModal.style.display = "none";
+}
+
+// function to set time and assign time
+// function assignTimeSlot(event) {
+//     event.preventDefault();
+
+//     const setTime = document.querySelector(".myDate").value;
+//     if (setTime === "") {
+//         Swal.fire({
+//             icon: 'info',
+//             text: 'Please enter a date',
+//             confirmButtonColor: '#25067C'
+//         })
+//     }
+//     else {
+//         const getId = localStorage.getItem("getDule");
+
+//         const resGet = localStorage.getItem("adminLogin");
+//         const reGet = JSON.parse(resGet);
+//         const reTok = reGet.token;
+
+//         const relHead = new Headers();
+//         relHead.append("Authorization", `Bearer ${reTok}`);
+
+//         const reForm = new FormData();
+//         reForm.append("id", getId);
+//         reForm.append("datetime", setTime)
+//     }
+// }
+
+
 // function to change advisory status
-function changeAdvisoryStatus(advId) {
+// function changeAdvisoryStatus(advId) {
 
-    const changeLoc = localStorage.getItem("adminLogin");
-    const loc = JSON.parse(changeLoc);
-    const locTok = loc.token;
+//     const changeLoc = localStorage.getItem("adminLogin");
+//     const loc = JSON.parse(changeLoc);
+//     const locTok = loc.token;
 
 
-    const adv = document.querySelector(".adBtn");
+//     const adv = document.querySelector(".adBtn");
 
-    const spinRoll = document.querySelector(".spin");
-    spinRoll.style.display = "inline-block";
+//     const spinRoll = document.querySelector(".spin");
+//     spinRoll.style.display = "inline-block";
 
-    const locHead = new Headers();
-    locHead.append("Authorization", `Bearer ${locTok}`);
+//     const locHead = new Headers();
+//     locHead.append("Authorization", `Bearer ${locTok}`);
 
-    const locForm = new FormData();
-    locForm.append("id", advId);
+//     const locForm = new FormData();
+//     locForm.append("id", advId);
     
 
-    const locReq = {
-        method: 'POST',
-        headers: locHead,
-        body: locForm
-    };
+//     const locReq = {
+//         method: 'POST',
+//         headers: locHead,
+//         body: locForm
+//     };
 
-    const url = "https://pluralcode.academy/pluralcode_payments/api/admin/update_advisory_status";
-    fetch(url, locReq)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result)
-        if (result.status === "success") {
-            adv.innerHTML = "complete";
-            adv.style.backgroundColor = "#4ee053";
-            adv.disabled = true;
-            spinRoll.style.display = "none";
-        }
-        else {
-            spinRoll.style.display = "none";
-        }
-    })
-    .catch(error => {
-        console.log('error', error)
-        // window.location.href = "adminlog.html";
-    });
-}
+//     const url = "https://pluralcode.academy/pluralcode_payments/api/admin/update_advisory_status";
+//     fetch(url, locReq)
+//     .then(response => response.json())
+//     .then(result => {
+//         console.log(result)
+//         if (result.status === "success") {
+//             adv.innerHTML = "complete";
+//             adv.style.backgroundColor = "#4ee053";
+//             adv.disabled = true;
+//             spinRoll.style.display = "none";
+//         }
+//         else {
+//             spinRoll.style.display = "none";
+//         }
+//     })
+//     .catch(error => {
+//         console.log('error', error)
+//         // window.location.href = "adminlog.html";
+//     });
+// }
 
 // function to get advisor 
 function viewAdvisor() {
@@ -1411,6 +1450,10 @@ function viewIt() {
                     <p>${result.advisor.email}</p>
                 </div>
                 <div class="content">
+                    <p>School:</p>
+                    <p>${result.advisor.school_assigned_to}</p>
+                </div>
+                <div class="content">
                     <p>Status:</p>
                     <p><button class="${result.advisor.status}">${result.advisor.status}</button></p>
                 </div>
@@ -1496,9 +1539,10 @@ function createAdvisor(event) {
     const lastName = document.querySelector(".lName").value;
     const email = document.querySelector(".email").value;
     const pass = document.querySelector(".pass").value;
+    const sch = document.querySelector(".school").value;
     const image = document.querySelector(".image").files[0];
 
-    if (firstName === "" || lastName === "" || email === "" || pass === "" || image === "") {
+    if (firstName === "" || lastName === "" || email === "" || pass === "" || sch === "" || image === "") {
         Swal.fire({
             icon: 'info',
             text: 'All fields are required',
@@ -1518,6 +1562,7 @@ function createAdvisor(event) {
         formdata.append("last_name", lastName);
         formdata.append("email", email);
         formdata.append("password", pass);
+        formdata.append("school", sch);
         formdata.append("image", image);
 
         const formRequest = {
@@ -1996,9 +2041,6 @@ function searchTheDate(event) {
                         <td>${item.phone_number}</td>
                         <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                         <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
-                            <div class="spinner-border spinner-border-sm text-light spin" role="status">
-                                <span class="sr-only"></span>
-                            </div>
                             ${item.status}
                             </button>
                         </td>
@@ -2076,6 +2118,15 @@ function visorCourse(event) {
     })
     .catch(error => console.log('error', error));
 }
+
+// function to copy text
+function getTheText(event) {
+    event.preventDefault();
+    let copyText = document.querySelector(".aty").textContent;
+    navigator.clipboard.writeText(copyText);
+    console.log(copyText)
+}
+
 
 // function logout
 function logAdminOut(event) {
