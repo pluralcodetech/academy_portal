@@ -168,7 +168,7 @@ setTimeout(function destroyCookie() {
         }
     })
     .catch(error => console.log('error', error));
-}, 100000);
+}, 300000);
 
 
 
@@ -245,6 +245,45 @@ function getEnrolled() {
 }
 getEnrolled();
 
+// function to update status
+function changeStatus(statusId) {
+    const coLogin = localStorage.getItem("adminLogin");
+    const coview = JSON.parse(coLogin);
+    const coview2 = coview.token;
+
+    const getStatus = document.querySelector(".pending");
+
+    const coviewHead = new Headers();
+    coviewHead.append("Authorization", `Bearer ${coview2}`);
+
+    const coFormData = new FormData();
+    coFormData.append("id", statusId);
+
+    const coState = {
+        method: 'POST',
+        headers: coviewHead,
+        body: coFormData
+    };
+
+    const url = "https://pluralcode.academy/pluralcode_payments/api/admin/update_enrolled_status";
+    fetch(url, coState)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.status === "success") {
+            getStatus.style.backgroundColor = "green";
+            getStatus.innerHTML = "complete";
+        }else {
+            Swal.fire({
+                icon: 'info',
+                text: 'Unsuccessful',
+                confirmButtonColor: '#25067C'
+            })
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
 // function to view enrolled
 function viewEnrolled() {
     const params = new URLSearchParams(window.location.search);
@@ -255,8 +294,6 @@ function viewEnrolled() {
     const view = JSON.parse(viewLogin);
     const view2 = view.token;
 
-    // const myModal = document.getElementById("dash-modal");
-    // myModal.style.display = "block";
 
     const viewHead = new Headers();
     viewHead.append("Authorization", `Bearer ${view2}`);
@@ -307,8 +344,8 @@ function viewEnrolled() {
                     </div>
                 </div>
                 `
-                info.innerHTML = viewData;
             })
+            info.innerHTML = viewData;
         }
     })
     .catch(error => console.log('error', error));
@@ -852,6 +889,9 @@ function getTypeCourse2(event) {
 
 // dashboard api 
 function dashBoardDetails() {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const totalAdvisor = document.getElementById("adAsign");
     const totalSect = document.getElementById("secHel");
     const totalAdviCom = document.getElementById("adCom");
@@ -884,6 +924,8 @@ function dashBoardDetails() {
         totalEnrol.innerHTML = result.total_enrolled;
         totalForm.innerHTML = result.total_interested_students;
         totalUn.innerHTML = result.total_advisory_not_interested;
+
+        myModal.style.display = "none";
     })
     .catch(error => console.log('error', error));
 }
@@ -1239,6 +1281,8 @@ function getAdvisory() {
                     <td>${item.name}</td>
                     <td>${item.email}</td>
                     <td>${item.phone_number}</td>
+                    <td>${item.date}</td>
+                    <td>${item.time}</td>
                     <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                     <td><button disabled class="${item.status}">${item.status}</button></td>
                     </tr>
@@ -1250,6 +1294,8 @@ function getAdvisory() {
                     <td>${item.name}</td>
                     <td>${item.email}</td>
                     <td>${item.phone_number}</td>
+                    <td>${item.date}</td>
+                    <td>${item.time}</td>
                     <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                     <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
                         ${item.status}
@@ -1913,6 +1959,9 @@ function reAssign() {
 function searchAdbyName(event) {
     event.preventDefault();
 
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const searchNa = document.querySelector(".myname").value;
     console.log(searchNa);
     if (searchNa === "") {
@@ -1946,6 +1995,13 @@ function searchAdbyName(event) {
         fetch(url, naReq)
         .then(response => response.json())
         .then(result => {
+            const myTable = document.querySelector(".tableindex");
+            if (result.length === 0) {
+                myTable.innerHTML = `
+                  <h2 class="text-center">No Records found on this name</h2>
+                `
+                myModal.style.display = "none";
+            }
             console.log(result)
             result.map((item) => {
                 if (item.status === "complete") {
@@ -1954,6 +2010,8 @@ function searchAdbyName(event) {
                         <td>${item.name}</td>
                         <td>${item.email}</td>
                         <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
                         <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                         <td><button disabled class="${item.status}">${item.status}</button></td>
                         </tr>
@@ -1965,14 +2023,16 @@ function searchAdbyName(event) {
                         <td>${item.name}</td>
                         <td>${item.email}</td>
                         <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
                         <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                         <td><button class="${item.status} adBtn">${item.status}</button>
                         </td>
                         </tr>
                     `
                 }
-                const myTable = document.querySelector(".tableindex");
                 myTable.innerHTML = nameData;
+                myModal.style.display = "none";
             })
             
         })
@@ -1984,6 +2044,9 @@ function searchAdbyName(event) {
 // function to get date range
 function searchTheDate(event) {
     event.preventDefault();
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
 
     const first = document.querySelector(".firstValue").value;
     const second = document.querySelector(".secondValue").value;
@@ -2021,6 +2084,13 @@ function searchTheDate(event) {
         .then(response => response.json())
         .then(result => {
             console.log(result)
+            const myTable2 = document.querySelector(".tableindex");
+            if (result.length === 0) {
+                myTable2.innerHTML = `
+                  <h2 class="text-center">No Records found on this name</h2>
+                `
+                myModal.style.display = "none";
+            }
             result.map((item) => {
                 if (item.status === "complete") {
                     daData += `
@@ -2028,6 +2098,8 @@ function searchTheDate(event) {
                         <td>${item.name}</td>
                         <td>${item.email}</td>
                         <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
                         <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                         <td><button disabled class="${item.status}">${item.status}</button></td>
                         </tr>
@@ -2039,6 +2111,8 @@ function searchTheDate(event) {
                         <td>${item.name}</td>
                         <td>${item.email}</td>
                         <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
                         <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                         <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
                             ${item.status}
@@ -2047,8 +2121,8 @@ function searchTheDate(event) {
                         </tr>
                     `
                 }
-                const myTable2 = document.querySelector(".tableindex");
                 myTable2.innerHTML = daData;
+                myModal.style.display = "none";
             })
         })
         .catch(error => console.log('error', error));
@@ -2058,6 +2132,9 @@ function searchTheDate(event) {
 
 // function to get advisory dashboard course
 function visorCourse(event) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const course = event.currentTarget.value;
     const coTok = localStorage.getItem("adminLogin");
     const gData = JSON.parse(coTok);
@@ -2082,6 +2159,12 @@ function visorCourse(event) {
     .then(response => response.json())
     .then(result => {
         console.log(result)
+        const myTable3 = document.querySelector(".tableindex");
+        if (result.length === 0) {
+            myTable3.innerHTML = `
+              <h2 class="text-center">No Records found on this name</h2>
+            `
+        }
         result.map((item) => {
             if (item.status === "complete") {
                 Data += `
@@ -2089,6 +2172,8 @@ function visorCourse(event) {
                     <td>${item.name}</td>
                     <td>${item.email}</td>
                     <td>${item.phone_number}</td>
+                    <td>${item.date}</td>
+                    <td>${item.time}</td>
                     <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                     <td><button disabled class="${item.status}">${item.status}</button></td>
                     </tr>
@@ -2100,6 +2185,8 @@ function visorCourse(event) {
                     <td>${item.name}</td>
                     <td>${item.email}</td>
                     <td>${item.phone_number}</td>
+                    <td>${item.date}</td>
+                    <td>${item.time}</td>
                     <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
                     <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
                         <div class="spinner-border spinner-border-sm text-light spin" role="status">
@@ -2111,8 +2198,8 @@ function visorCourse(event) {
                     </tr>
                 `
             }
-            const myTable3 = document.querySelector(".tableindex");
             myTable3.innerHTML = Data;
+            myModal.style.display = "none";
         })
         
     })
