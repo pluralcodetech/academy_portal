@@ -178,6 +178,9 @@ setTimeout(function destroyCookie() {
 
 // function to display enrolled students
 function getEnrolled() {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const getToken = localStorage.getItem("adminLogin");
     const theToken = JSON.parse(getToken);
     const token = theToken.token;
@@ -239,6 +242,7 @@ function getEnrolled() {
             }
             const tableInfo = document.querySelector(".tableData");
             tableInfo.innerHTML = dataItem;
+            myModal.style.display = "none";
         })
     })
     .catch(error => console.log('error', error));
@@ -247,11 +251,13 @@ getEnrolled();
 
 // function to update status
 function changeStatus(statusId) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const coLogin = localStorage.getItem("adminLogin");
     const coview = JSON.parse(coLogin);
     const coview2 = coview.token;
 
-    const getStatus = document.querySelector(".pending");
 
     const coviewHead = new Headers();
     coviewHead.append("Authorization", `Bearer ${coview2}`);
@@ -271,14 +277,23 @@ function changeStatus(statusId) {
     .then(result => {
         console.log(result)
         if (result.status === "success") {
-            getStatus.style.backgroundColor = "green";
-            getStatus.innerHTML = "complete";
-        }else {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.status}`,
+                confirmButtonColor: '#25067C'
+            })
+            setTimeout(()=> {
+                location.reload();
+            }, 3000);
+            myModal.style.display = "none";
+        }
+        else {
             Swal.fire({
                 icon: 'info',
                 text: 'Unsuccessful',
                 confirmButtonColor: '#25067C'
             })
+            myModal.style.display = "none";
         }
     })
     .catch(error => console.log('error', error));
@@ -289,6 +304,9 @@ function viewEnrolled() {
     const params = new URLSearchParams(window.location.search);
     let getId = params.get('id');
     console.log(getId)
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
     
     const viewLogin = localStorage.getItem("adminLogin");
     const view = JSON.parse(viewLogin);
@@ -313,6 +331,7 @@ function viewEnrolled() {
         const info = document.querySelector(".box-student");
         if (result.length === 0) {
             info.innerHTML = "No Records found";
+            myModal.style.display = "none";
         }
         else {
             result.map((item) => {
@@ -341,16 +360,20 @@ function viewEnrolled() {
                             <p class="first">Time</p>
                             <p>${item.time}</p>
                         </div>
+                        <div class="text-center">
+                          <button class="uptran">Update Transaction</button>
+                        </div>  
                     </div>
                 </div>
                 `
             })
             info.innerHTML = viewData;
+            myModal.style.display = "none";
         }
     })
     .catch(error => console.log('error', error));
 }
-viewEnrolled();
+
 
 
 function closeDashModal() {
@@ -361,6 +384,9 @@ function closeDashModal() {
 // Function to search by Name
 function searchName(event) {
     event.preventDefault();
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
 
     const myForm = document.querySelector(".theForm");
     const nameSearch = document.querySelector(".nsearch").value;
@@ -398,6 +424,8 @@ function searchName(event) {
                   <h2 class="text-center">No Records found on this name</h2>
                 `
                 myForm.reset();
+                myModal.style.display = "none";
+
             }
             else {
                 result.map((item) => {
@@ -421,6 +449,7 @@ function searchName(event) {
                     tableInfo.innerHTML = nameData;
                 })
                 myForm.reset();
+                myModal.style.display = "none";
             }
         })
         .catch(error => console.log('error', error));
@@ -429,6 +458,9 @@ function searchName(event) {
 
 // function to search by date
 function searchDate(event) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const dateTok = localStorage.getItem("adminLogin");
     const dk = JSON.parse(dateTok);
     const dateToken = dk.token;
@@ -456,6 +488,7 @@ function searchDate(event) {
             tableInfo.innerHTML = `
                <h2 class="text-center">No Records found on this date</h2>
             `
+            myModal.style.display = "none";
         }
         else {
             result.map((item) => {
@@ -477,6 +510,7 @@ function searchDate(event) {
                 </tr>
                 `
                 tableInfo.innerHTML = dateData;
+                myModal.style.display = "none";
     
             })
         }
@@ -511,6 +545,9 @@ window.addEventListener("load", () => {
 
 // Function to get course 
 function getTypeCourse(event) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const courseName = event.currentTarget.value;
     const dataTok = localStorage.getItem("adminLogin");
     const theData = JSON.parse(dataTok);
@@ -537,6 +574,7 @@ function getTypeCourse(event) {
             tableInfo.innerHTML = `
                <h2 class="text-center">No Records found on this course</h2>
             `
+            myModal.style.display = "none";
         }
         else {
             result.map((item) => {
@@ -558,6 +596,7 @@ function getTypeCourse(event) {
                 </tr>
                 `
                 tableInfo.innerHTML = courseData;
+                myModal.style.display = "none";
             })
         }
     })
@@ -567,6 +606,9 @@ function getTypeCourse(event) {
 // Function to search by Name
 function searchName2(event) {
     event.preventDefault();
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
 
     const myForm = document.querySelector(".theForm");
     const nameSearch = document.querySelector(".nsearch2").value;
@@ -604,6 +646,7 @@ function searchName2(event) {
                   <h2 class="text-center">No Records found on this name</h2>
                 `
                 myForm.reset();
+                myModal.style.display = "none";
             }
             else {
                 result.map((item) => {
@@ -627,6 +670,7 @@ function searchName2(event) {
                     tableInfo.innerHTML = nameData;
                 })
                 myForm.reset();
+                myModal.style.display = "none";
             }
         })
         .catch(error => console.log('error', error));
@@ -635,6 +679,9 @@ function searchName2(event) {
 
 // function to display interested student
 function getInterest() {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const getToken = localStorage.getItem("adminLogin");
     const theToken = JSON.parse(getToken);
     const token = theToken.token;
@@ -715,6 +762,7 @@ function getInterest() {
             }
             const tableInfo = document.querySelector(".tableInterest");
             tableInfo.innerHTML = dataItem;
+            myModal.style.display = "none";
         })
     })
     .catch(error => console.log('error', error));
@@ -723,6 +771,9 @@ getInterest()
 
 // function to search by date
 function searchDate2(event) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const dateTok = localStorage.getItem("adminLogin");
     const dk = JSON.parse(dateTok);
     const dateToken = dk.token;
@@ -750,6 +801,7 @@ function searchDate2(event) {
             tableInfo.innerHTML = `
                <h2 class="text-center">No Records found on this date</h2>
             `
+            myModal.style.display = "none";
         }
         else {
             result.map((item) => {
@@ -771,6 +823,7 @@ function searchDate2(event) {
                 </tr>
                 `
                 tableInfo.innerHTML = dateData;
+                myModal.style.display = "none";
     
             })
         }
@@ -834,6 +887,9 @@ courses3();
 
 // Function to get course 
 function getTypeCourse2(event) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const courseName = event.currentTarget.value;
     const dataTok = localStorage.getItem("adminLogin");
     const theData = JSON.parse(dataTok);
@@ -860,6 +916,7 @@ function getTypeCourse2(event) {
             tableInfo.innerHTML = `
                <h2 class="text-center">No Records found on this course</h2>
             `
+            myModal.style.display = "none";
         }
         else {
             result.map((item) => {
@@ -881,6 +938,7 @@ function getTypeCourse2(event) {
                 </tr>
                 `
                 tableInfo.innerHTML = courseData;
+                myModal.style.display = "none";
             })
         }
     })
@@ -991,6 +1049,9 @@ function upDateRecord(event) {
 
 // function get the course and update it
 function getCourseDisplay() {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const getDisplay = {
         method: 'GET'
     };
@@ -1038,6 +1099,7 @@ function getCourseDisplay() {
             `
             const theDisplay = document.querySelector(".scroll-object")
             theDisplay.innerHTML = createData;
+            myModal.style.display = "none";
         })
     })
     .catch(error => console.log('error', error));
@@ -1048,18 +1110,23 @@ getCourseDisplay();
 function createCourse(event) {
     event.preventDefault();
 
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const cName = document.querySelector(".courseName").value;
     const cFee = document.querySelector(".courseFee").value;
     const cPart = document.querySelector(".coursePart").value;
     const cPercent = document.querySelector(".coursePercent").value;
     const cLink = document.querySelector(".courseLink").value;
+    const cSchool = document.querySelector(".school").value;
 
-    if (cName === "" || cFee === "" || cPart === "" || cPercent === "" || cLink === "") {
+    if (cName === "" || cFee === "" || cPart === "" || cPercent === "" || cLink === "" || cSchool === "") {
         Swal.fire({
             icon: 'info',
             text: 'All fields are required!',
             confirmButtonColor: '#25067C'
         })
+        myModal.style.display = "none";
     }
 
     else {
@@ -1070,7 +1137,6 @@ function createCourse(event) {
 
         const result = parseFloat(cPercent) / 100.0;
         const getBtn = document.querySelector(".getBtn");
-        getBtn.innerHTML = "creating course...";
 
         const logHead = new Headers();
         logHead.append("Authorization", `Bearer ${logTok}`);
@@ -1081,6 +1147,8 @@ function createCourse(event) {
         courseForm.append("course_partpayment", cPart);
         courseForm.append("percentages", result);
         courseForm.append("link", cLink);
+        courseForm.append("school", cSchool);
+
 
         const courseReq = {
             method: 'POST',
@@ -1100,11 +1168,11 @@ function createCourse(event) {
                     text: `${result.message}`,
                     confirmButtonColor: '#25067C'
                 })
+                setTimeout(()=> {
+                    location.reload();
+                }, 3000);
+                myModal.style.display = "none";
             }
-
-            setTimeout(()=> {
-                location.reload();
-            }, 5000);
         })
         .catch(error => console.log('error', error));
     }
@@ -1114,6 +1182,9 @@ function createCourse(event) {
 // function to update course by passing course id
 function updateTheCourse(event) {
     event.preventDefault();
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
 
     const upName = document.querySelector(".courseUpName").value;
     const upFee = document.querySelector(".courseUpFee").value;
@@ -1128,11 +1199,10 @@ function updateTheCourse(event) {
             text: 'All fields are required',
             confirmButtonColor: '#25067C'
         });
+        myModal.style.display = "none";
     }
 
     else {
-        const spinRoll = document.querySelector(".spin");
-        spinRoll.style.display = "inline-block";
         
         const courseUpdate = localStorage.getItem("adminLogin");
         const courseUp = JSON.parse(courseUpdate);
@@ -1171,10 +1241,12 @@ function updateTheCourse(event) {
                     text: `${result.message}`,
                     confirmButtonColor: '#25067C'
                 })
+                setTimeout(()=> {
+                    location.reload();
+                }, 3000);
+
+                myModal.style.display = "none";
             }
-            setTimeout(()=> {
-                location.reload();
-            }, 5000);
         })
         .catch(error => console.log('error', error));
     }
@@ -1226,6 +1298,9 @@ function closeModal3() {
 
 // function to delete course
 function deleteCourse(delId) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const deleteGet = localStorage.getItem("adminLogin");
     const delGet = JSON.parse(deleteGet);
     const delTok = delGet.token;
@@ -1252,10 +1327,12 @@ function deleteCourse(delId) {
                 text:  `${result.status}`,
                 confirmButtonColor: '#25067C'
             })
+            setTimeout(()=> {
+                location.reload();
+            }, 3000);
+            myModal.style.display = "none";
         }
-        setTimeout(()=> {
-            location.reload();
-        }, 5000);
+        
     })
     .catch(error => console.log('error', error));
 }
@@ -1405,6 +1482,9 @@ function closehModal() {
 
 // function to get advisor 
 function viewAdvisor() {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
     const tok1 = localStorage.getItem("adminLogin");
     const tok2 = JSON.parse(tok1);
     const tok3 = tok2.token;
@@ -1441,6 +1521,7 @@ function viewAdvisor() {
             `
             const myTable = document.querySelector(".tables");
             myTable.innerHTML = dta;
+            myModal.style.display = "none";
         })
     })
     .catch(error => console.log('error', error));
