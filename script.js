@@ -333,39 +333,73 @@ function viewEnrolled() {
             info.innerHTML = "No Records found";
             myModal.style.display = "none";
         }
+        
         else {
             result.map((item) => {
-                viewData += `
+                if (item.status === "complete") {
+                    viewData += `
                     <div class="details-item">
-                    <div class="detail-img text-center">
-                        <img src="assets/sr.png" alt="">
+                        <div class="detail-img text-center">
+                            <img src="assets/sr.png" alt="">
+                        </div>
+                        <div class="detail-body mt-3">
+                            <div class="text-center">
+                            <button class="${item.status}">${item.status}</button>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Amount Paid</p>
+                                <p>${item.amount_paid}</p>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Date</p>
+                                <p>${item.date}</p>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Mode of Pyment</p>
+                                <p>${item.mode_of_payment}</p>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Time</p>
+                                <p>${item.time}</p>
+                            </div> 
+                        </div>
                     </div>
-                    <div class="detail-body mt-3">
-                        <div class="text-center">
-                          <button class="${item.status}">${item.status}</button>
+                    `
+                }
+                else {
+                    viewData += `
+                    <div class="details-item">
+                        <div class="detail-img text-center">
+                            <img src="assets/sr.png" alt="">
                         </div>
-                        <div class="content mt-3">
-                            <p class="first">Amount Paid</p>
-                            <p>${item.amount_paid}</p>
+                        <div class="detail-body mt-3">
+                            <div class="text-center">
+                            <button class="${item.status}">${item.status}</button>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Amount Paid</p>
+                                <p>${item.amount_paid}</p>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Date</p>
+                                <p>${item.date}</p>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Mode of Pyment</p>
+                                <p>${item.mode_of_payment}</p>
+                            </div>
+                            <div class="content mt-3">
+                                <p class="first">Time</p>
+                                <p>${item.time}</p>
+                            </div>
+                            <div class="text-center">
+                            <button class="uptran" onclick="transactionStatus(${item.id})">Update Transaction</button>
+                            </div>  
                         </div>
-                        <div class="content mt-3">
-                            <p class="first">Date</p>
-                            <p>${item.date}</p>
-                        </div>
-                        <div class="content mt-3">
-                            <p class="first">Mode of Pyment</p>
-                            <p>${item.mode_of_payment}</p>
-                        </div>
-                        <div class="content mt-3">
-                            <p class="first">Time</p>
-                            <p>${item.time}</p>
-                        </div>
-                        <div class="text-center">
-                          <button class="uptran">Update Transaction</button>
-                        </div>  
                     </div>
-                </div>
-                `
+                    `
+                }
+                
             })
             info.innerHTML = viewData;
             myModal.style.display = "none";
@@ -379,6 +413,59 @@ function viewEnrolled() {
 function closeDashModal() {
     const getModal = document.getElementById("dash-modal");
     getModal.style.display = "none";
+}
+
+// function to update transaction details
+function transactionStatus(tranId) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    const trTok = localStorage.getItem("adminLogin");
+    const trdk = JSON.parse(trTok);
+    const trToken = trdk.token;
+
+    const trHeader = new Headers();
+    trHeader.append("Authorization", `Bearer ${trToken}`);
+
+    const trForm = new FormData();
+    trForm.append("id", tranId);
+
+    const trReq = {
+        method: 'POST',
+        headers: trHeader,
+        body: trForm
+    };
+
+    const url = "https://pluralcode.academy/pluralcode_payments/api/admin/update_transaction_status";
+    fetch(url, trReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.status === "success") {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.status}`,
+                confirmButtonColor: '#25067C'
+            })
+            setTimeout(()=> {
+                location.reload();
+            }, 2000);
+            myModal.style.display = "none";
+        }
+        else {
+            Swal.fire({
+                icon: 'info',
+                text: 'Unsuccessful!',
+                confirmButtonColor: '#25067C'
+            })
+            myModal.style.display = "none";
+        }
+    })
+    .catch(error => {
+        console.log('error', error)
+        myModal.style.display = "none";
+   });
+    
 }
 
 // Function to search by Name
@@ -768,6 +855,58 @@ function getInterest() {
     .catch(error => console.log('error', error));
 }
 getInterest()
+
+// function to update interest status
+function changeInter(interestId) {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    const inTok = localStorage.getItem("adminLogin");
+    const indk = JSON.parse(inTok);
+    const inToken = indk.token;
+
+    const inHeader = new Headers();
+    inHeader.append("Authorization", `Bearer ${inToken}`);
+
+    const inForm = new FormData();
+    inForm.append("id", interestId);
+
+    const inReq = {
+        method: 'POST',
+        headers: inHeader,
+        body: inForm
+    };
+
+    const url = "https://pluralcode.academy/pluralcode_payments/api/admin/update_interested_status";
+    fetch(url, inReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.status === "success") {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.status}`,
+                confirmButtonColor: '#25067C'
+            })
+            setTimeout(()=> {
+                location.reload();
+            }, 2000);
+            myModal.style.display = "none";
+        }
+        else {
+            Swal.fire({
+                icon: 'info',
+                text: 'Unsuccessful!',
+                confirmButtonColor: '#25067C'
+            })
+            myModal.style.display = "none";
+        }
+    })
+    .catch(error => {
+        console.log('error', error)
+        myModal.style.display = "none";
+   });
+}
 
 // function to search by date
 function searchDate2(event) {
@@ -1338,6 +1477,7 @@ function deleteCourse(delId) {
 }
 
 // function to get advisory
+let nextPage;
 function getAdvisory() {
     
     const adReq = {
@@ -1351,33 +1491,92 @@ function getAdvisory() {
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        result.map((item) => {
+        result.data.map((item) => {
             if (item.status === "complete") {
                 adData += `
                     <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
-                    <td><button disabled class="${item.status}">${item.status}</button></td>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button disabled class="${item.status}">${item.status}</button></td>
                     </tr>
                 `
             }
             else {
                 adData += `
                     <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
-                    <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
-                        ${item.status}
-                        </button>
-                    </td>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
+                            ${item.status}
+                            </button>
+                        </td>
+                    </tr>
+                `
+            }
+            const myTable = document.querySelector(".tableindex");
+            myTable.innerHTML = adData;
+        })
+        localStorage.setItem("page", `${result.next_page_url}`);
+        const nextItem = localStorage.getItem("page");
+        nextPage = nextItem;
+        const current = document.querySelector(".current-page");
+        current.innerHTML = `${result.current_page}`
+    })
+    .catch(error => console.log('error', error));
+}
+getAdvisory();
+
+// function get next page
+function nextPageItem(event) {
+    event.preventDefault();
+    
+    const nextReq = {
+        method: 'GET'
+    };
+
+    let adData = [];
+
+    const url = nextPage;
+    fetch(url, nextReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        nextPage = `${result.next_page_url}`;
+        result.data.map((item) => {
+            if (item.status === "complete") {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button disabled class="${item.status}">${item.status}</button></td>
+                    </tr>
+                `
+            }
+            else {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
+                            ${item.status}
+                            </button>
+                        </td>
                     </tr>
                 `
             }
@@ -1385,9 +1584,8 @@ function getAdvisory() {
             myTable.innerHTML = adData;
         })
     })
-    .catch(error => console.log('error', error));
+  .catch(error => console.log('error', error));
 }
-getAdvisory();
 
 // function to pass ID to reschedule
 function rescheduleTime(reId) {
@@ -1795,6 +1993,11 @@ function getAdvisoryDetails() {
                 <div class="content">
                   <p>Status:</p>
                   <p><button class="${result.status}">${result.status}</button></p>
+                </div>
+                <hr>
+                <div class="content">
+                  <p><b>Remark:</b></p>
+                  <p>${result.advisor_feedback}</p>
                 </div>
                 <div class="text-center">
                     <p><button class="re-btn" onclick="reAssign()">Reassign Advisor</button></p>
@@ -2295,9 +2498,19 @@ function getTheText(event) {
     console.log(copyText)
 }
 
+// redirect to login page
+function gotoLoginPage(event) {
+    event.preventDefault();
+
+    window.location.href = "adminlog.html";
+}
+
 
 // function logout
 function logAdminOut(event) {
+event.preventDefault();
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
 
     const logDet = localStorage.getItem("adminLogin");
     const delLog = JSON.parse(logDet);
@@ -2323,11 +2536,21 @@ function logAdminOut(event) {
                 text: `${result.message}`,
                 confirmButtonColor: '#25067C'
             })
+            setTimeout(()=> {
+                localStorage.clear();
+                window.location.href = "adminlog.html";
+            }, 3000);
+            myModal.style.display = "none";
         }
-        setTimeout(()=> {
-            localStorage.clear();
-            window.location.href = "adminlog.html";
-        }, 5000);
+        else {
+            Swal.fire({
+                icon: 'info',
+                text: 'Logout Unsuccessful',
+                confirmButtonColor: '#25067C'
+            })
+            myModal.style.display = "none";
+        }
+        
     })
     .catch(error => console.log('error', error));
 }
