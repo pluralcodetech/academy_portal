@@ -27,7 +27,7 @@ body {
 }
 
 .sidebar-brand {
-    height: 90px;
+    height: 5px;
     padding: 1rem 0rem 1rem 2rem;
     color: #fff;
 }
@@ -43,7 +43,7 @@ body {
 
 .sidebar-menu li {
     width: 100%;
-    margin-bottom: 1.7rem;
+    margin-bottom: 1.3rem;
     padding-left: 1rem;
 }
 
@@ -305,7 +305,7 @@ main {
     overflow-y: scroll;
     overflow-x: scroll;
     height: fit-content;
-    max-height: 66.4vh;
+    /* max-height: 66.4vh; */
     
     margin-top: 22px;
     
@@ -1220,4 +1220,58 @@ hr {
     margin: 10px;
     font-family: sans-serif;
     font-weight: 600;
+}
+
+.first-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-fold, .new-file {
+    border: 1px solid #2334A8;
+    outline: none;
+    box-shadow: none;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+    color: #2334A8;
+}
+
+
+
+.new-file {
+    border: 1px solid #aeaea8;
+    padding: 10px;
+    color: #212120;
+    width: 23%;
+    text-align: left;
+}
+
+@media screen and (max-width: 650px) {
+    .new-file {
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+}
+
+.row-spread {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+@media screen and (max-width: 650px) {
+    .row-spread {
+        flex-direction: column;
+    }
+}
+
+
+
+.curr-text {
+    color: rgb(123, 118, 118);
+}
+
+.col {
+    padding: 0 !important;
 }

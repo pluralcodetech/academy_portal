@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Study Pack</title>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -17,11 +17,11 @@
 
 </head>
 <body>
-    <div class="pagemodal">
+    <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
-    </div>
+    </div> -->
     <div id="dash-modal" class="mymodal mb-5">
         <div class="modal-content">
             <div class="modal-header">
@@ -43,11 +43,8 @@
             <li>
              <a href="dashboard.html" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
             </li>
-            <!-- <li>
-                <a href="view.html" style="text-decoration: none;"><i class="fa fa-bell mr-2" style="color: #fff;"></i><span>Notification <small class="move">5</small></span></a>
-            </li> -->
             <li>
-             <a href="enroll.html" class="active" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Enrolled</span></a>
+             <a href="enroll.html"  style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Enrolled</span></a>
             </li>
             <li>
                 <a href="interest.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Interested</span></a>
@@ -59,10 +56,10 @@
                 <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
             </li>
             <li>
-                <a href="newsignup.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>New Sign up</span></a>
+                <a href="newsignup.html"  style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>New Sign up</span></a>
             </li>
             <li>
-                <a href="study.html" style="text-decoration: none;"><i class="fa fa-folder mr-2" style="color: #fff;"></i><span>Study Pack</span></a>
+                <a href="study.html" class="active" style="text-decoration: none;"><i class="fa fa-folder mr-2" style="color: #fff;"></i><span>Study Pack</span></a>
             </li>
             <li>
                 <a href="exclusive.html" style="text-decoration: none;"><i class="fa fa-users mr-2" style="color: #fff;"></i><span>Exclusive</span></a>
@@ -90,59 +87,59 @@
                     <i class="fa fa-bars"></i>
                 </label>
            </h2>
-           <div class="head-shift">
-               <form class="theForm">
-                <div class="input-group rounded">
-                    <input type="search" class="form-control rounded nsearch" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon">
-                    <i class="fas fa-search" onclick="searchName(event)"></i>
-                    </span>
-                </div>
-               </form>
-               <div class="dashSelectBox mt-3">
-                  Sort by Date
-                  <input type="date" name="myDate" onchange="searchDate(event)">
-                </div>
-           </div>
         </header>
 
        <main>
+           <h3>Study Pack</h3>
           <div class="jumbotron bg-light">
-            <h3 class="en-text">Enrolled Students</h3>
-              <div class="head-shift2">
-                <form>
-                    <label class="label">Course</label>
-                    <select class="form-control letcourse" id="input" onchange="getTypeCourse(event)">
-                        <option value="all" selected>All</option>
-                    </select>
-                </form>
-              </div>
-                <div class="outer-wrapper mt-5">
-                    <div class="table-wrapper">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="thText">Student Name</th>
-                                    <th class="thText">Email Address</th>
-                                    <th class="thText">Phone</th>
-                                    <th class="thText">Mode Of Learning</th>
-                                    <th class="thText">Course Of Interest</th>
-                                    <th class="thText">Mode Of Payment</th>
-                                    <th class="thText">Date</th>
-                                    <th class="thText">Time</th>
-                                    <th class="thText">Address</th>
-                                    <th class="thText">State Of Residence</th>
-                                    <th class="thText">Level Of Education</th>
-                                    <th class="thText">View Details</th>
-                                    <th class="thText">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="tableData">
-                                
-                            </tbody>
-                        </table>
-                    </div>
+              <div class="over-curr mb-3">
+                <div class="first-section mb-4">
+                    <h5 class="curr-text mt-2">Curriculum</h5>
+                    <button class="new-fold"><i class="fa fa-plus"></i> New Folder</button>
                 </div>
+                <div class="row-spread">
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Cloud Computing</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Data Analytics</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Data Science</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Full stack Dev</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Product Design</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Product MGT</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Frontend Dev</button>
+
+                </div>
+              </div>
+              <div class="over-curr mb-3">
+                <div class="first-section mb-4">
+                    <h5 class="curr-text mt-2">Home Study Pack</h5>
+                    <button class="new-fold"><i class="fa fa-plus"></i> New Folder</button>
+                </div>
+                <div class="row-spread">
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Cloud Computing</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Data Analytics</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Data Science</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Full stack Dev</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Product Design</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Product MGT</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Frontend Dev</button>
+
+                </div>
+              </div>
+              <div class="over-curr">
+                <div class="first-section mb-4">
+                    <h5 class="curr-text mt-2">Pre Recorded Videos</h5>
+                    <button class="new-fold"><i class="fa fa-plus"></i> New Folder</button>
+                </div>
+                <div class="row-spread">
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Cloud Computing</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Data Analytics</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Data Science</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Full stack Dev</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Product Design</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Product MGT</button>
+                    <button class="new-file mr-3 mb-3"><i class="fa fa-folder"></i> Frontend Dev</button>
+
+                </div>
+              </div>
           </div>
        </main>
     </div>

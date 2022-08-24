@@ -1528,15 +1528,22 @@ function getAdvisory() {
         const nextItem = localStorage.getItem("page");
         nextPage = nextItem;
         const current = document.querySelector(".current-page");
-        current.innerHTML = `${result.current_page}`
+        current.innerHTML = `${result.current_page} of ${result.total}`;
+        if (result.prev_page_url === null) {
+            const getPrev = document.querySelector(".get-previous");
+            getPrev.disabled = true;
+        }
     })
     .catch(error => console.log('error', error));
 }
 getAdvisory();
 
 // function get next page
+let previous;
 function nextPageItem(event) {
     event.preventDefault();
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
     
     const nextReq = {
         method: 'GET'
@@ -1582,9 +1589,83 @@ function nextPageItem(event) {
             }
             const myTable = document.querySelector(".tableindex");
             myTable.innerHTML = adData;
+            myModal.style.display = "none";
+            const current = document.querySelector(".current-page");
+            current.innerHTML = `${result.current_page} of ${result.total}`;
+            const getPrev = document.querySelector(".get-previous");
+            getPrev.disabled = false;
         })
+
+        localStorage.setItem("prev", `${result.prev_page_url}`);
+        const prPage = localStorage.getItem("prev");
+        previous = prPage;
     })
   .catch(error => console.log('error', error));
+}
+
+// function to get previous page
+function prevPageItem(event) {
+    event.preventDefault();
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    const preReq = {
+        method: 'GET'
+    };
+
+    let adData = [];
+
+    const url = previous;
+    fetch(url, preReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        previous = `${result.prev_page_url}`;
+        nextPage = `${result.next_page_url}`;
+        console.log(nextPage)
+        result.data.map((item) => {
+            if (item.status === "complete") {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button disabled class="${item.status}">${item.status}</button></td>
+                    </tr>
+                `
+            }
+            else {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
+                            ${item.status}
+                            </button>
+                        </td>
+                    </tr>
+                `
+            }
+            const myTable = document.querySelector(".tableindex");
+            myTable.innerHTML = adData;
+            myModal.style.display = "none";
+            const current = document.querySelector(".current-page");
+            current.innerHTML = `${result.current_page} of ${result.total}`;
+            if (result.prev_page_url === null) {
+                const getPrev = document.querySelector(".get-previous");
+                getPrev.disabled = true;
+            }
+            
+        }) 
+    })
+    .catch(error => console.log('error', error));
 }
 
 // function to pass ID to reschedule
