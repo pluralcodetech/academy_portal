@@ -1591,7 +1591,7 @@ function nextPageItem(event) {
             myTable.innerHTML = adData;
             myModal.style.display = "none";
             const current = document.querySelector(".current-page");
-            current.innerHTML = `${result.current_page} of ${result.total}`;
+            current.innerHTML = `page ${result.current_page} of ${result.total}`;
             const getPrev = document.querySelector(".get-previous");
             getPrev.disabled = false;
         })
@@ -1657,7 +1657,7 @@ function prevPageItem(event) {
             myTable.innerHTML = adData;
             myModal.style.display = "none";
             const current = document.querySelector(".current-page");
-            current.innerHTML = `${result.current_page} of ${result.total}`;
+            current.innerHTML = `page ${result.current_page} of ${result.total}`;
             if (result.prev_page_url === null) {
                 const getPrev = document.querySelector(".get-previous");
                 getPrev.disabled = true;
@@ -1683,81 +1683,10 @@ function closehModal() {
     myModal.style.display = "none";
 }
 
-// function to set time and assign time
-// function assignTimeSlot(event) {
-//     event.preventDefault();
-
-//     const setTime = document.querySelector(".myDate").value;
-//     if (setTime === "") {
-//         Swal.fire({
-//             icon: 'info',
-//             text: 'Please enter a date',
-//             confirmButtonColor: '#25067C'
-//         })
-//     }
-//     else {
-//         const getId = localStorage.getItem("getDule");
-
-//         const resGet = localStorage.getItem("adminLogin");
-//         const reGet = JSON.parse(resGet);
-//         const reTok = reGet.token;
-
-//         const relHead = new Headers();
-//         relHead.append("Authorization", `Bearer ${reTok}`);
-
-//         const reForm = new FormData();
-//         reForm.append("id", getId);
-//         reForm.append("datetime", setTime)
-//     }
-// }
-
-
-// function to change advisory status
-// function changeAdvisoryStatus(advId) {
-
-//     const changeLoc = localStorage.getItem("adminLogin");
-//     const loc = JSON.parse(changeLoc);
-//     const locTok = loc.token;
-
-
-//     const adv = document.querySelector(".adBtn");
-
-//     const spinRoll = document.querySelector(".spin");
-//     spinRoll.style.display = "inline-block";
-
-//     const locHead = new Headers();
-//     locHead.append("Authorization", `Bearer ${locTok}`);
-
-//     const locForm = new FormData();
-//     locForm.append("id", advId);
-    
-
-//     const locReq = {
-//         method: 'POST',
-//         headers: locHead,
-//         body: locForm
-//     };
-
-//     const url = "https://pluralcode.academy/pluralcode_payments/api/admin/update_advisory_status";
-//     fetch(url, locReq)
-//     .then(response => response.json())
-//     .then(result => {
-//         console.log(result)
-//         if (result.status === "success") {
-//             adv.innerHTML = "complete";
-//             adv.style.backgroundColor = "#4ee053";
-//             adv.disabled = true;
-//             spinRoll.style.display = "none";
-//         }
-//         else {
-//             spinRoll.style.display = "none";
-//         }
-//     })
-//     .catch(error => {
-//         console.log('error', error)
-//         // window.location.href = "adminlog.html";
-//     });
-// }
+// function to show google link
+function viewFile() {
+    location.href = "curr-view.html"
+}
 
 // function to get advisor 
 function viewAdvisor() {
@@ -2585,6 +2514,43 @@ function gotoLoginPage(event) {
 
     window.location.href = "adminlog.html";
 }
+
+// function to upload file content
+function upLoadFileContent() {
+    const getUpload = document.getElementById("upmodal");
+    getUpload.style.display = "block";
+}
+
+function closeUpModal() {
+    const getUpload = document.getElementById("upmodal");
+    getUpload.style.display = "none";
+}
+
+
+// function to open modal to create folder
+function openFolderModal(event) {
+    event.preventDefault();
+    const folderCurr = document.getElementById("currmodal");
+    folderCurr.style.display = "block";
+}
+
+function closeCurrModal() {
+    const folderCurr = document.getElementById("currmodal");
+    folderCurr.style.display = "none";
+}
+
+// function to open new folder modal
+function newFolder(event) {
+    event.preventDefault();
+    const getNewFold = document.getElementById("newmodal");
+    getNewFold.style.display = "block";
+}
+
+function closeNewModal() {
+    const getNewFold = document.getElementById("newmodal");
+    getNewFold.style.display = "none";
+}
+
 
 
 // function logout

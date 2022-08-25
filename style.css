@@ -305,7 +305,7 @@ main {
     overflow-y: scroll;
     overflow-x: scroll;
     height: fit-content;
-    /* max-height: 66.4vh; */
+    max-height: 66.4vh;
     
     margin-top: 22px;
     
@@ -1274,4 +1274,79 @@ hr {
 
 .col {
     padding: 0 !important;
+}
+
+.file-block {
+    border: 1px solid #b8b8b3;
+    padding: 10px;
+}
+
+.app {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+}
+
+.sub-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.img-section {
+    text-align: center;
+}
+
+.view-item {
+    border: 0;
+    box-shadow: none;
+    outline: none;
+}
+
+.view-item:hover {
+    color: #2D85DE;
+}
+
+iframe {
+    width: 100%;
+    height: 600px;
+}
+
+.new-file-upload {
+    text-align: right;
+}
+
+.up-file-img {
+    text-align: center;
+}
+
+.pattern { 
+    padding:  25px 45px;
+    color: #416072;
+    font-size: 15px;
+}
+
+.upload-btn {
+    text-align: center;
+}
+
+.modal-up {
+    outline: none;
+    border: 0;
+    box-shadow: none;
+    padding: 5px 15px;
+    background: #000;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.button-blue {
+    width: 100%;
+    background-color: #0C1E5B;
+    color: #ffffff;
+    border-radius: 10px;
+    outline: none;
+    box-shadow: none;
+    padding: 10px;
+    border: none;
+    font-family: "Short Stack", sans-serif;
 }

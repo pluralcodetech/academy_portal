@@ -13,6 +13,24 @@
 
     <!-- custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        .modal-header {
+            background: none;
+        }
+
+        input{
+            display: none;
+        }
+
+        label{
+            cursor: pointer;
+            background: #0C1E5B;
+            color: white;
+            padding: 10px 35px !important;
+            border-radius: 6px;
+            width: 297px;
+        }
+    </style>
 
 </head>
 <body class="body-details">
@@ -27,8 +45,73 @@
     <div class="container">
         <h3>Curriculum</h3>
         <div class="jumbotron">
+            <div class="new-file-upload mb-5">
+                <button class="new-fold" onclick="upLoadFileContent()"><i class="fa fa-plus"></i> New File</button>
+            </div>
             <div class="app">
-                
+                <div class="file-block">
+                    <div class="img-section">
+                      <img src="assets/file.png" alt="">
+                    </div>
+                    <p>UI/UX Syllabus</p>
+                    <div class="sub-section">
+                        <button class="view-item">view</button>
+                        <i class="fa fa-trash"></i>
+                    </div>
+                </div>
+                <div class="file-block">
+                    <div class="img-section">
+                        <img src="assets/file.png" alt="">
+                    </div>
+                    <p>UI/UX Syllabus</p>
+                    <div class="sub-section">
+                        <button class="view-item">view</button>
+                        <i class="fa fa-trash"></i>
+                    </div>
+                </div><div class="file-block">
+                    <div class="img-section">
+                        <img src="assets/file.png" alt="">
+                    </div>
+                    <p>UI/UX Syllabus</p>
+                    <div class="sub-section">
+                        <button class="view-item">view</button>
+                        <i class="fa fa-trash"></i>
+                    </div>
+                </div>
+                <div class="file-block">
+                    <div class="img-section">
+                        <img src="assets/file.png" alt="">
+                    </div>
+                    <p>UI/UX Syllabus</p>
+                    <div class="sub-section">
+                        <button class="view-item" onclick="viewFile()">view</button>
+                        <i class="fa fa-trash"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="upmodal" class="mymodal mb-5">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="closeUpModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="up-file-img">
+                        <img src="assets/cloud.png" alt="">
+                    </div>
+                    <p class="pattern">
+                        Drag and drop choose file to upload your files. 
+                        All pdf, doc, csv, xlsx types are supported
+                    </p>
+                    <div class="upload-btn">
+                        <label for="inputTag">
+                            <i class="fas fa-file"></i>
+                            Browse File
+                            <input id="inputTag" type="file" class="myimg"/>
+                        </label>
+                        <button class="modal-up">Upload</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
