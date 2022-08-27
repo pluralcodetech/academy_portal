@@ -5,11 +5,9 @@ xmlhttp.send();
 xmlhttp.onreadystatechange = function() {
     if(this.readyState === 4 && this.status == 200) {
         var data = JSON.parse(this.responseText);
-        // console.log(data);
         var months = data.map(function(elem) {
             return elem.date;
         });
-        // console.log(months);
         var booked = data.map(function(elem) {
             return elem.data.total_number_of_sessions_booked;
         });
@@ -2549,6 +2547,19 @@ function newFolder(event) {
 function closeNewModal() {
     const getNewFold = document.getElementById("newmodal");
     getNewFold.style.display = "none";
+}
+
+// function to open modal coupon
+function couponModal(event) {
+    event.preventDefault();
+
+    const getCouModal = document.getElementById("cou-modal");
+    getCouModal.style.display = "block";
+}
+
+function closehCouponModal() {
+    const getCouModal = document.getElementById("cou-modal");
+    getCouModal.style.display = "none";
 }
 
 
