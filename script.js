@@ -169,11 +169,6 @@ setTimeout(function destroyCookie() {
 }, 300000);
 
 
-
-
-
-
-
 // function to display enrolled students
 function getEnrolled() {
     const myModal = document.querySelector(".pagemodal");
