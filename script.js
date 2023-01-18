@@ -2562,7 +2562,117 @@ function getCohortList() {
 getCohortList();
 
 // function
+function getMonthlySummary() {
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
 
+    const coTok = localStorage.getItem("adminLogin");
+    const gData = JSON.parse(coTok);
+    const goData = gData.token;
+
+    const ms = new Headers();
+    ms.append("Authorization", `Bearer ${goData}`);
+
+    const msReq = {
+        method: 'GET',
+        headers: ms
+    };
+
+    let msData = [];
+
+    const url = "https://pluralcode.academy/pluralcode_apis/api/admin/get_monthly_summary";
+    fetch(url, msReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        const tableCohort = document.querySelector(".table-cohort");
+        if (result.length === 0) {
+            tableCohort.innerHTML += `
+              <h2 class="text-center">No Records found on this name</h2> 
+            `
+        }
+        else {
+            result.map((item) => {
+                msData += `
+                   <tr>
+                      <td>${item.month}</td>
+                      <td>${item.data.total_session}</td>
+                      <td>${item.data.total_enrollment}</td>
+                      <td>${item.data.total_number_of_sessions_taken}</td>
+                      <td>${item.data.total_visit_sessions_booked}</td>
+                   </tr>
+                `
+                tableCohort.innerHTML = msData;
+            })
+        }
+    })
+    .catch(error => console.log('error', error));
+
+}
+getMonthlySummary();
+
+// function to search by cohort
+function courseSearch(event) {
+    const headOne = document.querySelector(".head1");
+    const headTwo = document.querySelector(".head2");
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    const course = event.currentTarget.value;
+    const coTok = localStorage.getItem("adminLogin");
+    const gData = JSON.parse(coTok);
+    const goData = gData.token;
+
+    const cs = new Headers();
+    cs.append("Authorization", `Bearer ${goData}`);
+
+    const csForm = new FormData();
+    csForm.append("course_name", course);
+
+    const csReq = {
+        method: 'POST',
+        headers: cs,
+        body: csForm
+    };
+
+    let csData = [];
+
+    const url = "https://pluralcode.academy/pluralcode_apis/api/admin/filter_summary_by_courses";
+
+    fetch(url, csReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        const tableCohort = document.querySelector(".table-cohort");
+        if (result.length === 0) {
+            tableCohort.innerHTML += `
+              <h2 class="text-center">No Records found on this name</h2> 
+            `
+            myModal.style.display = "none";
+            headOne.style.display = "none";
+            headTwo.style.display = "block";
+
+        }
+        else {
+            result.map((item) => {
+                csData += `
+                   <tr>
+                      <td>${item.month}</td>
+                      <td>${item.data.total_session}</td>
+                      <td>${item.data.total_enrollment}</td>
+                      <td>${item.data.total_number_of_sessions_taken}</td>
+                      <td>${item.data.total_session}</td>
+                   </tr>
+                `
+                tableCohort.innerHTML = csData;
+                myModal.style.display = "none";
+            })
+        }
+    })
+    .catch(error => console.log('error', error));
+    
+}
 
 // function logout
 function logAdminOut(event) {

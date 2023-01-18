@@ -87,7 +87,7 @@
           <div class="jumbotron bg-light">
               <div class="head-shift">
                 <form>
-                    <select class="form-control spinMonth" id="input" onchange="">
+                    <select class="form-control spinMonth" id="input" onchange="courseSearch(event)">
                     </select>
                 </form>
               </div>
@@ -96,18 +96,25 @@
             <div class="outer-wrapper mt-5">
                 <div class="table-wrapper">
                     <table class="table">
-                        <thead>
+                        <thead class="head1">
                             <tr>
-                                <th>Student Name</th>
-                                <th>Email Address</th>
-                                <th>Phone Number</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>More</th>
-                                <th>Status</th>
+                                <th>Month</th>
+                                <th>Total Session</th>
+                                <th>Total Enrollment</th>
+                                <th>Total Number of Session Taken</th>
+                                <th>Total Visit Sessions Booked</th>
                             </tr>
                         </thead>
-                        <tbody class="tableindex">
+                        <thead class="head2">
+                            <tr>
+                                <th>Month</th>
+                                <th>Total Session</th>
+                                <th>Total Enrollment</th>
+                                <th>Total Number of Session Taken</th>
+                                <th>Total Sessions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-cohort">
                             
                         </tbody>
                     </table>

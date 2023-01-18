@@ -1208,4 +1208,15 @@ hr {
     font-size: 20px;
 }
 
+.get-next, .get-previous {
+    width: 10%;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    cursor: pointer;
+}
+
+.head2 {
+    display: none;
+}
+
 
