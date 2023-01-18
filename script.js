@@ -5,11 +5,9 @@ xmlhttp.send();
 xmlhttp.onreadystatechange = function() {
     if(this.readyState === 4 && this.status == 200) {
         var data = JSON.parse(this.responseText);
-        // console.log(data);
         var months = data.map(function(elem) {
             return elem.date;
         });
-        // console.log(months);
         var booked = data.map(function(elem) {
             return elem.data.total_number_of_sessions_booked;
         });
@@ -169,11 +167,6 @@ setTimeout(function destroyCookie() {
     })
     .catch(error => console.log('error', error));
 }, 300000);
-
-
-
-
-
 
 
 // function to display enrolled students
@@ -1477,6 +1470,7 @@ function deleteCourse(delId) {
 }
 
 // function to get advisory
+let nextPage;
 function getAdvisory() {
     
     const adReq = {
@@ -1490,43 +1484,182 @@ function getAdvisory() {
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        result.map((item) => {
+        result.data.map((item) => {
             if (item.status === "complete") {
                 adData += `
                     <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
-                    <td><button disabled class="${item.status}">${item.status}</button></td>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button disabled class="${item.status}">${item.status}</button></td>
                     </tr>
                 `
             }
             else {
                 adData += `
                     <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
-                    <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
-                        ${item.status}
-                        </button>
-                    </td>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
+                            ${item.status}
+                            </button>
+                        </td>
                     </tr>
                 `
             }
             const myTable = document.querySelector(".tableindex");
             myTable.innerHTML = adData;
         })
+        localStorage.setItem("page", `${result.next_page_url}`);
+        const nextItem = localStorage.getItem("page");
+        nextPage = nextItem;
+        const current = document.querySelector(".current-page");
+        current.innerHTML = `${result.current_page} of ${result.total}`;
+        if (result.prev_page_url === null) {
+            const getPrev = document.querySelector(".get-previous");
+            getPrev.disabled = true;
+        }
     })
     .catch(error => console.log('error', error));
 }
 getAdvisory();
+
+// function get next page
+let previous;
+function nextPageItem(event) {
+    event.preventDefault();
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+    
+    const nextReq = {
+        method: 'GET'
+    };
+
+    let adData = [];
+
+    const url = nextPage;
+    fetch(url, nextReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        nextPage = `${result.next_page_url}`;
+        result.data.map((item) => {
+            if (item.status === "complete") {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button disabled class="${item.status}">${item.status}</button></td>
+                    </tr>
+                `
+            }
+            else {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
+                            ${item.status}
+                            </button>
+                        </td>
+                    </tr>
+                `
+            }
+            const myTable = document.querySelector(".tableindex");
+            myTable.innerHTML = adData;
+            myModal.style.display = "none";
+            const current = document.querySelector(".current-page");
+            current.innerHTML = `page ${result.current_page} of ${result.total}`;
+            const getPrev = document.querySelector(".get-previous");
+            getPrev.disabled = false;
+        })
+
+        localStorage.setItem("prev", `${result.prev_page_url}`);
+        const prPage = localStorage.getItem("prev");
+        previous = prPage;
+    })
+  .catch(error => console.log('error', error));
+}
+
+// function to get previous page
+function prevPageItem(event) {
+    event.preventDefault();
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    const preReq = {
+        method: 'GET'
+    };
+
+    let adData = [];
+
+    const url = previous;
+    fetch(url, preReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        previous = `${result.prev_page_url}`;
+        nextPage = `${result.next_page_url}`;
+        console.log(nextPage)
+        result.data.map((item) => {
+            if (item.status === "complete") {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button disabled class="${item.status}">${item.status}</button></td>
+                    </tr>
+                `
+            }
+            else {
+                adData += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone_number}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td><a href="advisoryview.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                        <td><button class="${item.status} adBtn" onclick="changeAdvisoryStatus(${item.id})">
+                            ${item.status}
+                            </button>
+                        </td>
+                    </tr>
+                `
+            }
+            const myTable = document.querySelector(".tableindex");
+            myTable.innerHTML = adData;
+            myModal.style.display = "none";
+            const current = document.querySelector(".current-page");
+            current.innerHTML = `page ${result.current_page} of ${result.total}`;
+            if (result.prev_page_url === null) {
+                const getPrev = document.querySelector(".get-previous");
+                getPrev.disabled = true;
+            }
+            
+        }) 
+    })
+    .catch(error => console.log('error', error));
+}
 
 // function to pass ID to reschedule
 function rescheduleTime(reId) {
@@ -1542,55 +1675,6 @@ function closehModal() {
     const myModal = document.getElementById("re-modal");
     myModal.style.display = "none";
 }
-
-// function to set time and assign time
-// function assignTimeSlot(event) {
-//     event.preventDefault();
-
-//     const setTime = document.querySelector(".myDate").value;
-//     if (setTime === "") {
-//         Swal.fire({
-//             icon: 'info',
-//             text: 'Please enter a date',
-//             confirmButtonColor: '#25067C'
-//         })
-//     }
-//     else {
-//         const getId = localStorage.getItem("getDule");
-
-//         const resGet = localStorage.getItem("adminLogin");
-//         const reGet = JSON.parse(resGet);
-//         const reTok = reGet.token;
-
-//         const relHead = new Headers();
-//         relHead.append("Authorization", `Bearer ${reTok}`);
-
-//         const reForm = new FormData();
-//         reForm.append("id", getId);
-//         reForm.append("datetime", setTime)
-//     }
-// }
-
-
-// function to change advisory status
-// function changeAdvisoryStatus(advId) {
-
-//     const changeLoc = localStorage.getItem("adminLogin");
-//     const loc = JSON.parse(changeLoc);
-//     const locTok = loc.token;
-
-
-//     const adv = document.querySelector(".adBtn");
-
-//     const spinRoll = document.querySelector(".spin");
-//     spinRoll.style.display = "inline-block";
-
-//     const locHead = new Headers();
-//     locHead.append("Authorization", `Bearer ${locTok}`);
-
-//     const locForm = new FormData();
-//     locForm.append("id", advId);
-    
 
 //     const locReq = {
 //         method: 'POST',

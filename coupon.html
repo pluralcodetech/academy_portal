@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Generate Coupon</title>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -13,23 +13,100 @@
 
     <!-- custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <style>
         table th:first-child {
-        text-align: left;
-        /* max-width: 30px; */
+          text-align: left;
+        }
+
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap: 0.5rem;
+        }
+
+        .card-single:last-child {
+            border: #4e63ed dotted;
+            background: transparent;
+        }
+
+        @media screen and (max-width: 600px) {
+            .dash-cards {
+                grid-template-columns: repeat(1, 1fr);
+                grid-column-gap: 1rem;
+            }
+
+            .card-single {
+                margin-bottom: 1rem;
+            }
+        }
+
+        .cop-btn {
+            outline: none;
+            box-shadow: none;
+            border: 0;
+            color: #4e63ed;
+            background: #e8e4fd
+        }
+
+        .modal-body h4 {
+            color: #0C1E5B;
+        }
+
+        .modal-body p {
+            color: #8b8888;
+        }
+        .modal-header {
+            background: white;
+            padding: 20px;
+        }
+
+        input, input:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        select {
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        .modal-content {
+            border-radius: 20px;
+            padding: 20px 15px;
+        }
+
+        .close {
+            color: #000;
+            font-size: 20px;
+            padding: 10px 10px !important;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            background: #021657;
+            border-radius: 50%;
+            padding: 10px 10px !important;
         }
     </style>
 
 </head>
-<body onload="getAdvisory()">
-    <div class="pagemodal">
+<body>
+    <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
-    </div>
+    </div> -->
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar bg-dark">
        <div class="sidebar-brand mb-5">
@@ -39,11 +116,8 @@
        <div class="sidebar-menu">
        <ul>
             <li>
-             <a href="dashboard.html" class="active" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
+             <a href="dashboard.html" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
             </li>
-            <!-- <li>
-                <a href="view.html" style="text-decoration: none;"><i class="fa fa-bell mr-2" style="color: #fff;"></i><span>Notification <small class="move">5</small></span></a>
-            </li> -->
             <li>
              <a href="enroll.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Enrolled</span></a>
             </li>
@@ -57,28 +131,23 @@
                 <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
             </li>
             <li>
-<<<<<<< HEAD
-                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>monthly Summary</span></a>
-=======
                 <a href="newsignup.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>New Sign up</span></a>
             </li>
             <li>
                 <a href="study.html" style="text-decoration: none;"><i class="fa fa-folder mr-2" style="color: #fff;"></i><span>Study Pack</span></a>
             </li>
             <li>
-                <a href="exclusive.html" style="text-decoration: none;"><i class="fa fa-users mr-2" style="color: #fff;"></i><span>Exclusive</span></a>
+                <a href="exclusive.html"  style="text-decoration: none;"><i class="fa fa-users mr-2" style="color: #fff;"></i><span>Exclusive</span></a>
             </li>
             <li>
-                <a href="coupon.html" style="text-decoration: none;"><i class="fa fa-gift mr-2" style="color: #fff;"></i><span>Coupon</span></a>
->>>>>>> e01a0ee240e182beafc046014494f1ba11f4ca5c
+                <a href="coupon.html" class="active" style="text-decoration: none;"><i class="fa fa-gift mr-2" style="color: #fff;"></i><span>Coupon</span></a>
+            </li>
+            <li>
+                <a href="profile.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Profile</span></a>
             </li>
             <li>
                 <a href="setting.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Settings</span></a>
             </li>
-<<<<<<< HEAD
-            <br><br><br><br>
-=======
->>>>>>> e01a0ee240e182beafc046014494f1ba11f4ca5c
             <li>
              <a onclick="logAdminOut(event)" style="text-decoration: none;"><i class="fas fa-sign-out mr-2" style="color: #fff;"></i><span class="logspan">Logout</span></a>
             </li>
@@ -93,41 +162,69 @@
                    <i class="fa fa-bars"></i>
                </label>
            </h2>
-           <div class="sect-card">
-            <div class="box-card">
-                <a href="https://pluralcode.academy/payment/" class="aty">https://pluralcode.academy/payment/</a>
-            </div>
-            <div class="text-right mt-2">
-               <i class="fas fa-copy fal" onclick="getTheText(event)"></i>
-            </div>
-        </div>
            
         </header>
 
        <main>
-        <div id="re-modal" class="mymodal mb-5">
+           <h3 class="mt-3 mb-3">Coupon</h3>
+            <div id="cou-modal" class="mymodal mb-5">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="close" onclick="closehModal()">&times;</span>
+                    <span class="close" onclick="closehCouponModal()">&times;</span>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <label for="">Set time</label>
-                        <input type="date" name="myDate" class="mb-2 form-control myDate">
-                        <center>
-                          <button class="se-btn" onclick="assignTimeSlot(event)">Set Time</button>
-                        </center>
+                    <h4 class="text-center">New Cupon Code</h4>
+                    <p class="text-center">Discount you give will be deducted from the tuition fee once the user use code on this course only</p>
+                    <form id="catForm">
+                    
+                        <label for="folder" class="font-mulish font-size-14 font-weight-600">Select Course</label>
+                        <select name="cat" id="features" class="input mb-3">
+                            <option value="">All</option>
+                            <option value="">Cloud Computing</option>
+                            <option value="">Data Analytics</option>
+                            <option value="">Data Science</option>
+                            <option value="">Product Design</option>
+                            <option value="">Product Mgt</option>
+                            <option value="">Frontend Development</option>
+                            <option value="">Fullstack</option>
+                        </select>
+
+                        <label for="folder" class="font-mulish font-size-14 font-weight-600">Select Cohort</label>
+                        <select name="cat" id="features" class="input mb-3">
+                            <option value="">14th june 2022</option>
+                            <option value="">14th june 2022</option>
+                            <option value="">14th june 2022</option>
+                            <option value="">14th june 2022</option>
+                            <option value="">14th june 2022</option>
+                        </select>
+    
+                        <label for="discount" class="font-mulish font-size-14 font-weight-600">Discount Amount</label>
+                        <input type="text" name="image" id="foldName" class="input mb-3" placeholder="Enter Folder Name Here">
+
+                        <label for="Time" class="font-mulish font-size-14 font-weight-600">Use Time</label>
+                        <input type="text" name="image" id="foldName" class="input mb-3" placeholder="Enter Folder Name Here">
+
+                        <label for="Email" class="font-mulish font-size-14 font-weight-600">Ending</label>
+                        <input type="text" name="image" id="foldName" class="input mb-3" placeholder="Enter Folder Name Here">
+
+        
+                        <button class="button button-blue font-weight-700" type="button">
+                            <div class="spinner-border spinner-border-sm text-light spin" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                            Generate Code
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="dash-cards mb-5 mt-5">
+        <div class="dash-cards mb-5">
             <div class="card-single">
                 <div class="card-body">
                     <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <p>Total Advisory Interested</p>
-                        <h5 id="adAsign"><b></b></h5>
+                        <p>Total Used Coupon</p>
+                        <h5 id="adAsign"><b>300</b></h5>
                     </div>
                 </div>
             </div>
@@ -135,8 +232,8 @@
                 <div class="card-body">
                     <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <p>Total Section held</p>
-                        <h5 id="secHel"><b></b></h5>
+                        <p>Total Generated</p>
+                        <h5 id="secHel"><b>16</b></h5>
                     </div>
                 </div>
             </div>
@@ -144,52 +241,21 @@
                 <div class="card-body">
                     <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <p>Total Advisory Sessions booked </p>
-                        <h5 id="adCom"><b></b></h5>
+                        <p>Total Active Coupon </p>
+                        <h5 id="adCom"><b>3</b></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-single">
+                <div class="card-body">
+                    <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
+                    <div class="text-center">
+                        <img src="assets/plus.png" alt=""><br>
+                        <button class="cop-btn" onclick="couponModal(event)">Create new coupon</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="dash-cards">
-            <div class="card-single">
-                <div class="card-body">
-                    <span class="las la-check-square" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <p>Total Enrolled</p>
-                        <h5 id="totEn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="card-single">
-                <div class="card-body">
-                    <span class="las la-user-graduate" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <p>Total interested Students</p>
-                        <h5 id="toIn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="card-single">
-                <div class="card-body">
-                    <div>
-                        <p>Total Advisory not Interested</p>
-                        <h5 id="toUn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-           <div class="jumbotron mt-5 mb-5 bg-light">
-            <h4 class="display-4">Advisory Charts</h4>
-
-                <div class="chartCard">
-                    <div class="chartBox">
-                        <canvas id="canvas"></canvas>
-                    </div>
-                </div>
-          </div>
-
-
           <div class="jumbotron bg-light">
               <div class="head-shift">
                 <div class="input-group rounded">
@@ -227,13 +293,13 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Student Name</th>
-                                <th>Email Address</th>
-                                <th>Phone Number</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>More</th>
-                                <th>Status</th>
+                                <th>Course</th>
+                                <th>Coupon Code</th>
+                                <th>Discount Price</th>
+                                <th>Used Times</th>
+                                <th>Coupon Duration</th>
+                                <th>Cohort</th>
+                                <th>Course Amount</th>
                             </tr>
                         </thead>
                         <tbody class="tableindex">

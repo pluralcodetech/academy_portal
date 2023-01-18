@@ -27,7 +27,7 @@ body {
 }
 
 .sidebar-brand {
-    height: 90px;
+    height: 5px;
     padding: 1rem 0rem 1rem 2rem;
     color: #fff;
 }
@@ -43,7 +43,7 @@ body {
 
 .sidebar-menu li {
     width: 100%;
-    margin-bottom: 1.7rem;
+    margin-bottom: 1.3rem;
     padding-left: 1rem;
 }
 
@@ -1207,6 +1207,5 @@ hr {
     border-radius: 8px;
     font-size: 20px;
 }
-
 
 

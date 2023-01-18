@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Exclusive</title>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -13,23 +13,25 @@
 
     <!-- custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <style>
         table th:first-child {
-        text-align: left;
-        /* max-width: 30px; */
+          text-align: left;
+        }
+
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap: 0.5rem;
         }
     </style>
 
 </head>
-<body onload="getAdvisory()">
-    <div class="pagemodal">
+<body>
+    <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
-    </div>
+    </div> -->
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar bg-dark">
        <div class="sidebar-brand mb-5">
@@ -39,11 +41,8 @@
        <div class="sidebar-menu">
        <ul>
             <li>
-             <a href="dashboard.html" class="active" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
+             <a href="dashboard.html" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
             </li>
-            <!-- <li>
-                <a href="view.html" style="text-decoration: none;"><i class="fa fa-bell mr-2" style="color: #fff;"></i><span>Notification <small class="move">5</small></span></a>
-            </li> -->
             <li>
              <a href="enroll.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Enrolled</span></a>
             </li>
@@ -57,28 +56,23 @@
                 <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
             </li>
             <li>
-<<<<<<< HEAD
-                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>monthly Summary</span></a>
-=======
                 <a href="newsignup.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>New Sign up</span></a>
             </li>
             <li>
                 <a href="study.html" style="text-decoration: none;"><i class="fa fa-folder mr-2" style="color: #fff;"></i><span>Study Pack</span></a>
             </li>
             <li>
-                <a href="exclusive.html" style="text-decoration: none;"><i class="fa fa-users mr-2" style="color: #fff;"></i><span>Exclusive</span></a>
+                <a href="exclusive.html" class="active" style="text-decoration: none;"><i class="fa fa-users mr-2" style="color: #fff;"></i><span>Exclusive</span></a>
             </li>
             <li>
                 <a href="coupon.html" style="text-decoration: none;"><i class="fa fa-gift mr-2" style="color: #fff;"></i><span>Coupon</span></a>
->>>>>>> e01a0ee240e182beafc046014494f1ba11f4ca5c
+            </li>
+            <li>
+                <a href="profile.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Profile</span></a>
             </li>
             <li>
                 <a href="setting.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Settings</span></a>
             </li>
-<<<<<<< HEAD
-            <br><br><br><br>
-=======
->>>>>>> e01a0ee240e182beafc046014494f1ba11f4ca5c
             <li>
              <a onclick="logAdminOut(event)" style="text-decoration: none;"><i class="fas fa-sign-out mr-2" style="color: #fff;"></i><span class="logspan">Logout</span></a>
             </li>
@@ -93,18 +87,11 @@
                    <i class="fa fa-bars"></i>
                </label>
            </h2>
-           <div class="sect-card">
-            <div class="box-card">
-                <a href="https://pluralcode.academy/payment/" class="aty">https://pluralcode.academy/payment/</a>
-            </div>
-            <div class="text-right mt-2">
-               <i class="fas fa-copy fal" onclick="getTheText(event)"></i>
-            </div>
-        </div>
            
         </header>
 
        <main>
+           <h3 class="mt-3 mb-3">Exclusive Student</h3>
         <div id="re-modal" class="mymodal mb-5">
             <div class="modal-content">
                 <div class="modal-header">
@@ -121,13 +108,13 @@
                 </div>
             </div>
         </div>
-        <div class="dash-cards mb-5 mt-5">
+        <div class="dash-cards mb-5">
             <div class="card-single">
                 <div class="card-body">
                     <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
                         <p>Total Advisory Interested</p>
-                        <h5 id="adAsign"><b></b></h5>
+                        <h5 id="adAsign"><b>10000</b></h5>
                     </div>
                 </div>
             </div>
@@ -136,7 +123,7 @@
                     <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
                         <p>Total Section held</p>
-                        <h5 id="secHel"><b></b></h5>
+                        <h5 id="secHel"><b>6000</b></h5>
                     </div>
                 </div>
             </div>
@@ -145,51 +132,20 @@
                     <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
                         <p>Total Advisory Sessions booked </p>
-                        <h5 id="adCom"><b></b></h5>
+                        <h5 id="adCom"><b>3000</b></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-single">
+                <div class="card-body">
+                    <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
+                    <div>
+                        <p>Total Advisory Sessions booked </p>
+                        <h5 id="adCom"><b>2000</b></h5>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="dash-cards">
-            <div class="card-single">
-                <div class="card-body">
-                    <span class="las la-check-square" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <p>Total Enrolled</p>
-                        <h5 id="totEn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="card-single">
-                <div class="card-body">
-                    <span class="las la-user-graduate" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <p>Total interested Students</p>
-                        <h5 id="toIn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="card-single">
-                <div class="card-body">
-                    <div>
-                        <p>Total Advisory not Interested</p>
-                        <h5 id="toUn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-           <div class="jumbotron mt-5 mb-5 bg-light">
-            <h4 class="display-4">Advisory Charts</h4>
-
-                <div class="chartCard">
-                    <div class="chartBox">
-                        <canvas id="canvas"></canvas>
-                    </div>
-                </div>
-          </div>
-
-
           <div class="jumbotron bg-light">
               <div class="head-shift">
                 <div class="input-group rounded">
