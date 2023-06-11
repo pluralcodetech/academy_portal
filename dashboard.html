@@ -162,11 +162,29 @@
         </div>
 
            <div class="jumbotron mt-5 mb-5 bg-light">
+            <form class="mb-5"> 
+                <div class="row mt-3">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <label for="">Start date</label>
+                        <input type="date" name="myDate" class="mb-2 form-control chatValue">
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="dashSelectBox">
+                            
+                            <label for="">End date</label>
+                            <input type="date" name="myDate" class="mb-2 form-control secondChatValue">
+                        </div>
+                    </div>
+               </div>
+               <center>
+                 <button class="sort-btn" onclick="searchChat(event)">sort by date range</button>
+               </center>
+            </form>
             <h4 class="display-4">Advisory Charts</h4>
 
                 <div class="chartCard">
                     <div class="chartBox">
-                        <canvas id="canvas"></canvas>
+                        <canvas class="canvas"></canvas>
                     </div>
                 </div>
           </div>

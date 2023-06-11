@@ -1208,15 +1208,36 @@ hr {
     font-size: 20px;
 }
 
-.get-next, .get-previous {
-    width: 10%;
-    border: none;
+.get-url, .get-previous, .get-next, .get-url2, .get-url3 {
+    padding: 10px 15px;
+    border: 0;
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    outline: none;
+    margin: 10px;
     cursor: pointer;
+}
+
+.get-url, .get-url2 {
+    display: none;
 }
 
 .head2 {
     display: none;
 }
 
+.pag-link, .pag-link2, .pag-link3 {
+   padding: 10px 15px;
+   border: 0;
+   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+   outline: none;
+   margin: 10px;
+   cursor: pointer;
+}
 
+.current-page {
+    margin-top: 20px;
+}
+
+.sn, .sn2 {
+    display: none;
+}

@@ -1,29 +1,34 @@
+let myChart;
+
 var xmlhttp = new XMLHttpRequest();
 var url = "https://pluralcode.institute/pluralcode_apis/api/get_data";
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 xmlhttp.onreadystatechange = function() {
     if(this.readyState === 4 && this.status == 200) {
-        var data = JSON.parse(this.responseText);
-        var months = data.map(function(elem) {
+        let data = JSON.parse(this.responseText);
+        let months = data.map(function(elem) {
             return elem.date;
         });
-        var booked = data.map(function(elem) {
+        let booked = data.map(function(elem) {
             return elem.data.total_number_of_sessions_booked;
         });
 
-        var taken = data.map(function(elem) {
+        let taken = data.map(function(elem) {
             return elem.data.total_number_of_sessions_taken;
         });
-        var un = data.map(function(elem) {
+        let un = data.map(function(elem) {
             return elem.data.total_number_of_students_notinterested;
         });
-        var int = data.map(function(elem) {
+        let int = data.map(function(elem) {
             return elem.data.total_number_of_students_interested;
         });
 
-        const ctx = document.getElementById('canvas').getContext('2d');
-        const myChart = new Chart(ctx, {
+        let ctx = document.querySelector('.canvas').getContext('2d');
+        if (myChart) {
+            myChart.destroy()
+        }
+        myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: months,
@@ -68,10 +73,122 @@ xmlhttp.onreadystatechange = function() {
                     y: {
                         beginAtZero: true
                     }
-                }
+                },
             }
         });
+        myChart.update();
     }
+}
+
+
+// function to sort chat by date range
+function searchChat(event) {
+    event.preventDefault();
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    const getFirstChatValue = document.querySelector(".chatValue").value;
+    const getSecondChatValue = document.querySelector(".secondChatValue").value;
+
+    if (getFirstChatValue === "" || getSecondChatValue === "") {
+        Swal.fire({
+            icon: 'info',
+            text: 'All fields are required!',
+            confirmButtonColor: '#25067C'
+        })
+        myModal.style.display = "none";
+    }
+    else {
+        const chatMethod = {
+            method: 'GET'
+        }
+
+        const url = `https://pluralcode.institute/pluralcode_apis/api/get_data?start_date=${getFirstChatValue}&end_date=${getSecondChatValue}`;
+        fetch(url, chatMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            const months = result.map((elem) => {
+                return elem.date;
+            });
+
+            const booked = result.map((elem) => {
+                return elem.data.total_number_of_sessions_booked
+            });
+
+            const taken = result.map((elem) => {
+                return elem.data.total_number_of_sessions_taken;
+            });
+
+            const un = result.map((elem) => {
+                return elem.data.total_number_of_students_notinterested;
+            });
+
+            const int = result.map((elem) => {
+                return elem.data.total_number_of_students_interested;
+            });
+
+
+            let ctx = document.querySelector('.canvas').getContext('2d');
+            if (myChart) {
+                myChart.destroy()
+            }
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                        label: 'Session Booked',
+                        data: booked,
+                        backgroundColor: 'transparent',
+                        borderColor: 'grey',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Session Taken',
+                        data: taken,
+                        backgroundColor: 'transparent',
+                        borderColor: 'blue',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Not interested',
+                        data: un,
+                        backgroundColor: 'transparent',
+                        borderColor: 'red',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'interested',
+                        data: int,
+                        backgroundColor: 'transparent',
+                        borderColor: 'green',
+                        borderWidth: 4
+                    }
+                ]
+                },
+                options: {
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            myChart.update();
+            myModal.style.display = "none";
+
+        })
+        .catch(error => console.log('error', error));
+    }
+
 }
 
 // function for admin login
@@ -194,13 +311,14 @@ function getEnrolled() {
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        result.map((item) => {
+        result.data.map((item) => {
             if (item.payment_status === "complete") {
                 dataItem += `
                 <tr>
                     <td>${item.name}</td>
                     <td>${item.email}</td>
                     <td>${item.phone_number}</td>
+                    <td>${item.registeration_number}</td>
                     <td>${item.mode_of_learning}</td>
                     <td>${item.course_of_interest}</td>
                     <td>${item.mode_of_payment}</td>
@@ -220,6 +338,7 @@ function getEnrolled() {
                     <td>${item.name}</td>
                     <td>${item.email}</td>
                     <td>${item.phone_number}</td>
+                    <td>${item.registeration_number}</td>
                     <td>${item.mode_of_learning}</td>
                     <td>${item.course_of_interest}</td>
                     <td>${item.mode_of_payment}</td>
@@ -241,6 +360,257 @@ function getEnrolled() {
     .catch(error => console.log('error', error));
 }
 getEnrolled();
+
+
+
+let myPagButton = document.querySelectorAll(".pag-link");
+let tNext;
+let tPrevious;
+for (i = 0; i < myPagButton.length; i++) {
+    let button = myPagButton[i];
+    button.addEventListener("click", () => {
+        const myModal = document.querySelector(".pagemodal");
+        myModal.style.display = "block";
+
+        const getToken = localStorage.getItem("adminLogin");
+        const theToken = JSON.parse(getToken);
+        const token = theToken.token;
+
+        const getHeader = new Headers();
+        getHeader.append("Authorization", `Bearer ${token}`);
+
+        const enrolledRequest = {
+            method: 'GET',
+            headers: getHeader
+        };
+
+        let data = [];
+        let pageNum = JSON.parse(button.innerHTML);
+
+
+        let nee1 = document.getElementById("prev");
+        let nee2 = document.getElementById("next");
+
+        if (button.innerHTML === "10") {
+
+            nee1.style.display = "block";
+            nee2.style.display = "block";
+
+            
+        }else {
+            nee1.style.display = "none";
+            nee2.style.display = "none";
+        }
+
+        const url = `https://pluralcode.institute/pluralcode_apis/api/admin/enrolled_students?page=${pageNum}`;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        data += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                    `
+                    }
+                    else {
+                        data += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                    `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+
+
+                    tableInfo.innerHTML = data;
+                    myModal.style.display = "none";
+                })
+                localStorage.setItem("nextPage", `${result.next_page_url}`);
+                localStorage.setItem("prePage", `${result.prev_page_url}`);
+
+                let pageNext = localStorage.getItem("nextPage");
+                let pvNext = localStorage.getItem("prePage");
+
+                tNext = pageNext;
+                tPrevious = pvNext;
+            })
+        
+    })
+}
+
+
+
+let preNext = document.querySelectorAll(".get-url");
+const pre = document.getElementById("prev");
+const next = document.getElementById("next");
+
+for (i = 0; i < preNext.length; i++) {
+    let dwo = preNext[i];
+    dwo.addEventListener("click", () => {
+        const myModal = document.querySelector(".pagemodal");
+        myModal.style.display = "block";
+
+        const getToken = localStorage.getItem("adminLogin");
+        const theToken = JSON.parse(getToken);
+        const token = theToken.token;
+
+        const getHeader = new Headers();
+        getHeader.append("Authorization", `Bearer ${token}`);
+
+        const enrolledRequest = {
+            method: 'GET',
+            headers: getHeader
+        };
+
+        let rene = [];
+
+        if (dwo === next) {
+            const url = tNext;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                tNext = `${result.next_page_url}`;
+                tPrevious = `${result.prev_page_url}`;
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    else {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+                    tableInfo.innerHTML = rene;
+                    myModal.style.display = "none";
+                    
+                })
+            })
+            .catch(error => console.log('error', error));
+        }
+        if (dwo === pre) {
+            const url = tPrevious;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                tNext = `${result.next_page_url}`;
+                tPrevious = `${result.prev_page_url}`;
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    else {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+                    tableInfo.innerHTML = rene;
+                    myModal.style.display = "none";
+                    
+                })
+            })
+            .catch(error => console.log('error', error));
+        }
+        
+    })
+}
 
 // function to update status
 function changeStatus(statusId) {
@@ -470,6 +840,12 @@ function searchName(event) {
 
     const myForm = document.querySelector(".theForm");
     const nameSearch = document.querySelector(".nsearch").value;
+    const nam = document.querySelector(".sn");
+    const mn = document.querySelector(".mn");
+    const md = document.querySelector(".sn2");
+
+
+
     if (nameSearch === "") {
         Swal.fire({
             icon: 'info',
@@ -499,21 +875,26 @@ function searchName(event) {
         .then(result => {
             console.log(result)
             const tableInfo = document.querySelector(".tableData");
-            if (result.length === 0) {
+            if (result.data.length === 0) {
                 tableInfo.innerHTML = `
                   <h2 class="text-center">No Records found on this name</h2>
                 `
                 myForm.reset();
                 myModal.style.display = "none";
+                nam.style.display = "none";
+                mn.style.display = "none";
+                md.style.display = "none";
+
 
             }
             else {
-                result.map((item) => {
+                result.data.map((item) => {
                     nameData += `
                         <tr>
                         <td>${item.name}</td>
                         <td>${item.email}</td>
                         <td>${item.phone_number}</td>
+                        <td>${item.registeration_number}</td>
                         <td>${item.mode_of_learning}</td>
                         <td>${item.course_of_interest}</td>
                         <td>${item.mode_of_payment}</td>
@@ -530,16 +911,274 @@ function searchName(event) {
                 })
                 myForm.reset();
                 myModal.style.display = "none";
+                nam.style.display = "block";
+                mn.style.display = "none"
+                md.style.display = "none"
+
             }
         })
         .catch(error => console.log('error', error));
     }
 }
 
+// pagination for search by name
+let myPagButton2 = document.querySelectorAll(".pag-link2");
+let tNext2;
+let tPrevious2;
+for (i = 0; i < myPagButton2.length; i++) {
+    let button2 = myPagButton2[i];
+    button2.addEventListener("click", () => {
+        const myModal = document.querySelector(".pagemodal");
+        myModal.style.display = "block";
+
+        const getToken = localStorage.getItem("adminLogin");
+        const theToken = JSON.parse(getToken);
+        const token = theToken.token;
+
+        const getHeader = new Headers();
+        getHeader.append("Authorization", `Bearer ${token}`);
+
+        const enrolledRequest = {
+            method: 'GET',
+            headers: getHeader
+        };
+
+        let data = [];
+        let pageNum2 = JSON.parse(button2.innerHTML);
+
+
+        let nee12 = document.getElementById("prev2");
+        let nee22 = document.getElementById("next2");
+
+        if (button2.innerHTML === "3") {
+
+            nee12.style.display = "block";
+            nee22.style.display = "block";
+
+            
+        }else {
+            nee12.style.display = "none";
+            nee22.style.display = "none";
+        }
+
+        const url = `https://pluralcode.institute/pluralcode_apis/api/admin/enrolled_students?page=${pageNum2}`;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        data += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                    `
+                    }
+                    else {
+                        data += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                    `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+
+
+                    tableInfo.innerHTML = data;
+                    myModal.style.display = "none";
+                })
+                localStorage.setItem("nextPage2", `${result.next_page_url}`);
+                localStorage.setItem("prePage2", `${result.prev_page_url}`);
+
+                let pageNext2 = localStorage.getItem("nextPage2");
+                let pvNext2 = localStorage.getItem("prePage2");
+
+                tNext2 = pageNext2;
+                tPrevious2 = pvNext2;
+            })
+        
+    })
+}
+
+
+
+let preNext2 = document.querySelectorAll(".get-url2");
+const pre2 = document.getElementById("prev2");
+const next2 = document.getElementById("next2");
+
+for (i = 0; i < preNext2.length; i++) {
+    let dwo2 = preNext2[i];
+    dwo2.addEventListener("click", () => {
+        const myModal = document.querySelector(".pagemodal");
+        myModal.style.display = "block";
+
+        const getToken = localStorage.getItem("adminLogin");
+        const theToken = JSON.parse(getToken);
+        const token = theToken.token;
+
+        const getHeader = new Headers();
+        getHeader.append("Authorization", `Bearer ${token}`);
+
+        const enrolledRequest = {
+            method: 'GET',
+            headers: getHeader
+        };
+
+        let rene = [];
+
+        if (dwo2 === next2) {
+            const url = tNext2;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                tNext2 = `${result.next_page_url}`;
+                tPrevious2 = `${result.prev_page_url}`;
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    else {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+                    tableInfo.innerHTML = rene;
+                    myModal.style.display = "none";
+                    
+                })
+            })
+            .catch(error => console.log('error', error));
+        }
+        if (dwo2 === pre2) {
+            const url = tPrevious2;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                tNext2 = `${result.next_page_url}`;
+                tPrevious2 = `${result.prev_page_url}`;
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    else {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+                    tableInfo.innerHTML = rene;
+                    myModal.style.display = "none";
+                    
+                })
+            })
+            .catch(error => console.log('error', error));
+        }
+        
+    })
+}
+
 // function to search by date
 function searchDate(event) {
     const myModal = document.querySelector(".pagemodal");
     myModal.style.display = "block";
+
+    const nam = document.querySelector(".sn");
+    const mn = document.querySelector(".mn");
+    const md = document.querySelector(".sn2");
 
     const dateTok = localStorage.getItem("adminLogin");
     const dk = JSON.parse(dateTok);
@@ -564,19 +1203,24 @@ function searchDate(event) {
     .then(result => {
         console.log(result)
         const tableInfo = document.querySelector(".tableData");
-        if (result.length === 0) {
+        if (result.data.length === 0) {
             tableInfo.innerHTML = `
                <h2 class="text-center">No Records found on this date</h2>
             `
             myModal.style.display = "none";
+            nam.style.display = "none";
+            mn.style.display = "none";
+            md.style.display = "none";
+
         }
         else {
-            result.map((item) => {
+            result.data.map((item) => {
                 dateData += `
                     <tr>
                     <td>${item.name}</td>
                     <td>${item.email}</td>
                     <td>${item.phone_number}</td>
+                    <td>${item.registeration_number}</td>
                     <td>${item.mode_of_learning}</td>
                     <td>${item.course_of_interest}</td>
                     <td>${item.mode_of_payment}</td>
@@ -591,11 +1235,265 @@ function searchDate(event) {
                 `
                 tableInfo.innerHTML = dateData;
                 myModal.style.display = "none";
+                nam.style.display = "none";
+                mn.style.display = "none";
+                md.style.display = "block";
     
             })
         }
     })
     .catch(error => console.log('error', error));
+}
+
+
+// pagination for search by date
+let myPagButton3 = document.querySelectorAll(".pag-link3");
+let tNext3;
+let tPrevious3;
+for (i = 0; i < myPagButton3.length; i++) {
+    let button3 = myPagButton3[i];
+    button3.addEventListener("click", () => {
+        const myModal = document.querySelector(".pagemodal");
+        myModal.style.display = "block";
+
+        const getToken = localStorage.getItem("adminLogin");
+        const theToken = JSON.parse(getToken);
+        const token = theToken.token;
+
+        const getHeader = new Headers();
+        getHeader.append("Authorization", `Bearer ${token}`);
+
+        const enrolledRequest = {
+            method: 'GET',
+            headers: getHeader
+        };
+
+        let data = [];
+        let pageNum3 = JSON.parse(button3.innerHTML);
+
+
+        let nee13 = document.getElementById("prev3");
+        let nee23 = document.getElementById("next3");
+
+        if (button3.innerHTML === "3") {
+
+            nee13.style.display = "block";
+            nee23.style.display = "block";
+
+            
+        }else {
+            nee13.style.display = "none";
+            nee23.style.display = "none";
+        }
+
+        const url = `https://pluralcode.institute/pluralcode_apis/api/admin/enrolled_students?page=${pageNum3}`;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        data += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                    `
+                    }
+                    else {
+                        data += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                    `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+
+
+                    tableInfo.innerHTML = data;
+                    myModal.style.display = "none";
+                })
+                localStorage.setItem("nextPage3", `${result.next_page_url}`);
+                localStorage.setItem("prePage3", `${result.prev_page_url}`);
+
+                let pageNext3 = localStorage.getItem("nextPage3");
+                let pvNext3 = localStorage.getItem("prePage3");
+
+                tNext3 = pageNext3;
+                tPrevious3 = pvNext3;
+            })
+        
+    })
+}
+
+
+
+let preNext3 = document.querySelectorAll(".get-url3");
+const pre3 = document.getElementById("prev3");
+const next3 = document.getElementById("next3");
+
+for (i = 0; i < preNext3.length; i++) {
+    let dwo3 = preNext3[i];
+    dwo3.addEventListener("click", () => {
+        const myModal = document.querySelector(".pagemodal");
+        myModal.style.display = "block";
+
+        const getToken = localStorage.getItem("adminLogin");
+        const theToken = JSON.parse(getToken);
+        const token = theToken.token;
+
+        const getHeader = new Headers();
+        getHeader.append("Authorization", `Bearer ${token}`);
+
+        const enrolledRequest = {
+            method: 'GET',
+            headers: getHeader
+        };
+
+        let rene = [];
+
+        if (dwo3 === next3) {
+            const url = tNext3;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                tNext3 = `${result.next_page_url}`;
+                tPrevious3 = `${result.prev_page_url}`;
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    else {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+                    tableInfo.innerHTML = rene;
+                    myModal.style.display = "none";
+                    
+                })
+            })
+            .catch(error => console.log('error', error));
+        }
+        if (dwo3 === pre3) {
+            const url = tPrevious3;
+            fetch(url, enrolledRequest)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                tNext3 = `${result.next_page_url}`;
+                tPrevious3 = `${result.prev_page_url}`;
+                result.data.map((item) => {
+                    if (item.payment_status === "complete") {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    else {
+                        rene += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.mode_of_learning}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.mode_of_payment}</td>
+                            <td>${item.date}</td>
+                            <td>${item.time}</td>
+                            <td>${item.address}</td>
+                            <td>${item.state_of_residence}</td>
+                            <td>${item.level_of_education}</td>
+                            <td><a href="view.html?id=${item.id}"><button class="upd-btn">View me</button></a></td>
+                            <td><button class="${item.payment_status} enrol" onclick="changeStatus(${item.id})">${item.payment_status}</button></td>
+                        </tr>
+                       `
+                    }
+                    const tableInfo = document.querySelector(".tableData");
+                    tableInfo.innerHTML = rene;
+                    myModal.style.display = "none";
+                    
+                })
+            })
+            .catch(error => console.log('error', error));
+        }
+        
+    })
 }
 
 // Function for searching by course
