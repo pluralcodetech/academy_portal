@@ -1255,3 +1255,29 @@ hr {
     justify-content: space-between;
 }
 
+
+/* new style */
+.input-icons i {
+    position: absolute;
+    right: 3px;
+}
+  
+.input-icons {
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative;
+}
+  
+.icon {
+    padding: 10px;
+    min-width: 40px;
+}
+  
+.input-field {
+    width: 400px;
+    padding: 10px;
+    border: 0;
+    border-bottom: 1px solid rgb(207, 204, 204);
+    outline: none;
+    box-shadow: none;
+}

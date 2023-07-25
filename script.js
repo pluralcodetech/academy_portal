@@ -3825,3 +3825,18 @@ event.preventDefault();
     .catch(error => console.log('error', error));
 }
 
+function getCurrentDate() {
+    const date = new Date();
+
+    const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    };
+    const gc = document.querySelector(".currentDta");
+    gc.innerHTML = date.toLocaleString('en-IN', options)
+
+}
+
+getCurrentDate();
