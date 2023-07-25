@@ -3838,5 +3838,3 @@ function getCurrentDate() {
     gc.innerHTML = date.toLocaleString('en-IN', options)
 
 }
-
-getCurrentDate();

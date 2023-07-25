@@ -279,7 +279,7 @@ main {
  color: rgba(0, 0, 0, 0.7);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
     .dash-cards {
         grid-template-columns: repeat(1, 1fr);
         grid-column-gap: 1rem;
@@ -287,6 +287,10 @@ main {
 
     .card-single {
         margin-bottom: 1rem;
+    }
+
+    header {
+        flex-direction: column;
     }
 }
 
@@ -1280,4 +1284,12 @@ hr {
     border-bottom: 1px solid rgb(207, 204, 204);
     outline: none;
     box-shadow: none;
+}
+
+.curentDta {
+    color: #0C1E5B;
+}
+
+.course-head {
+    font-weight: 600;
 }

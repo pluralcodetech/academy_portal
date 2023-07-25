@@ -21,15 +21,41 @@
         text-align: left;
         /* max-width: 30px; */
         }
+
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap: 0.5rem;
+        }
+
+        .card-single, .box {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            height: 140px;
+        }
+
+        .box {
+            padding: 1.60rem 0.2rem 1.50rem 1.30rem!important;
+            height: 275px;
+            width: 100%;
+        }
+
+        @media screen and (max-width: 650px) {
+            .dash-cards {
+                grid-template-columns: repeat(1, 1fr);
+                grid-column-gap: 1rem;
+            }
+        }    
     </style>
 
 </head>
-<body onload="getAdvisory(), getChatItem()">
-    <div class="pagemodal">
+<body onload="getCurrentDate()">
+    <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
-    </div>
+    </div> -->
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar bg-dark">
        <div class="sidebar-brand mb-5">
@@ -99,7 +125,9 @@
         </header>
 
        <main>
-        <div id="re-modal" class="mymodal mb-5">
+
+        <h2 class="course-head">Course</h2>
+        <!-- <div id="re-modal" class="mymodal mb-5">
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close" onclick="closehModal()">&times;</span>
@@ -114,14 +142,14 @@
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="dash-cards mb-5 mt-5">
+        </div> -->
+        <div class="dash-cards mb-5">
             <div class="card-single">
                 <div class="card-body">
                     <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <p>Total Advisory Interested</p>
-                        <h5 id="adAsign"><b></b></h5>
+                        <p>All Courses</p>
+                        <h5><b></b></h5>
                     </div>
                 </div>
             </div>
@@ -129,8 +157,8 @@
                 <div class="card-body">
                     <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <p>Total Section held</p>
-                        <h5 id="secHel"><b></b></h5>
+                        <p>Total Active Courses</p>
+                        <h5><b></b></h5>
                     </div>
                 </div>
             </div>
@@ -138,99 +166,28 @@
                 <div class="card-body">
                     <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
+                        <p>Total Inactive Courses </p>
+                        <h5><b></b></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-single">
+                <div class="card-body">
+                    <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
+                    <div>
                         <p>Total Advisory Sessions booked </p>
-                        <h5 id="adCom"><b></b></h5>
+                        <h5><b></b></h5>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="dash-cards">
-            <div class="card-single">
-                <div class="card-body">
-                    <span class="las la-check-square" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <p>Total Enrolled</p>
-                        <h5 id="totEn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="card-single">
-                <div class="card-body">
-                    <span class="las la-user-graduate" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <p>Total interested Students</p>
-                        <h5 id="toIn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="card-single">
-                <div class="card-body">
-                    <div>
-                        <p>Total Advisory not Interested</p>
-                        <h5 id="toUn"><b></b></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
-           <div class="jumbotron mt-5 mb-5 bg-light">
-            <form>
-                <div class="bare">
-                    <select class="form-control spinchat" id="input">
-                    </select>
-                    <select class="form-control sourcetype">
-                        <option value="">All</option>
-                        <option value="app">App</option>
-                        <option value="website">Website</option>
-                        <option value="ManyChat">ManyChat</option>
-                    </select>
-                </div>
-                
-
-                <div class="row mt-3">
-                    <div class="col-sm-12 col-md-12 col-lg-6">
-                        <label for="">Start date</label>
-                        <input type="date" name="myDate" class="mb-2 form-control chatValue">
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-6">
-                        <div class="dashSelectBox">
-                            
-                            <label for="">End date</label>
-                            <input type="date" name="myDate" class="mb-2 form-control secondChatValue">
-                        </div>
-                    </div>
-               </div>
-               <center>
-                 <button class="sort-btn" onclick="searchChat(event)">filter</button>
-               </center>
-            </form>
-            <h4 class="display-4">Advisory Charts</h4>
-
-                <div class="chartCard">
-                    <div class="chartBox">
-                        <canvas class="canvas"></canvas>
-                    </div>
-                </div>
-
-                <div class="summary mt-5">
-                    <h3 class="text-center">Summary</h3>
-                    <div class="flex-left">
-                        <p class="gbook"></p>
-                        <p class="ginterest"></p>
-                    </div>
-                    <div class="flex-left">
-                        <p class="gnotinterest"></p>
-                        <p class="gtaken"></p>
-                    </div>
-                    <div class="flex-left">
-                        <p class="undecide"></p>
-                        <p class="unreach"></p>
-                    </div>
-                </div>
-          </div>
+           
 
 
-        <div class="jumbotron bg-light">
+        <!-- <div class="jumbotron bg-light">
             <div class="head-shift">
                 <div class="input-group rounded">
                     <input type="text" class="form-control rounded myname" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
@@ -290,7 +247,7 @@
                     </nav>
                 </div>
             </div>
-          </div>
+        </div> -->
 
           
           
