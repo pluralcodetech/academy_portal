@@ -1,133 +1,60 @@
 let myChart;
 
-var xmlhttp = new XMLHttpRequest();
-var url = "https://pluralcode.institute/pluralcode_apis/api/get_data";
-xmlhttp.open("GET", url, true);
-xmlhttp.send();
-xmlhttp.onreadystatechange = function() {
-    if(this.readyState === 4 && this.status == 200) {
-        let data = JSON.parse(this.responseText);
-        let months = data.map(function(elem) {
-            return elem.date;
-        });
-        let booked = data.map(function(elem) {
-            return elem.data.total_number_of_sessions_booked;
-        });
-
-        let taken = data.map(function(elem) {
-            return elem.data.total_number_of_sessions_taken;
-        });
-        let un = data.map(function(elem) {
-            return elem.data.total_number_of_students_notinterested;
-        });
-        let int = data.map(function(elem) {
-            return elem.data.total_number_of_students_interested;
-        });
-
-        let ctx = document.querySelector('.canvas').getContext('2d');
-        if (myChart) {
-            myChart.destroy()
-        }
-        myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: months,
-                datasets: [
-                    {
-                    label: 'Session Booked',
-                    data: booked,
-                    backgroundColor: 'transparent',
-                    borderColor: 'grey',
-                    borderWidth: 4
-                },
-                {
-                    label: 'Session Taken',
-                    data: taken,
-                    backgroundColor: 'transparent',
-                    borderColor: 'blue',
-                    borderWidth: 4
-                },
-                {
-                    label: 'Not interested',
-                    data: un,
-                    backgroundColor: 'transparent',
-                    borderColor: 'red',
-                    borderWidth: 4
-                },
-                {
-                    label: 'interested',
-                    data: int,
-                    backgroundColor: 'transparent',
-                    borderColor: 'green',
-                    borderWidth: 4
-                }
-            ]
-            },
-            options: {
-                elements: {
-                    line: {
-                        tension: 0
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-            }
-        });
-        myChart.update();
-    }
-}
-
-
 // function to sort chat by date range
-function searchChat(event) {
-    event.preventDefault();
-
+function getChatItem() {
     const myModal = document.querySelector(".pagemodal");
     myModal.style.display = "block";
 
-    const getFirstChatValue = document.querySelector(".chatValue").value;
-    const getSecondChatValue = document.querySelector(".secondChatValue").value;
-
-    if (getFirstChatValue === "" || getSecondChatValue === "") {
-        Swal.fire({
-            icon: 'info',
-            text: 'All fields are required!',
-            confirmButtonColor: '#25067C'
-        })
-        myModal.style.display = "none";
+    const chatMethod = {
+        method: 'GET'
     }
-    else {
-        const chatMethod = {
-            method: 'GET'
-        }
 
-        const url = `https://pluralcode.institute/pluralcode_apis/api/get_data?start_date=${getFirstChatValue}&end_date=${getSecondChatValue}`;
-        fetch(url, chatMethod)
+    const url = "https://pluralcode.institute/pluralcode_apis/api/get_data";
+    fetch(url, chatMethod)
         .then(response => response.json())
         .then(result => {
             console.log(result)
-            const months = result.map((elem) => {
+            const gbook = document.querySelector(".gbook");
+            const ginterest = document.querySelector(".ginterest");
+            const gnotinterest = document.querySelector(".gnotinterest");
+            const gtaken = document.querySelector(".gtaken");
+            const undeci = document.querySelector(".undecide");
+            const unreach = document.querySelector(".unreach");
+
+
+            let months = result.graph_data.map(function(elem) {
                 return elem.date;
             });
-
-            const booked = result.map((elem) => {
-                return elem.data.total_number_of_sessions_booked
+            let booked = result.graph_data.map(function(elem) {
+                return elem.data.total_number_of_sessions_booked;
             });
-
-            const taken = result.map((elem) => {
+    
+            let taken = result.graph_data.map(function(elem) {
                 return elem.data.total_number_of_sessions_taken;
             });
-
-            const un = result.map((elem) => {
+            let un = result.graph_data.map(function(elem) {
                 return elem.data.total_number_of_students_notinterested;
             });
-
-            const int = result.map((elem) => {
+            let int = result.graph_data.map(function(elem) {
                 return elem.data.total_number_of_students_interested;
             });
+
+            let unde = result.graph_data.map(function(elem) {
+                return elem.data.total_number_of_students_undecided;
+            });
+
+            let unrech = result.graph_data.map(function(elem) {
+                return elem.data.total_number_of_students_unreachable;
+            });
+
+            gbook.innerHTML = "total number booked: " + result.total_number_booked;
+            ginterest.innerHTML = "total number interested: " + result.total_number_interested;
+            gnotinterest.innerHTML = "total number not interested: " + result.total_number_notinterested;
+            gtaken.innerHTML = "total number taken: " + result.total_number_taken;
+            undeci.innerHTML = "total number of undecided: " + result.total_number_undecided;
+            unreach.innerHTML = "total number of unreachable: " + result.total_number_unreachable;
+
+
 
 
             let ctx = document.querySelector('.canvas').getContext('2d');
@@ -161,10 +88,24 @@ function searchChat(event) {
                         borderWidth: 4
                     },
                     {
-                        label: 'interested',
+                        label: 'Interested',
                         data: int,
                         backgroundColor: 'transparent',
                         borderColor: 'green',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Undecided',
+                        data: unde,
+                        backgroundColor: 'transparent',
+                        borderColor: 'purple',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Unreachable',
+                        data: unrech,
+                        backgroundColor: 'transparent',
+                        borderColor: 'orange',
                         borderWidth: 4
                     }
                 ]
@@ -187,11 +128,149 @@ function searchChat(event) {
 
         })
         .catch(error => console.log('error', error));
-    }
 
 }
 
+function searchChat(event) {
+    event.preventDefault();
+
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    const getFirstChatValue = document.querySelector(".chatValue").value;
+    const getSecondChatValue = document.querySelector(".secondChatValue").value;
+    const source = document.querySelector(".sourcetype").value;
+    const spincht = document.querySelector(".spinchat").value;
+
+    console.log(source, spincht)
+
+    const chatMethod = {
+        method: 'GET'
+    }
+
+    const url = `https://pluralcode.institute/pluralcode_apis/api/get_data?start_date=${getFirstChatValue}&end_date=${getSecondChatValue}&course=${spincht}&source_type=${source}`;
+    fetch(url, chatMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        const gbook = document.querySelector(".gbook");
+        const ginterest = document.querySelector(".ginterest");
+        const gnotinterest = document.querySelector(".gnotinterest");
+        const gtaken = document.querySelector(".gtaken");
+        const undeci = document.querySelector(".undecide");
+        const unreach = document.querySelector(".unreach");
+
+
+        let months = result.graph_data.map(function(elem) {
+            return elem.date;
+        });
+        let booked = result.graph_data.map(function(elem) {
+            return elem.data.total_number_of_sessions_booked;
+        });
+
+        let taken = result.graph_data.map(function(elem) {
+            return elem.data.total_number_of_sessions_taken;
+        });
+        let un = result.graph_data.map(function(elem) {
+            return elem.data.total_number_of_students_notinterested;
+        });
+        let int = result.graph_data.map(function(elem) {
+            return elem.data.total_number_of_students_interested;
+        });
+        let unde = result.graph_data.map(function(elem) {
+            return elem.data.total_number_of_students_undecided;
+        });
+
+        let unrech = result.graph_data.map(function(elem) {
+            return elem.data.total_number_of_students_unreachable;
+        });
+
+        gbook.innerHTML = "total number booked: " + result.total_number_booked;
+        ginterest.innerHTML = "total number interested: " + result.total_number_interested;
+        gnotinterest.innerHTML = "total number not interested: " + result.total_number_notinterested;
+        gtaken.innerHTML = "total number taken: " + result.total_number_taken;
+        undeci.innerHTML = "total number of undecided: " + result.total_number_undecided;
+        unreach.innerHTML = "total number of unreachable: " + result.total_number_unreachable;
+
+
+        let ctx = document.querySelector('.canvas').getContext('2d');
+        if (myChart) {
+            myChart.destroy()
+        }
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                    label: 'Session Booked',
+                    data: booked,
+                    backgroundColor: 'transparent',
+                    borderColor: 'grey',
+                    borderWidth: 4
+                },
+                {
+                    label: 'Session Taken',
+                    data: taken,
+                    backgroundColor: 'transparent',
+                    borderColor: 'blue',
+                    borderWidth: 4
+                },
+                {
+                    label: 'Not interested',
+                    data: un,
+                    backgroundColor: 'transparent',
+                    borderColor: 'red',
+                    borderWidth: 4
+                },
+                {
+                    label: 'Interested',
+                    data: int,
+                    backgroundColor: 'transparent',
+                    borderColor: 'green',
+                    borderWidth: 4
+                },
+                {
+                    label: 'Undecided',
+                    data: unde,
+                    backgroundColor: 'transparent',
+                    borderColor: 'purple',
+                    borderWidth: 4
+                },
+                {
+                    label: 'Unreachable',
+                    data: unrech,
+                    backgroundColor: 'transparent',
+                    borderColor: 'orange',
+                    borderWidth: 4
+                }
+            ]
+            },
+            options: {
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        myChart.update();
+        myModal.style.display = "none";
+
+    })
+    .catch(error => console.log('error', error));
+
+}
+
+
 // function for admin login
+
+
 function adminLog(event) {
     event.preventDefault();
     const getEmail = document.getElementById("email").value;
@@ -1915,6 +1994,57 @@ function courses3() {
 }
 courses3();
 
+
+function courses4() {
+    const coReq = {
+        method: 'GET'
+    };
+
+    let coData = [];
+    let mone = {
+        id: 55,
+        name: "All"
+    };
+
+    let mdata = [];
+    mdata.push(mone)
+    console.log(mdata)
+
+
+
+    const url = "https://pluralcode.institute/pluralcode_apis/api/getcourses";
+    fetch(url, coReq)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        localStorage.setItem("getCourse", JSON.stringify(result));
+        
+        for (i = 0; i < mdata.length; i++) {
+            result.unshift(mdata[i]);
+        }
+        console.log(result);
+
+        result.map((item)=> {
+            if (item.name === "All") {
+                return coData += `
+                 <option value="">${item.name}</option>
+
+                `
+            }
+            else {
+                return coData += `
+                <option value="${item.name}">${item.name}</option>
+            `
+            }
+            
+        })
+        const theCourse2 = document.querySelector(".spinchat");
+        theCourse2.innerHTML = coData;
+    })
+    .catch(error => console.log('error', error));
+}
+courses4();
+
 // Function to get course 
 function getTypeCourse2(event) {
     const myModal = document.querySelector(".pagemodal");
@@ -2077,6 +2207,65 @@ function upDateRecord(event) {
     }
 }
 
+// function for rate
+function updateRate(event) {
+    event.preventDefault()
+
+    const getRate = document.querySelector(".rate").value;
+    if (getRate === "") {
+        Swal.fire({
+            icon: 'info',
+            text: "this field is required!",
+            confirmButtonColor: '#25067C'
+        })
+    }
+    else {
+        const updateLog = localStorage.getItem("adminLogin");
+        const logValue = JSON.parse(updateLog);
+        const upTok = logValue.token;
+
+        const upHead = new Headers();
+        upHead.append("Authorization", `Bearer ${upTok}`);
+
+        const rateHead = new FormData();
+        rateHead.append("rate", getRate);
+
+        const rateMethod = {
+            method: 'POST',
+            headers: upHead,
+            body: rateHead
+        }
+
+        const url = "http://pluralcode.academy/pluralcode_apis/api/admin/update_exchnage_rate";
+
+        fetch(url, rateMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result.message === "updated") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+
+                setTimeout(() => {
+                    location.reload();
+                }, 3000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+}
+
+
 // function get the course and update it
 function getCourseDisplay() {
     const myModal = document.querySelector(".pagemodal");
@@ -2149,8 +2338,9 @@ function createCourse(event) {
     const cPercent = document.querySelector(".coursePercent").value;
     const cLink = document.querySelector(".courseLink").value;
     const cSchool = document.querySelector(".school").value;
+    const ctype = document.querySelector(".coursetype").value;
 
-    if (cName === "" || cFee === "" || cPart === "" || cPercent === "" || cLink === "" || cSchool === "") {
+    if (cName === "" || cFee === "" || cPart === "" || cPercent === "" || cLink === "" || cSchool === "" || ctype === "") {
         Swal.fire({
             icon: 'info',
             text: 'All fields are required!',
@@ -2178,6 +2368,8 @@ function createCourse(event) {
         courseForm.append("percentages", result);
         courseForm.append("link", cLink);
         courseForm.append("school", cSchool);
+        courseForm.append("course_type", ctype);
+
 
 
         const courseReq = {
@@ -3570,6 +3762,18 @@ function courseSearch(event) {
     })
     .catch(error => console.log('error', error));
     
+}
+
+// display cohort modal
+function displayCohortModal(event) {
+    event.preventDefault();
+    const getModal = document.getElementById("co-modal");
+    getModal.style.display = "block";
+}
+
+function closeCohort() {
+    const getModal = document.getElementById("co-modal");
+    getModal.style.display = "none";
 }
 
 // function logout

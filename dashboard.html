@@ -24,7 +24,7 @@
     </style>
 
 </head>
-<body onload="getAdvisory()">
+<body onload="getAdvisory(), getChatItem()">
     <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
@@ -55,8 +55,12 @@
                 <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
             </li>
             <li>
+                <a href="cohort.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Cohort</span></a>
+            </li>
+            <li>
                 <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>monthly Summary</span></a>
             </li>
+            
             <li>
                 <a href="setting.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Settings</span></a>
             </li>
@@ -162,7 +166,19 @@
         </div>
 
            <div class="jumbotron mt-5 mb-5 bg-light">
-            <form class="mb-5"> 
+            <form>
+                <div class="bare">
+                    <select class="form-control spinchat" id="input">
+                    </select>
+                    <select class="form-control sourcetype">
+                        <option value="">All</option>
+                        <option value="app">App</option>
+                        <option value="website">Website</option>
+                        <option value="ManyChat">ManyChat</option>
+                    </select>
+                </div>
+                
+
                 <div class="row mt-3">
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <label for="">Start date</label>
@@ -177,7 +193,7 @@
                     </div>
                </div>
                <center>
-                 <button class="sort-btn" onclick="searchChat(event)">sort by date range</button>
+                 <button class="sort-btn" onclick="searchChat(event)">filter</button>
                </center>
             </form>
             <h4 class="display-4">Advisory Charts</h4>
@@ -187,11 +203,27 @@
                         <canvas class="canvas"></canvas>
                     </div>
                 </div>
+
+                <div class="summary mt-5">
+                    <h3 class="text-center">Summary</h3>
+                    <div class="flex-left">
+                        <p class="gbook"></p>
+                        <p class="ginterest"></p>
+                    </div>
+                    <div class="flex-left">
+                        <p class="gnotinterest"></p>
+                        <p class="gtaken"></p>
+                    </div>
+                    <div class="flex-left">
+                        <p class="undecide"></p>
+                        <p class="unreach"></p>
+                    </div>
+                </div>
           </div>
 
 
-          <div class="jumbotron bg-light">
-              <div class="head-shift">
+        <div class="jumbotron bg-light">
+            <div class="head-shift">
                 <div class="input-group rounded">
                     <input type="text" class="form-control rounded myname" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     <span class="input-group-text border-0" id="search-addon">
@@ -202,7 +234,7 @@
                     <select class="form-control spincourse" id="input" onchange="visorCourse(event)">
                     </select>
                 </form>
-              </div>
+            </div>
             <form>
                 <div class="row mt-3">
                     <div class="col-sm-12 col-md-12 col-lg-6">

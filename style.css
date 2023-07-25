@@ -938,7 +938,7 @@ hr {
 }
 
 .modal-header {
-    background: #2D85DE;
+    background: #2334A8;
     padding: 15px;
     color: #fff;
     border-top-left-radius: 5px;
@@ -1241,3 +1241,17 @@ hr {
 .sn, .sn2 {
     display: none;
 }
+
+.bare {
+    display: flex;
+}
+
+.spinchat {
+    margin-right: 10px;
+}
+
+.flex-left {
+    display: flex;
+    justify-content: space-between;
+}
+
