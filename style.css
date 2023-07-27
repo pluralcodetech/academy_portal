@@ -646,7 +646,7 @@ hr {
     border-radius: 5px;
 }
 
-.complete, .pending, .un-paid, .interested, .unreachable, .active, .dele-btn, .assigned, .undecided, .not_interested, .next, .enrolled {
+.complete, .pending, .un-paid, .interested, .unreachable, .active, .dele-btn, .assigned, .undecided, .not_interested, .next, .enrolled, .update, .deactive, .co-btn {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -696,7 +696,35 @@ hr {
     background: #2334A8;
 }
 
-.uptran {
+.update {
+    border: 1px solid #2334A8;
+    background: #fff;
+    color: #2334A8;
+    padding: 6px 15px;
+    border-radius: 12px;
+    margin-top: -8px;
+}
+
+.update:hover {
+    background: #0d38c4;
+    color: #fff;
+    cursor: pointer;
+}
+
+.deactive {
+    background: #FF0000;
+    color: #fff;
+    margin-top: -8px;
+}
+
+.deactive:hover {
+    background: none;
+    color: #FF0000;
+    border: 1px solid #FF0000;
+}
+
+
+.uptran, .co-btn {
     border: 0;
     box-sizing: none;
     outline: none;
@@ -705,6 +733,10 @@ hr {
     background: #0C1E5B;
     border-radius: 10px;
     font-size: 16px;
+}
+
+.co-btn {
+    padding: 12px 75px;
 }
 
 
@@ -903,7 +935,7 @@ hr {
 }
 
 .mymodal {
-    display: none;
+    /* display: none; */
     position: fixed;
     z-index: 1;
     left: 0;
@@ -975,6 +1007,40 @@ hr {
     to {
     opacity: 1;
     }
+}
+
+.palo {
+    width: 100%;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 10px;
+    border: 1px solid rgb(204, 201, 201);
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 992px) {
+    /* .palo {
+        width: 100%;
+    } */
+
+    .co-btn {
+        width: 100%;
+    }
+
+    br {
+        display: none;
+    }
+}
+
+.lab {
+    color: #7c7a7a;
+    font-size: 14px;
+}
+
+
+
+::placeholder {
+    color: #b8b4b4;
 }
 
 .box-student {
@@ -1286,10 +1352,31 @@ hr {
     box-shadow: none;
 }
 
-.curentDta {
-    color: #0C1E5B;
+.currentDta, .currentDta2 {
+    color: #0C1E5B !important;
+}
+
+.currentDta2 {
+    font-size: 18px !important;
 }
 
 .course-head {
     font-weight: 600;
+}
+
+.last {
+    border-style: dotted;
+    border-color: #0C1E5B;
+    background: transparent !important;
+    text-align: center;
+    color: #212120;
+}
+
+.last p {
+    font-size: 16px !important;
+}
+
+.gb {
+    position: absolute;
+    bottom: 0;
 }
