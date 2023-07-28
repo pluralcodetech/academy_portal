@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cohorts</title>
+    <title>Course</title>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -21,15 +21,125 @@
         text-align: left;
         /* max-width: 30px; */
         }
+
+        .table thead th {
+            border: none;
+        }
+
+        .table tbody td {
+            border-bottom: 1px solid rgb(210, 206, 206);
+            border-top: none;
+        }
+
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap: 0.5rem;
+        }
+
+
+        .card-single{
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: none !important;
+            height: 120px;
+            position: relative;
+        }
+
+        .card-single:hover {
+            background: #2334A8;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .rex {
+            font-size: 14px;
+        }
+
+
+        .card-body {
+            padding: 10px 25px !important;
+        }
+
+        .outer-wrapper {
+            background: #fff;
+            margin: 0;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .mio {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .modal-body h4, .itev {
+            color: #222057;
+            font-weight: 600;
+        }
+
+        .modal-header {
+            background: #fff;
+            border-radius: 15px;
+            border: none;
+
+        }
+
+        .modal-content {
+            border-radius: 15px;
+        }
+
+
+        .close {
+            color: #000;
+        }
+
     </style>
 
 </head>
-<body>
+<body onload="getCurrentDate()">
     <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
     </div> -->
+
+
+
+    <div id="re-modal" class="mymodal mb-5">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closehModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center">Create New Cohort</h4>
+                <p class="text-center din">
+                    Discount you give will be deducted from the tuition<br> fee once the user use code on this course only
+                </p>
+                <p class="itev mt-5">
+                    Course Details
+                </p>
+                <form>
+
+                    <label class="lab">Select Year</label>
+                    <select class="palo mb-3">
+                        <option value="">select</option>
+                    </select>
+
+                    <label class="lab">Select Month</label>
+                    <select class="palo">
+                        <option value="">select</option>
+                    </select>
+
+                    <div class="form-footer-item text-center mt-5 mb-5">
+                        <button class="co-btn">Create Cohort</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar bg-dark">
        <div class="sidebar-brand mb-5">
@@ -55,10 +165,13 @@
                 <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
             </li>
             <li>
-                <a href="cohort.html" class="active" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>Cohort</span></a>
+                <a href="cohort.html" class="active" style="text-decoration: none;"><i class="fa fa-calendar-alt mr-2" style="color: #fff;"></i><span>Cohort</span></a>
             </li>
             <li>
-                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>monthly Summary</span></a>
+                <a href="course.html" style="text-decoration: none;"><i class="fa fa-graduation-cap mr-2" style="color: #fff;"></i><span>Course</span></a>
+            </li>
+            <li>
+                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>Monthly Summary</span></a>
             </li>
             
             <li>
@@ -74,85 +187,116 @@
 
     <div class="main-content">
        <header>
-           <h2>
+           <h2 class="mt-3">
                <label for="nav-toggle">
                    <i class="fa fa-bars"></i>
                </label>
            </h2>
-           <div class="sect-card">
-            <div class="box-card">
-                <a href="https://pluralcode.academy/payment/" class="aty">https://pluralcode.academy/payment/</a>
-            </div>
-            <div class="text-right mt-2">
-               <i class="fas fa-copy fal" onclick="getTheText(event)"></i>
-            </div>
-        </div>
+           <div>
+               <form>
+                <div style="max-width:400px;margin:auto">
+                    <div class="input-icons">
+                        <i class="fa fa-search icon"></i>
+                        <input class="input-field" type="text" placeholder="Search">
+                    </div>
+                </div>
+               </form>
+           </div>
+           <div class="mt-3">
+               <p class="currentDta"></p>
+           </div>
            
         </header>
 
        <main>
-        
-        <div id="co-modal" class="mymodal mb-5">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Create Cohort</h2>
 
-                    <span class="close" onclick="closeCohort()">&times;</span>
-                </div>
-                <div class="modal-body">
+        <h2 class="course-head">Cohort</h2>
+    
+
+        <div class="outer-wrapper">
+            <div class="scar m-3">
+                <div class="d">
                     <form>
-                        <label for="">Enter Cohort Name</label>
-                        <input type="text" name="myDate" class="mb-2 form-control mycohort">
-                        <center>
-                          <button class="se-btn" onclick="createCohort(event)">Create Cohort</button>
-                        </center>
+                        <label class="d-block">Sort by Year</label>
+                        <input type="month" name="" id="" class="d-block palo">
                     </form>
                 </div>
+                <div class="ow mt-3">
+                  <button class="cnew-btn" onclick="newCohort(event)">+ Create New Cohort</button>
+                </div>
             </div>
-        </div>
-           
-
-
-        <div class="jumbotron bg-light">
-            <div class="head-shift">
-            <form>
-                <label for="">Filter by year</label>
-                <select class="form-control spincourse" id="input" onchange="visorCourse(event)">
-                    <option>All</option>
-                </select>
-            </form>
-            <form class="mt-3">
-                <button class="sort-btn" onclick="displayCohortModal(event)">Create Cohort</button>
-            </form>
-            </div>
-
-        
-        <div class="outer-wrapper mt-5">
-            <div class="table-wrapper">
+            <div class="table-wrapper mb-5">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Cohort Name</th>
-                            <th>year</th>
-                            <th>Close</th>
-                            <th>View More</th>
+                            <th>Cohort Month</th>
+                            <th>Year Of Creation</th>
+                            <th>Total Number Of Enrollment</th>
                         </tr>
                     </thead>
                     <tbody class="tableindex">
-                        
+                        <tr>
+                            <td class="mt-5">January </td>
+                            <td>2023</td>
+                            <td>88</td>
+                            <td><button class="update">View</button></td>
+                            <td><button class="deactive">End Cohort</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">January </td>
+                            <td>2023</td>
+                            <td>88</td>
+                            <td><button class="update">View</button></td>
+                            <td><button class="deactive">End Cohort</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">January </td>
+                            <td>2023</td>
+                            <td>88</td>
+                            <td><button class="update">View</button></td>
+                            <td><button class="deactive">End Cohort</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">January </td>
+                            <td>2023</td>
+                            <td>88</td>
+                            <td><button class="update">View</button></td>
+                            <td><button class="deactive">End Cohort</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">January </td>
+                            <td>2023</td>
+                            <td>88</td>
+                            <td><button class="update">View</button></td>
+                            <td><button class="deactive">End Cohort</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">January </td>
+                            <td>2023</td>
+                            <td>88</td>
+                            <td><button class="update">View</button></td>
+                            <td><button class="deactive">End Cohort</button></td>
+
+                        </tr>
                     </tbody>
                 </table>
-                
-                <nav class="mt-5">
-                    <ul class="pagination pg-blue justify-content-center">
-                        <button class="get-previous" onclick="prevPageItem(event)"><i class="fa fa-chevron-left"></i></button>
-                        <p class="current-page"></p>
-                        <button class="get-next" onclick="nextPageItem(event)"><i class="fa fa-chevron-right"></i></button>
-                    </ul>
-                </nav>
             </div>
+            
+            <nav class="mt-5 mio">
+                <ul class="pagination pg-blue justify-content-center">
+                    <button class="get-previous" onclick="prevPageItem(event)"><i class="fa fa-chevron-left"></i></button>
+                    <p class="current-page"></p>
+                    <button class="get-next" onclick="nextPageItem(event)"><i class="fa fa-chevron-right"></i></button>
+                </ul>
+            </nav>
         </div>
-        </div>
+
+        
 
           
           

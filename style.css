@@ -646,7 +646,11 @@ hr {
     border-radius: 5px;
 }
 
-.complete, .pending, .un-paid, .interested, .unreachable, .active, .dele-btn, .assigned, .undecided, .not_interested, .next, .enrolled, .update, .deactive, .co-btn {
+.complete, .pending, .un-paid, .interested, 
+.unreachable, .active, .dele-btn, .assigned, 
+.undecided, .not_interested, .next, .enrolled, 
+.update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
+.btn-coh2, .s-btn, .d-btn, .a-btn {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -711,10 +715,18 @@ hr {
     cursor: pointer;
 }
 
-.deactive {
+
+
+.deactive, .a-btn {
     background: #FF0000;
     color: #fff;
     margin-top: -8px;
+    width: 150px;
+}
+
+.a-btn {
+    background: #008000;
+    color: #fff;
 }
 
 .deactive:hover {
@@ -739,6 +751,44 @@ hr {
     padding: 12px 75px;
 }
 
+
+.cnew-btn {
+    background: #fff;
+    border: 1px solid #2334A8;
+    color: #2334A8;
+    padding: 10px 15px;
+}
+
+.btn-coh, .btn-coh2 {
+    background: #2334A8;
+    padding: 20px 47px;
+    font-size: 12px;
+    border-radius: 1px;
+}
+
+.btn-coh2 {
+    background: #fff;
+    color: #2334A8;
+}
+
+.btn-coh2:hover {
+    background: #2334A8;
+    color: #fff;
+}
+
+.s-btn {
+    background: #B5F0D1;
+    color: #008000;
+    margin-top: -8px;
+    width: 100px;
+}
+
+.d-btn {
+    background: #FBD0D0;
+    color: #950707;
+    margin-top: -8px;
+    width: 100px;
+}
 
 /* styling notification page */
 .move {
@@ -934,8 +984,12 @@ hr {
     padding: 12px 15px;
 }
 
+.din {
+    color: rgb(169, 165, 165);
+}
+
 .mymodal {
-    /* display: none; */
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -1379,4 +1433,33 @@ hr {
 .gb {
     position: absolute;
     bottom: 0;
+}
+
+.scar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chr {
+    border: 2px solid #2334A8;
+    margin: 0;
+}
+
+.sort-sec {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .flot {
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 10px;
+    border: 1px solid rgb(204, 201, 201);
+    border-radius: 10px;
+    width: 210px;
+    margin: 0;
+} */
+
+.sort-btn-item {
+    margin: 0;
 }

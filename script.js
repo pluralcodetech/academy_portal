@@ -3776,6 +3776,33 @@ function closeCohort() {
     getModal.style.display = "none";
 }
 
+function newCohort(event) {
+    event.preventDefault();
+    const getModal = document.getElementById("re-modal");
+    getModal.style.display = "block"
+}
+
+function newCourse(event) {
+    event.preventDefault();
+    const getModal = document.getElementById("re-modal");
+    getModal.style.display = "block"
+}
+
+
+function getCurrentDate() {
+    const date = new Date();
+
+    const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    };
+    const gc = document.querySelector(".currentDta");
+    gc.innerHTML = date.toLocaleString('en-IN', options)
+
+}
+
 // function logout
 function logAdminOut(event) {
 event.preventDefault();
@@ -3793,6 +3820,7 @@ event.preventDefault();
         method: 'GET',
         headers: delHeader
     };
+
 
     const url = "https://pluralcode.institute/pluralcode_apis/api/admin/logout";
     fetch(url, logReq)
@@ -3825,16 +3853,3 @@ event.preventDefault();
     .catch(error => console.log('error', error));
 }
 
-function getCurrentDate() {
-    const date = new Date();
-
-    const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    };
-    const gc = document.querySelector(".currentDta");
-    gc.innerHTML = date.toLocaleString('en-IN', options)
-
-}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course</title>
+    <title>View Course</title>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -95,9 +95,61 @@
             width: 62%;
         }
 
-        input[type="checkbox"] {
-          accent-color: #232323;
+        .selectdiv {
+          position: relative;
         }
+
+        .selectdiv:after {
+            content: '\f078';
+            font: normal normal normal 17px/1 FontAwesome;
+            color: rgb(173, 168, 168);
+            right: 11px;
+            top: 6px;
+            height: 30px;
+            padding: 15px 0px 0px 8px;
+            border-left: 1px solid rgb(173, 168, 168);
+            position: absolute;
+            pointer-events: none;
+            font-weight: 900;
+        }
+
+        /* IE11 hide native button (thanks Matt!) */
+        select::-ms-expand {
+          display: none;
+        }
+
+        .selectdiv select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            /* Add some styling */
+            
+            display: block;
+            width: 200px;
+            max-width: 320px;
+            height: 45px;
+            float: right;
+            margin: 5px 0px;
+            padding: 0px 24px;
+            font-size: 16px;
+            line-height: 1.75;
+            color: #333;
+            background-color: #ffffff;
+            background-image: none;
+            border: 1px solid rgb(173, 168, 168);
+            -ms-word-break: normal;
+            word-break: normal;
+            border-radius: 10px;
+        }
+
+        .raa {
+            margin-bottom: -11px;
+        }
+
+        ::after, ::before {
+            box-sizing: content-box !important;
+        }
+
 
         @media screen and (max-width: 650px) {
             .dash-cards {
@@ -140,113 +192,7 @@
         </div>
     </div> -->
 
-    <div id="re-modal" class="mymodal mb-5">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close" onclick="closehModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h4 class="text-center">Create New Course</h4>
-                <p class="text-center din">
-                    Discount you give will be deducted from the tuition<br> fee once the user use code on this course only
-                </p>
-                <p class="itev mt-5 ml-3">
-                    Course Details
-                </p>
-                <form>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                          <label class="lab">Course Name</label>
-                          <input type="text" class="palo" placeholder="Enter course name">
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                          <label class="lab">Course Fee</label>
-                          <input type="text" class="palo" placeholder="Enter course fee">
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Course School</label>
-                            <select class="palo">
-                                <option value="">select</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Course Type</label>
-                            <select class="palo">
-                                <option value="">select</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Mode of Learning</label>
-                            <div class="row">
-                                <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" id="gridCheck" checked>
-                                          <label class="form-check-label" for="gridCheck">
-                                            Onsite
-                                          </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" id="gridCheck" checked>
-                                          <label class="form-check-label" for="gridCheck">
-                                            Virtual 
-                                          </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                          <label class="lab">Course Cohort</label>
-                          <input type="text" class="palo" placeholder="Enter course fee">
-                        </div>
-                        
-                    </div>
-                    <p class="itev mt-5 ml-3">Advisor Details</p>
-
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Select Advisor</label>
-                            <select class="palo">
-                                <option value="">select</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <p class="itev mt-5 ml-3">Link Details</p>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Create Community Link</label>
-                            <input type="text" class="palo" placeholder="Enter link">
-                        </div>
-                          <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Resources Link</label>
-                            <input type="text" class="palo" placeholder="Enter link">
-                        </div>
-                    </div>
-                    <p class="itev mt-5 ml-3">Price Details</p>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Onsite Price(USD)</label>
-                            <input type="text" class="palo" placeholder="100(USD)">
-                        </div>
-                          <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Virtual Price(USD)</label>
-                            <input type="text" class="palo" placeholder="100(USD)">
-                        </div>
-                    </div>
-
-                    <div class="form-footer-item text-center mt-5 mb-5">
-                      <button class="co-btn">Create Course</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar bg-dark">
        <div class="sidebar-brand mb-5">
@@ -272,10 +218,10 @@
                 <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
             </li>
             <li>
-                <a href="cohort.html" style="text-decoration: none;"><i class="fa fa-calendar-alt mr-2" style="color: #fff;"></i><span>Cohort</span></a>
+                <a href="cohort.html" class="active" style="text-decoration: none;"><i class="fa fa-calendar-alt mr-2" style="color: #fff;"></i><span>Cohort</span></a>
             </li>
             <li>
-                <a href="course.html" class="active" style="text-decoration: none;"><i class="fa fa-graduation-cap mr-2" style="color: #fff;"></i><span>Course</span></a>
+                <a href="course.html" style="text-decoration: none;"><i class="fa fa-graduation-cap mr-2" style="color: #fff;"></i><span>Course</span></a>
             </li>
             <li>
                 <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>Monthly Summary</span></a>
@@ -317,9 +263,9 @@
 
        <main>
 
-        <h2 class="course-head">Course</h2>
+        <h2 class="course-head">Cohort</h2>
         
-        <div class="dash-cards mb-5">
+        <!-- <div class="dash-cards mb-5">
             <div class="card-single">
                 <div class="card-body">
                     <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
@@ -347,120 +293,155 @@
                     </div>
                 </div>
             </div>
-
-            <div class="card-single last" onclick="newCourse(event)">
-                <div class="card-body">
-                    <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <p class="currentDta2">+</p>
-                        <p class="currentDta2">Create New Course </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div> -->
     
 
-        <div class="outer-wrapper">
+        <div class="outer-wrapper pt-3 pl-3 pr-3">
+            <div class="sort-sec">
+                <div class="sort-btn-item">
+                    <button class="btn-coh">Courses</button>
+                    <button class="btn-coh2">Students</button>
+                </div>
+                <div class="selectdiv">
+                    <label class="raa">
+                        <select>
+                            <option selected> Sort by Course </option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            
+            
+            <hr class="chr">
             <div class="table-wrapper mb-5">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Course Name</th>
+                            <th>Status</th>
+                            <th>Total Number Of enrollment</th>
                             <th>Course Fee</th>
                             <th>School</th>
-                            <th>Advisor Name</th>
-                            <th>Advisor Email</th>
-                            <th>Advisor Phone</th>
-                            <th>Mode of Learning</th>
+                            <th>Cohort</th>
+                            <th>Mode Of Learning</th>
                             <th>Course Type</th>
                             <th>Referral Code</th>
-                            <th>Update</th>
-                            <th>Activate</th>
+                            <th>View Materials</th>
+                            <th>Activate Course</th>
                         </tr>
                     </thead>
                     <tbody class="tableindex">
                         <tr>
                             <td class="mt-5">Product Design</td>
+                            <td><button class="s-btn">Activated</button></td>
+                            <td>88</td>
                             <td>100 USD</td>
                             <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td>Jan. 2023</td>
                             <td>Onsite</td>
                             <td>Diploma</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="deactive">Deactivate Course</button></td>
 
                         </tr>
                         <tr>
                             <td class="mt-5">Product Design</td>
+                            <td><button class="d-btn">Deactivated</button></td>
+                            <td>88</td>
                             <td>100 USD</td>
                             <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
-                            <td>Onsite</td>
+                            <td>Jan. 2023</td>
+                            <td>Virtual / Onsite</td>
                             <td>Diploma</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="a-btn">Activate Course</button></td>
 
                         </tr>
                         <tr>
                             <td class="mt-5">Product Design</td>
+                            <td><button class="s-btn">Activated</button></td>
+                            <td>88</td>
                             <td>100 USD</td>
                             <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td>Jan. 2023</td>
                             <td>Onsite</td>
                             <td>Diploma</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="deactive">Deactivate Course</button></td>
 
                         </tr>
                         <tr>
                             <td class="mt-5">Product Design</td>
+                            <td><button class="d-btn">Deactivated</button></td>
+                            <td>88</td>
                             <td>100 USD</td>
                             <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
-                            <td>Onsite</td>
+                            <td>Jan. 2023</td>
+                            <td>Virtual / Onsite</td>
                             <td>Diploma</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="a-btn">Activate Course</button></td>
 
                         </tr>
                         <tr>
                             <td class="mt-5">Product Design</td>
+                            <td><button class="s-btn">Activated</button></td>
+                            <td>88</td>
                             <td>100 USD</td>
                             <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td>Jan. 2023</td>
                             <td>Onsite</td>
                             <td>Diploma</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="deactive">Deactivate Course</button></td>
 
                         </tr>
                         <tr>
                             <td class="mt-5">Product Design</td>
+                            <td><button class="d-btn">Deactivated</button></td>
+                            <td>88</td>
                             <td>100 USD</td>
                             <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td>Jan. 2023</td>
+                            <td>Virtual / Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="a-btn">Activate Course</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td><button class="s-btn">Activated</button></td>
+                            <td>88</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Jan. 2023</td>
                             <td>Onsite</td>
                             <td>Diploma</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="deactive">Deactivate Course</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td><button class="d-btn">Deactivated</button></td>
+                            <td>88</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Jan. 2023</td>
+                            <td>Virtual / Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">View Materials</button></td>
+                            <td><button class="a-btn">Activate Course</button></td>
+
                         </tr>
                     </tbody>
                 </table>
