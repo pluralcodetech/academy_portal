@@ -258,6 +258,8 @@ main {
     width: 100%;
 }
 
+
+
 /* .card-single2 {
     background: #ffffff;
     border-radius: 10px;
@@ -650,7 +652,7 @@ hr {
 .unreachable, .active, .dele-btn, .assigned, 
 .undecided, .not_interested, .next, .enrolled, 
 .update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
-.btn-coh2, .s-btn, .d-btn, .a-btn {
+.btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -788,6 +790,12 @@ hr {
     color: #950707;
     margin-top: -8px;
     width: 100px;
+}
+
+.btn-lock {
+    background: none;
+    color: #2334A8;
+    font-weight: 600;
 }
 
 /* styling notification page */
@@ -999,6 +1007,8 @@ hr {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
+
   
 .modal-content {
     margin: 10% auto;
@@ -1036,7 +1046,7 @@ hr {
 }
 
 .modal-body {
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
 }
 
 
@@ -1450,16 +1460,46 @@ hr {
     justify-content: space-between;
 }
 
-/* .flot {
-    outline: none !important;
-    box-shadow: none !important;
-    padding: 10px;
-    border: 1px solid rgb(204, 201, 201);
-    border-radius: 10px;
-    width: 210px;
-    margin: 0;
-} */
 
 .sort-btn-item {
     margin: 0;
+}
+
+.jum-text p {
+    margin: 0;
+}
+
+.course-mat {
+    display: flex;
+}
+
+.course-mat i {
+    margin-top: 35px;
+}
+
+.jet-p {
+    font-size: 20px;
+}
+
+.hr-c {
+    border-top: 1px solid rgb(201, 198, 198);
+}
+
+.jum-sec {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 650px) {
+    .jum-sec {
+        flex-direction: column;
+    }
+
+    .btn-lock {
+        margin-top: 10px;
+    }
+
+    .jumbotron h4 {
+        font-size: 18px;
+    }
 }

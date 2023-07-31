@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Materials</title>
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <!-- font awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <style>
+        table th:first-child {
+        text-align: left;
+        /* max-width: 30px; */
+        }
+
+        .table thead th {
+            border: none;
+        }
+
+        .table tbody td {
+            border-bottom: 1px solid rgb(210, 206, 206);
+            border-top: none;
+        }
+
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap: 0.5rem;
+        }
+
+
+        .card-single{
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: none !important;
+            height: 120px;
+            position: relative;
+        }
+
+        .card-single:hover {
+            background: #2334A8;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .rex {
+            font-size: 14px;
+        }
+
+
+        .card-body {
+            padding: 10px 25px !important;
+        }
+
+        .outer-wrapper {
+            background: #fff;
+            margin: 0;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .mio {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .modal-body h4, .itev {
+            color: #222057;
+            font-weight: 600;
+        }
+
+        .modal-header {
+            background: #fff;
+            border-radius: 15px;
+            border: none;
+
+        }
+
+        .modal-content {
+            border-radius: 15px;
+        }
+
+
+        .close {
+            color: #000;
+        }
+
+    </style>
+
+</head>
+<body onload="getCurrentDate()">
+    <!-- <div class="pagemodal">
+        <div class="preloader">
+            <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
+        </div>
+    </div> -->
+
+    </div>
+    <input type="checkbox" id="nav-toggle">
+    <div class="sidebar bg-dark">
+       <div class="sidebar-brand mb-5">
+       <a href="dashboard.html"><img class="imglog" src="assets/logo.png" alt="wave"></a>
+       </div>
+
+       <div class="sidebar-menu">
+       <ul>
+            <li>
+             <a href="dashboard.html" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
+            </li>
+            
+            <li>
+             <a href="enroll.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Enrolled</span></a>
+            </li>
+            <li>
+                <a href="interest.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Interested</span></a>
+            </li>
+            <li>
+                <a href="update.html" style="text-decoration: none;"><i class="fa fa-refresh mr-2" style="color: #fff;"></i><span>Update Course</span></a>
+            </li>
+            <li>
+                <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
+            </li>
+            <li>
+                <a href="cohort.html" class="active" style="text-decoration: none;"><i class="fa fa-calendar-alt mr-2" style="color: #fff;"></i><span>Cohort</span></a>
+            </li>
+            <li>
+                <a href="course.html" style="text-decoration: none;"><i class="fa fa-graduation-cap mr-2" style="color: #fff;"></i><span>Course</span></a>
+            </li>
+            <li>
+                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>Monthly Summary</span></a>
+            </li>
+            
+            <li>
+                <a href="setting.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Settings</span></a>
+            </li>
+            <br><br><br><br>
+            <li>
+             <a onclick="logAdminOut(event)" style="text-decoration: none;"><i class="fas fa-sign-out mr-2" style="color: #fff;"></i><span class="logspan">Logout</span></a>
+            </li>
+       </ul>
+    </div>
+    </div>
+
+    <div class="main-content">
+       <header>
+           <h2 class="mt-3">
+               <label for="nav-toggle">
+                   <i class="fa fa-bars"></i>
+               </label>
+           </h2>
+           <div>
+               <form>
+                <div style="max-width:400px;margin:auto">
+                    <div class="input-icons">
+                        <i class="fa fa-search icon"></i>
+                        <input class="input-field" type="text" placeholder="Search">
+                    </div>
+                </div>
+               </form>
+           </div>
+           <div class="mt-3">
+               <p class="currentDta"></p>
+           </div>
+           
+        </header>
+
+       <main>
+
+        <h2 class="course-head">Course</h2>
+
+        <div class="jumbotron">
+            <h4 class="mb-5"> <img src="./assets/lt.png" alt="" class="mr-3 mt-0">Product Design Course Materials</h4>
+
+            <div class="jum-sec">
+                <div class="course-mat">
+                    <div class="mr-5">
+                      <i class="fa-regular fa-folder fa-xl"></i>
+                    </div>
+    
+                    <div class="jum-text">
+                        <p>Week 1</p>
+                        <p class="jet-p">Introduction to User Experience Design.</p>
+                        <p>Sept 2, 2022</p>
+                    </div>
+                </div>
+                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
+            </div>
+            <hr class="hr-c">
+            <div class="jum-sec">
+                <div class="course-mat">
+                    <div class="mr-5">
+                      <i class="fa-regular fa-folder fa-xl"></i>
+                    </div>
+    
+                    <div class="jum-text">
+                        <p>Week 1</p>
+                        <p class="jet-p">Introduction to User Experience Design.</p>
+                        <p>Sept 2, 2022</p>
+                    </div>
+                </div>
+                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
+            </div>
+            <hr class="hr-c">
+            <div class="jum-sec">
+                <div class="course-mat">
+                    <div class="mr-5">
+                      <i class="fa-regular fa-folder fa-xl"></i>
+                    </div>
+    
+                    <div class="jum-text">
+                        <p>Week 1</p>
+                        <p class="jet-p">Introduction to User Experience Design.</p>
+                        <p>Sept 2, 2022</p>
+                    </div>
+                </div>
+                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
+            </div>
+            <hr class="hr-c">
+            <div class="jum-sec">
+                <div class="course-mat">
+                    <div class="mr-5">
+                      <i class="fa-regular fa-folder fa-xl"></i>
+                    </div>
+    
+                    <div class="jum-text">
+                        <p>Week 1</p>
+                        <p class="jet-p">Introduction to User Experience Design.</p>
+                        <p>Sept 2, 2022</p>
+                    </div>
+                </div>
+                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
+            </div>
+            <hr class="hr-c">
+            <div class="jum-sec">
+                <div class="course-mat">
+                    <div class="mr-5">
+                      <i class="fa-regular fa-folder fa-xl"></i>
+                    </div>
+    
+                    <div class="jum-text">
+                        <p>Week 1</p>
+                        <p class="jet-p">Introduction to User Experience Design.</p>
+                        <p>Sept 2, 2022</p>
+                    </div>
+                </div>
+                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
+            </div>
+            <hr class="hr-c">
+            <div class="jum-sec">
+                <div class="course-mat">
+                    <div class="mr-5">
+                      <i class="fa-regular fa-folder fa-xl"></i>
+                    </div>
+    
+                    <div class="jum-text">
+                        <p>Week 1</p>
+                        <p class="jet-p">Introduction to User Experience Design.</p>
+                        <p>Sept 2, 2022</p>
+                    </div>
+                </div>
+                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
+            </div>
+            <hr class="hr-c">
+
+        </div>
+
+        
+          
+       </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <!-- custom javascript -->
+    <script src="script.js"></script>
+    <script src="main.js"></script>
+    <script type="text/javascript" src="oauth.js"></script>
+    
+</body>
+</html>

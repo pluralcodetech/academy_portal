@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Enrolled</title>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -13,22 +13,135 @@
 
     <!-- custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        table th:first-child {
+        text-align: left;
+        /* max-width: 30px; */
+        }
+
+        .table thead th {
+            border: none;
+        }
+
+        .table tbody td {
+            border-bottom: 1px solid rgb(210, 206, 206);
+        }
+
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap: 0.5rem;
+        }
+
+
+        .card-single{
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: none !important;
+            height: 120px;
+            position: relative;
+        }
+
+        .card-single:hover {
+            background: #2334A8;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .rex {
+            font-size: 14px;
+        }
+
+
+        .card-body {
+            padding: 10px 21px !important;
+        }
+
+        .outer-wrapper {
+            background: #fff;
+            margin: 0;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .mio {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .modal-header {
+            background: #fff;
+            border: none;
+        }
+
+
+        .close {
+            color: #000;
+        }
+
+        .modal-body h4, .itev {
+            color: #222057;
+            font-weight: 600;
+        }
+
+        .mymodal {
+            left: 115px;
+        }
+        .modal-content {
+            width: 62%;
+        }
+
+        input[type="checkbox"] {
+          accent-color: #232323;
+        }
+
+        @media screen and (max-width: 650px) {
+            .dash-cards {
+                grid-template-columns: repeat(1, 1fr);
+                grid-column-gap: 1rem;
+            }
+
+            .mymodal {
+                left: 0;
+            }
+
+            .buh {
+                width: 0;
+                margin-right: 120px;
+            }
+        }
+        
+        @media screen and (max-width: 1250px) {
+            .mymodal {
+                left: 0;
+            }
+
+            .modal-content {
+                width: 100%;
+            }
+        }
+
+        @media screen and (min-width: 1300px) and (max-width: 1800px){
+            .modal-content {
+              width: 59%;
+            }
+        }
+    </style>
 
 </head>
-<body>
-    <div class="pagemodal">
+<body onload="getCurrentDate()">
+    <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
-    </div>
-    <div id="dash-modal" class="mymodal mb-5">
+    </div> -->
+
+    <div id="re-modal" class="mymodal mb-5">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close" onclick="closeDashModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <!-- <div class="allstudent"></div> -->
+                <span class="close" onclick="closehModal()">&times;</span>
             </div>
         </div>
     </div>
@@ -39,7 +152,7 @@
        </div>
 
        <div class="sidebar-menu">
-        <ul>
+       <ul>
             <li>
              <a href="dashboard.html" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
             </li>
@@ -57,8 +170,15 @@
                 <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
             </li>
             <li>
-                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>monthly Summary</span></a>
+                <a href="cohort.html" style="text-decoration: none;"><i class="fa fa-calendar-alt mr-2" style="color: #fff;"></i><span>Cohort</span></a>
             </li>
+            <li>
+                <a href="course.html" style="text-decoration: none;"><i class="fa fa-graduation-cap mr-2" style="color: #fff;"></i><span>Course</span></a>
+            </li>
+            <li>
+                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>Monthly Summary</span></a>
+            </li>
+            
             <li>
                 <a href="setting.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Settings</span></a>
             </li>
@@ -72,106 +192,190 @@
 
     <div class="main-content">
        <header>
-           <h2>
-                <label for="nav-toggle">
-                    <i class="fa fa-bars"></i>
-                </label>
+           <h2 class="mt-3">
+               <label for="nav-toggle">
+                   <i class="fa fa-bars"></i>
+               </label>
            </h2>
-           <div class="head-shift">
-               <form class="theForm">
-                <div class="input-group rounded">
-                    <input type="search" class="form-control rounded nsearch" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon">
-                    <i class="fas fa-search" onclick="searchName(event)"></i>
-                    </span>
+           <div>
+               <form>
+                <div style="max-width:400px;margin:auto">
+                    <div class="input-icons">
+                        <i class="fa fa-search icon"></i>
+                        <input class="input-field" type="text" placeholder="Search">
+                    </div>
                 </div>
                </form>
-               <div class="dashSelectBox mt-3">
-                  Sort by Date
-                  <input type="date" name="myDate" onchange="searchDate(event)">
-                </div>
            </div>
+           <div class="mt-3">
+               <p class="currentDta"></p>
+           </div>
+           
         </header>
 
        <main>
-          <div class="jumbotron bg-light">
-            <h3 class="en-text">Enrolled Students</h3>
-              <div class="head-shift2">
-                <form>
-                    <label class="label">Course</label>
-                    <select class="form-control letcourse" id="input" onchange="getTypeCourse(event)">
-                        <option value="all" selected>All</option>
-                    </select>
-                </form>
-              </div>
-                <div class="outer-wrapper mt-5">
-                    <div class="table-wrapper">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="thText">Student Name</th>
-                                    <th class="thText">Email Address</th>
-                                    <th class="thText">Phone</th>
-                                    <th class="thText">Registration Number</th>
-                                    <th class="thText">Mode Of Learning</th>
-                                    <th class="thText">Course Of Interest</th>
-                                    <th class="thText">Mode Of Payment</th>
-                                    <th class="thText">Date</th>
-                                    <th class="thText">Time</th>
-                                    <th class="thText">Address</th>
-                                    <th class="thText">State Of Residence</th>
-                                    <th class="thText">Level Of Education</th>
-                                    <th class="thText">View Details</th>
-                                    <th class="thText">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="tableData">
-                                
-                            </tbody>
-                        </table>
-                        <nav class="mt-5 mn">
-                            <ul class="pagination pg-blue justify-content-center">
-                                <button class="get-url" id="prev"><i class="fa fa-chevron-left"></i></button>
-                                <button class="pag-link">1</button>
-                                <button class="pag-link">2</button>
-                                <button class="pag-link">3</button>
-                                <button class="pag-link">4</button>
-                                <button class="pag-link">5</button>
-                                <button class="pag-link">6</button>
-                                <button class="pag-link">7</button>
-                                <button class="pag-link">8</button>
-                                <button class="pag-link">9</button>
-                                <button class="pag-link">10</button>
 
-                                <!-- <p class="current-page"></p> -->
-                                <button class="get-url" id="next"><i class="fa fa-chevron-right"></i></button>
-                            </ul>
-                        </nav>
-
-                        <nav class="mt-5 sn">
-                            <ul class="pagination pg-blue justify-content-center">
-                                <button class="get-url2" id="prev2"><i class="fa fa-chevron-left"></i></button>
-                                <button class="pag-link2">1</button>
-                                <button class="pag-link2">2</button>
-                                <button class="pag-link2">3</button>
-                                <!-- <p class="current-page"></p> -->
-                                <button class="get-url2" id="next2"><i class="fa fa-chevron-right"></i></button>
-                            </ul>
-                        </nav>
-
-                        <nav class="mt-5 sn2">
-                            <ul class="pagination pg-blue justify-content-center">
-                                <button class="get-url3" id="prev3"><i class="fa fa-chevron-left"></i></button>
-                                <button class="pag-link3">1</button>
-                                <button class="pag-link3">2</button>
-                                <button class="pag-link3">3</button>
-                                <!-- <p class="current-page"></p> -->
-                                <button class="get-url3" id="next3"><i class="fa fa-chevron-right"></i></button>
-                            </ul>
-                        </nav>
+        <h2 class="course-head">Enrolled Students</h2>
+        
+        <div class="dash-cards mb-5">
+            <div class="card-single nine">
+                <div class="card-body">
+                    <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
+                    <div>
+                        <h5 class="rex">All Courses</h5>
+                        <h5 class="gb"><b>300</b></h5>
                     </div>
                 </div>
-          </div>
+            </div>
+            <div class="card-single">
+                <div class="card-body">
+                    <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
+                    <div>
+                        <h5 class="rex">Total Enrolled</h5>
+                        <h5 class="gb"><b>16</b></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-single">
+                <div class="card-body">
+                    <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
+                    <div>
+                        <h5 class="rex">Total Completed Payment </h5>
+                        <h5 class="gb"><b>8</b></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-single">
+                <div class="card-body">
+                    <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
+                    <div>
+                        <h5 class="rex">Total Incomplete Payment</h5>
+                        <h5 class="gb"><b>300</b></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="outer-wrapper">
+            <div class="table-wrapper mb-5">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Course Fee</th>
+                            <th>School</th>
+                            <th>Advisor Name</th>
+                            <th>Advisor Email</th>
+                            <th>Advisor Phone</th>
+                            <th>Mode of Learning</th>
+                            <th>Course Type</th>
+                            <th>Referral Code</th>
+                            <th>Update</th>
+                            <th>Activate</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableindex">
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Abiola</td>
+                            <td>abiola@pluralcode.com</td>
+                            <td>08066785628</td>
+                            <td>Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">Update</button></td>
+                            <td><button class="deactive">Deactive Course</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Abiola</td>
+                            <td>abiola@pluralcode.com</td>
+                            <td>08066785628</td>
+                            <td>Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">Update</button></td>
+                            <td><button class="deactive">Deactive Course</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Abiola</td>
+                            <td>abiola@pluralcode.com</td>
+                            <td>08066785628</td>
+                            <td>Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">Update</button></td>
+                            <td><button class="deactive">Deactive Course</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Abiola</td>
+                            <td>abiola@pluralcode.com</td>
+                            <td>08066785628</td>
+                            <td>Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">Update</button></td>
+                            <td><button class="deactive">Deactive Course</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Abiola</td>
+                            <td>abiola@pluralcode.com</td>
+                            <td>08066785628</td>
+                            <td>Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">Update</button></td>
+                            <td><button class="deactive">Deactive Course</button></td>
+
+                        </tr>
+                        <tr>
+                            <td class="mt-5">Product Design</td>
+                            <td>100 USD</td>
+                            <td>Product School</td>
+                            <td>Abiola</td>
+                            <td>abiola@pluralcode.com</td>
+                            <td>08066785628</td>
+                            <td>Onsite</td>
+                            <td>Diploma</td>
+                            <td>PLC7R683JD8</td>
+                            <td><button class="update">Update</button></td>
+                            <td><button class="deactive">Deactive Course</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <nav class="mt-5 mio">
+                <ul class="pagination pg-blue justify-content-center">
+                    <button class="get-previous" onclick="prevPageItem(event)"><i class="fa fa-chevron-left"></i></button>
+                    <p class="current-page"></p>
+                    <button class="get-next" onclick="nextPageItem(event)"><i class="fa fa-chevron-right"></i></button>
+                </ul>
+            </nav>
+        </div>
+
+        
+
+          
+          
        </main>
     </div>
     
@@ -179,9 +383,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     <!-- custom javascript -->
     <script src="script.js"></script>
     <script src="main.js"></script>
     <script type="text/javascript" src="oauth.js"></script>
+    
 </body>
 </html>
