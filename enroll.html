@@ -11,6 +11,7 @@
     <!-- font awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
     <!-- custom CSS -->
     <link rel="stylesheet" href="style.css">
 
@@ -41,13 +42,13 @@
             box-shadow: none !important;
             height: 120px;
             position: relative;
-        }
-
-        .card-single:hover {
-            background: #2334A8;
-            color: #fff;
             cursor: pointer;
         }
+
+        .nine {
+            min-height: 395px !important;
+        }
+
 
         .rex {
             font-size: 14px;
@@ -215,39 +216,88 @@
 
        <main>
 
-        <h2 class="course-head">Enrolled Students</h2>
+        <h2 class="course-head mb-3">Enrolled Students</h2>
         
         <div class="dash-cards mb-5">
             <div class="card-single nine">
                 <div class="card-body">
-                    <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
-                    <div>
-                        <h5 class="rex">All Courses</h5>
-                        <h5 class="gb"><b>300</b></h5>
+                    <div class="d-flex justify-content-between">
+                        <h6>Enrollment chart</h6>
+                        <i class="fa fa-cog mr-2" style="color: #222;"></i>
+                    </div>
+                    <p class="text-secondary">Top countries</p>
+
+                    <div class="section-pro">
+                        <div class="congo d-flex justify-content-between">
+                          <p class="mt-2">Nigeria</p>
+                          <div>
+                            <p>400 enrollment</p>
+                            <p>(60%/100%)</p>
+                          </div>
+                        </div>
+                        <progress value="60" max="100"></progress>
+                    </div>
+                    <div class="section-pro">
+                        <div class="congo d-flex justify-content-between">
+                          <p class="mt-2">USA</p>
+                          <div>
+                            <p>90 enrollment</p>
+                            <p>(10%/100%)</p>
+                          </div>
+                        </div>
+                        <progress value="10" max="100"></progress>
+                    </div>
+                    <div class="section-pro">
+                        <div class="congo d-flex justify-content-between">
+                          <p class="mt-2">Rwanda</p>
+                          <div>
+                            <p>270 enrollment</p>
+                            <p>(45%/100%)</p>
+                          </div>
+                        </div>
+                        <progress value="45" max="100"></progress>
+                    </div>
+                    <div class="section-pro">
+                        <div class="congo d-flex justify-content-between">
+                          <p class="mt-2">Kenya</p>
+                          <div>
+                            <p>100 enrollment</p>
+                            <p>(20%/100%)</p>
+                          </div>
+                        </div>
+                        <progress value="20" max="100"></progress>
+                    </div>
+                    <div class="section-pro">
+                        <div class="congo d-flex justify-content-between">
+                          <p class="mt-2">South Africa</p>
+                          <div>
+                            <p>200 enrollment</p>
+                            <p>(30%/100%)</p>
+                          </div>
+                        </div>
+                        <progress value="30" max="100"></progress>
                     </div>
                 </div>
             </div>
-            <div class="card-single">
+            
+            <div class="card-single papy">
                 <div class="card-body">
-                    <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
                         <h5 class="rex">Total Enrolled</h5>
                         <h5 class="gb"><b>16</b></h5>
                     </div>
                 </div>
             </div>
-            <div class="card-single">
+            <div class="card-single papy">
                 <div class="card-body">
-                    <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
                         <h5 class="rex">Total Completed Payment </h5>
                         <h5 class="gb"><b>8</b></h5>
                     </div>
                 </div>
             </div>
-            <div class="card-single">
+            <div class="card-single papy">
                 <div class="card-body">
-                    <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
                         <h5 class="rex">Total Incomplete Payment</h5>
                         <h5 class="gb"><b>300</b></h5>
@@ -257,107 +307,163 @@
         </div>
     
 
-        <div class="outer-wrapper">
+        <div class="outer-wrapper pt-3 pl-3 pr-3">
+            <div class="sort-sec">
+                <div class="sort-btn-item">
+                    <button class="btn-coh2">Website Enrollment</button>
+                    <button class="btn-coh">Manual Enrollment</button>
+                </div>
+                <div class="d">
+                    <form>
+                        <label class="d-block"></label>
+                        <input type="datetime-local" name="" id="" class="d-block palo">
+                    </form>
+                </div>
+            </div>
+            
+            
+            <hr class="chr">
             <div class="table-wrapper mb-5">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Course Name</th>
-                            <th>Course Fee</th>
-                            <th>School</th>
-                            <th>Advisor Name</th>
-                            <th>Advisor Email</th>
-                            <th>Advisor Phone</th>
-                            <th>Mode of Learning</th>
-                            <th>Course Type</th>
+                            <th>Student Name</th>
+                            <th>Student Email</th>
+                            <th>Student Phone</th>
+                            <th>Country</th>
+                            <th>Level of Education</th>
+                            <th>Course</th>
+                            <th>Program Type</th>
+                            <th>Enrollment date</th>
+                            <th>Payment Status</th>
+                            <th>Payment lan</th>
                             <th>Referral Code</th>
-                            <th>Update</th>
-                            <th>Activate</th>
+                            <th>Amount Paid</th>
+                            <th>Balance</th>
                         </tr>
                     </thead>
                     <tbody class="tableindex">
                         <tr>
-                            <td class="mt-5">Product Design</td>
-                            <td>100 USD</td>
-                            <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
                             <td>Onsite</td>
-                            <td>Diploma</td>
+                            <td>May 2023</td>
+                            <td><button class="s-btn">Complete</button></td>
+                            <td>Installment</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
+                        </tr>
+                        <tr>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
+                            <td>Onsite</td>
+                            <td>May 2023</td>
+                            <td><button class="d-btn">Incomplete</button></td>
+                            <td>Installment</td>
+                            <td>PLC7R683JD8</td>
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
 
                         </tr>
                         <tr>
-                            <td class="mt-5">Product Design</td>
-                            <td>100 USD</td>
-                            <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
                             <td>Onsite</td>
-                            <td>Diploma</td>
+                            <td>May 2023</td>
+                            <td><button class="s-btn">Complete</button></td>
+                            <td>Installment</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
+                        </tr>
+                        <tr>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
+                            <td>Onsite</td>
+                            <td>May 2023</td>
+                            <td><button class="d-btn">Incomplete</button></td>
+                            <td>Installment</td>
+                            <td>PLC7R683JD8</td>
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
 
                         </tr>
                         <tr>
-                            <td class="mt-5">Product Design</td>
-                            <td>100 USD</td>
-                            <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
                             <td>Onsite</td>
-                            <td>Diploma</td>
+                            <td>May 2023</td>
+                            <td><button class="s-btn">Complete</button></td>
+                            <td>Installment</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
-
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
                         </tr>
                         <tr>
-                            <td class="mt-5">Product Design</td>
-                            <td>100 USD</td>
-                            <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
                             <td>Onsite</td>
-                            <td>Diploma</td>
+                            <td>May 2023</td>
+                            <td><button class="d-btn">Incomplete</button></td>
+                            <td>Installment</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
-
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
                         </tr>
                         <tr>
-                            <td class="mt-5">Product Design</td>
-                            <td>100 USD</td>
-                            <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
                             <td>Onsite</td>
-                            <td>Diploma</td>
+                            <td>May 2023</td>
+                            <td><button class="s-btn">Complete</button></td>
+                            <td>Installment</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
-
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
                         </tr>
                         <tr>
-                            <td class="mt-5">Product Design</td>
-                            <td>100 USD</td>
-                            <td>Product School</td>
-                            <td>Abiola</td>
-                            <td>abiola@pluralcode.com</td>
-                            <td>08066785628</td>
+                            <td class="mt-5">John Do Smith</td>
+                            <td>johnsmith@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Lagos / NG</td>
+                            <td>PHD</td>
+                            <td>Product Design</td>
                             <td>Onsite</td>
-                            <td>Diploma</td>
+                            <td>May 2023</td>
+                            <td><button class="d-btn">Incomplete</button></td>
+                            <td>Installment</td>
                             <td>PLC7R683JD8</td>
-                            <td><button class="update">Update</button></td>
-                            <td><button class="deactive">Deactive Course</button></td>
+                            <td>100 USD(70%)</td>
+                            <td>30 USD(30%)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -371,8 +477,6 @@
                 </ul>
             </nav>
         </div>
-
-        
 
           
           
