@@ -652,7 +652,7 @@ hr {
 .unreachable, .active, .dele-btn, .assigned, 
 .undecided, .not_interested, .next, .enrolled, 
 .update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
-.btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv {
+.btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, .advi-btn {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -750,6 +750,7 @@ hr {
 
 .co-btn {
     padding: 12px 75px;
+    width: 100%;
 }
 
 
@@ -801,6 +802,13 @@ hr {
     background: #2334A8;
     width: 100px;
     margin-top: -8px;
+}
+
+.advi-btn {
+    background: #2334A8;
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
 }
 
 /* styling notification page */
@@ -1082,7 +1090,7 @@ hr {
     width: 100%;
     outline: none !important;
     box-shadow: none !important;
-    padding: 10px;
+    padding: 14px;
     border: 1px solid rgb(204, 201, 201);
     border-radius: 10px;
 }
@@ -1315,6 +1323,9 @@ hr {
     background-color: rgba(0, 0, 0, 0.82);
 }
 
+.erol, .inte, .up, .adv, .coh, .cour, .mth, .sett {
+    display: none;
+}
 .err-bg {
     background: #000;
 }
@@ -1567,4 +1578,15 @@ progress::-webkit-progress-value {
     .papy {
         margin-top: 49%;
     }
+}
+
+.form-section {
+    width: 50%;
+    margin: auto;
+    border: 2px solid rgb(241, 238, 238);
+    border-radius: 10px;
+}
+
+.form-img h5 {
+    font-weight: 800;
 }

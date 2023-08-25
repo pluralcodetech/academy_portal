@@ -288,36 +288,46 @@ function adminLog(event) {
         const spinRoll = document.querySelector(".spin");
         spinRoll.style.display = "inline-block";
 
-        const getUniqueId = Math.floor(Math.random() * 1000000);
-        localStorage.setItem("unNum", getUniqueId);
-        const now = new Date();
-        now.setTime(now.getTime() + 1 * 60 * 60 * 1000);
-        cookievalue = getUniqueId;
+        // const getUniqueId = Math.floor(Math.random() * 1000000);
+        // localStorage.setItem("unNum", getUniqueId);
+        // const now = new Date();
+        // now.setTime(now.getTime() + 1 * 60 * 60 * 1000);
+        // cookievalue = getUniqueId;
 
-        document.cookie = "name=" + cookievalue;
-        document.cookie = "expires=" + now.toUTCString() + ";";
-        if(localStorage.getItem("cookieKey") === null) {
-          localStorage.setItem('cookieKey', document.cookie);
-        }
+        // document.cookie = "name=" + cookievalue;
+        // document.cookie = "expires=" + now.toUTCString() + ";";
+        // if(localStorage.getItem("cookieKey") === null) {
+        //   localStorage.setItem('cookieKey', document.cookie);
+        // }
 
-        const adminData = new FormData();
-        adminData.append("email", getEmail);
-        adminData.append("password", getPass);
-        adminData.append("id", getUniqueId);
+        // const adminData = new FormData();
+        // adminData.append("email", getEmail);
+        // adminData.append("password", getPass);
+        // adminData.append("id", getUniqueId);
 
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json')
+
+        const profile = JSON.stringify({
+            "email": getEmail,
+            "password": getPass
+        })
+
+        console.log(getEmail, getPass)
 
         const adminRequest = {
             method: 'POST',
-            body: adminData
+            headers: myHead,
+            body: profile
         };
 
-        const url = "https://pluralcode.institute/pluralcode_apis/api/admin_login";
+        const url = "https://backend.pluralcode.institute/admin/login";
 
         fetch(url, adminRequest)
         .then(response => response.json())
         .then(result => {
             console.log(result)
-            if (result.hasOwnProperty("email")) {
+            if (result.hasOwnProperty("token")) {
                 localStorage.setItem("adminLogin", JSON.stringify(result));
                 window.location.href = "dashboard.html";
             }else {
@@ -330,7 +340,7 @@ function adminLog(event) {
             }
         })
         .catch(error => console.log('error', error));
-    }
+    }3
 }
 
 setTimeout(function destroyCookie() {
@@ -2122,6 +2132,7 @@ function dashBoardDetails() {
     const dash = localStorage.getItem("adminLogin");
     const dash2 = JSON.parse(dash);
     const dash3 = dash2.token;
+    console.log(dash3)
 
     const dashHead = new Headers();
     dashHead.append("Authorization", `Bearer ${dash3}`);
@@ -3854,19 +3865,19 @@ event.preventDefault();
 }
 
 
-var bar = $("span");
-var p = $("p");
+let bar = $("span");
+let p = $("p");
 
-var width = bar.attr("style");
+let width = bar.attr("style");
 width = width.replace("width:", "");
 width = width.substr(0, width.length - 1);
 
-var interval;
-var start = 0;
-var end = parseInt(width);
-var current = start;
+let interval;
+let start = 0;
+let end = parseInt(width);
+let current = start;
 
-var countUp = function () {
+let countUp = function () {
   current++;
   p.html(current + "%");
 
