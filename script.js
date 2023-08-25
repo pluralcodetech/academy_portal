@@ -3814,57 +3814,6 @@ function getCurrentDate() {
 
 }
 
-// function logout
-function logAdminOut(event) {
-event.preventDefault();
-    const myModal = document.querySelector(".pagemodal");
-    myModal.style.display = "block";
-
-    const logDet = localStorage.getItem("adminLogin");
-    const delLog = JSON.parse(logDet);
-    const delTok = delLog.token;
-
-    const delHeader = new Headers();
-    delHeader.append("Authorization", `Bearer ${delTok}`)
-
-    const logReq = {
-        method: 'GET',
-        headers: delHeader
-    };
-
-
-    const url = "https://pluralcode.institute/pluralcode_apis/api/admin/logout";
-    fetch(url, logReq)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result)
-
-        if (result.message === "success") {
-            Swal.fire({
-                icon: 'success',
-                text: `${result.message}`,
-                confirmButtonColor: '#25067C'
-            })
-            setTimeout(()=> {
-                localStorage.clear();
-                window.location.href = "adminlog.html";
-            }, 3000);
-            myModal.style.display = "none";
-        }
-        else {
-            Swal.fire({
-                icon: 'info',
-                text: 'Logout Unsuccessful',
-                confirmButtonColor: '#25067C'
-            })
-            myModal.style.display = "none";
-        }
-        
-    })
-    .catch(error => console.log('error', error));
-}
-
-
 let bar = $("span");
 let p = $("p");
 
@@ -3887,3 +3836,28 @@ let countUp = function () {
 };
 
 interval = setInterval(countUp, 1000 / (end + 1));
+
+// function to get current year
+function getCohortYear() {
+    let getValue = document.querySelector(".yearItem");
+    let mydate = new Date().getFullYear();
+
+    getValue.setAttribute('value', mydate)
+}
+
+// function to create cohort
+function createCohort(event) {
+    
+}
+
+// function logout
+function logAdminOut(event) {
+event.preventDefault();
+    const myModal = document.querySelector(".pagemodal");
+    myModal.style.display = "block";
+
+    localStorage.clear();
+    location.href = "adminlog.html"
+}
+
+
