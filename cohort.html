@@ -126,12 +126,17 @@
                     <input type="text" class="palo yearItem" placeholder="Enter course name">
 
                     <label class="lab">Select Month</label>
-                    <select class="palo">
+                    <select class="palo monthItem">
                         <option value="">select</option>
                     </select>
 
                     <div class="form-footer-item text-center mt-5 mb-5">
-                        <button class="co-btn" onclick="createCohort(event)">Create Cohort</button>
+                        <button class="co-btn" onclick="createCohort(event)">
+                            <div class="spinner-border spinner-border-sm text-light spin" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                            Create Cohort
+                        </button>
                     </div>
                 </form>
             </div>

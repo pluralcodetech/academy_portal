@@ -3840,13 +3840,114 @@ interval = setInterval(countUp, 1000 / (end + 1));
 // function to get current year
 function getCohortYear() {
     let getValue = document.querySelector(".yearItem");
-    let mydate = new Date().getFullYear();
+    let getValueMonth = document.querySelector(".monthItem");
 
+    let mydate = new Date().getFullYear();
     getValue.setAttribute('value', mydate)
+
+    let monthNames = [ "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December" ];
+
+    let mdata = [];
+
+    monthNames.map((item) => {
+        mdata += `
+         <option value="${item}">${item}</option>
+        `
+    })
+
+    getValueMonth.innerHTML = mdata;
+
 }
 
 // function to create cohort
 function createCohort(event) {
+    event.preventDefault();
+
+    const getSpin = document.querySelector(".spin");
+    getSpin.style.display = "inline-block";
+
+    const getYear = document.querySelector(".yearItem").value;
+    const getMonth = document.querySelector(".monthItem").value;
+
+    if(getYear === "" || getMonth === "") {
+        Swal.fire({
+            icon: 'info',
+            text: 'All fields are required!',
+            confirmButtonColor: '#25067C'
+        })
+        getSpin.style.display = "none";
+    }
+
+    else {
+        const getMyStorage = localStorage.getItem("adminLogin");
+        const myStorage = JSON.parse(getMyStorage);
+        const storageToken = myStorage.token;
+
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json');
+        myHead.append('Authorization', `Bearer ${storageToken}`);
+
+        const cohortProfile = JSON.stringify({
+            "year": getYear,
+            "name": getMonth
+        })
+
+        const cohMethod = {
+            method: 'POST',
+            headers: myHead,
+            body: cohortProfile
+        };
+
+        const url = "https://backend.pluralcode.institute/admin/create-cohort";
+
+        fetch(url, cohMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result.message === "cohort created") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                setTimeout(() => {
+                    location.reload();
+                }, 3000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+        })
+        .catch(error => {
+            console.log('error', error)
+            Swal.fire({
+                icon: 'warning',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+            getSpin.style.display = "none";
+        });
+
+    }
+
+}
+
+// function to get teachable course
+function getTeachableCourse() {
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
     
 }
 
