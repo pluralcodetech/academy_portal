@@ -652,7 +652,7 @@ hr {
 .unreachable, .active, .dele-btn, .assigned, 
 .undecided, .not_interested, .next, .enrolled, 
 .update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
-.btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, .advi-btn {
+.btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, .advi-btn, .btn-sp, .btn-loop, .Active, .Inactive {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -809,6 +809,32 @@ hr {
     width: 100%;
     padding: 10px;
     border-radius: 12px;
+}
+
+.btn-sp, .btn-loop {
+    background: #2334A8;
+    color: #fff;
+    width: 160px;
+    padding: 13px 0;
+}
+
+.btn-loop {
+    background: #fff;
+    border: 1px solid #2334A8;
+    color: #2334A8;
+}
+
+.Inactive {
+    background: #C80606;
+    width: 100px;
+}
+
+.Active {
+    width: 100px;
+}
+
+.loopHead {
+    display: none;
 }
 
 /* styling notification page */
@@ -1456,7 +1482,7 @@ hr {
     font-size: 16px !important;
 }
 
-.gb {
+.gb1, .gb2, .gb3, .gb4, .gb5, .gb6 {
     position: absolute;
     bottom: 0;
 }

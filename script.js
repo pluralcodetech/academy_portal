@@ -288,23 +288,6 @@ function adminLog(event) {
         const spinRoll = document.querySelector(".spin");
         spinRoll.style.display = "inline-block";
 
-        // const getUniqueId = Math.floor(Math.random() * 1000000);
-        // localStorage.setItem("unNum", getUniqueId);
-        // const now = new Date();
-        // now.setTime(now.getTime() + 1 * 60 * 60 * 1000);
-        // cookievalue = getUniqueId;
-
-        // document.cookie = "name=" + cookievalue;
-        // document.cookie = "expires=" + now.toUTCString() + ";";
-        // if(localStorage.getItem("cookieKey") === null) {
-        //   localStorage.setItem('cookieKey', document.cookie);
-        // }
-
-        // const adminData = new FormData();
-        // adminData.append("email", getEmail);
-        // adminData.append("password", getPass);
-        // adminData.append("id", getUniqueId);
-
         const myHead = new Headers();
         myHead.append('Content-Type', 'application/json')
 
@@ -1745,96 +1728,96 @@ function searchName2(event) {
 }
 
 // function to display interested student
-function getInterest() {
-    const myModal = document.querySelector(".pagemodal");
-    myModal.style.display = "block";
+// function getInterest() {
+//     const myModal = document.querySelector(".pagemodal");
+//     myModal.style.display = "block";
 
-    const getToken = localStorage.getItem("adminLogin");
-    const theToken = JSON.parse(getToken);
-    const token = theToken.token;
+//     const getToken = localStorage.getItem("adminLogin");
+//     const theToken = JSON.parse(getToken);
+//     const token = theToken.token;
 
-    const getHeader = new Headers();
-    getHeader.append("Authorization", `Bearer ${token}`);
+//     const getHeader = new Headers();
+//     getHeader.append("Authorization", `Bearer ${token}`);
 
-    const enrolledRequest = {
-        method: 'GET',
-        headers: getHeader
-    };
+//     const enrolledRequest = {
+//         method: 'GET',
+//         headers: getHeader
+//     };
 
-    let dataItem = [];
+//     let dataItem = [];
 
-    const url = "https://pluralcode.institute/pluralcode_apis/api/admin/interested_students";
+//     const url = "https://pluralcode.institute/pluralcode_apis/api/admin/interested_students";
     
-    fetch(url, enrolledRequest)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result)
-        result.map((item) => {
-            if (item.payment_status === "complete") {
-                dataItem += `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.amount_paid}</td>
-                    <td>${item.mode_of_learning}</td>
-                    <td>${item.course_of_interest}</td>
-                    <td>${item.mode_of_payment}</td>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td>${item.address}</td>
-                    <td>${item.state_of_residence}</td>
-                    <td>${item.level_of_education}</td>
-                    <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
-                </tr>
-            `
-            }
-            else if (item.payment_status === "un-paid") {
-                dataItem += `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.amount_paid}</td>
-                    <td>${item.mode_of_learning}</td>
-                    <td>${item.course_of_interest}</td>
-                    <td>${item.mode_of_payment}</td>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td>${item.address}</td>
-                    <td>${item.state_of_residence}</td>
-                    <td>${item.level_of_education}</td>
-                    <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
-                </tr>
-            `
-            }
-            else {
-                dataItem += `
-                 <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.amount_paid}</td>
-                    <td>${item.mode_of_learning}</td>
-                    <td>${item.course_of_interest}</td>
-                    <td>${item.mode_of_payment}</td>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td>${item.address}</td>
-                    <td>${item.state_of_residence}</td>
-                    <td>${item.level_of_education}</td>
-                    <td><button class="${item.payment_status} getMe" onclick="changeInter(${item.id})">${item.payment_status}</button></td>
-                 </tr>
-            `
-            }
-            const tableInfo = document.querySelector(".tableInterest");
-            tableInfo.innerHTML = dataItem;
-            myModal.style.display = "none";
-        })
-    })
-    .catch(error => console.log('error', error));
-}
-getInterest()
+//     fetch(url, enrolledRequest)
+//     .then(response => response.json())
+//     .then(result => {
+//         console.log(result)
+//         result.map((item) => {
+//             if (item.payment_status === "complete") {
+//                 dataItem += `
+//                 <tr>
+//                     <td>${item.name}</td>
+//                     <td>${item.email}</td>
+//                     <td>${item.phone_number}</td>
+//                     <td>${item.amount_paid}</td>
+//                     <td>${item.mode_of_learning}</td>
+//                     <td>${item.course_of_interest}</td>
+//                     <td>${item.mode_of_payment}</td>
+//                     <td>${item.date}</td>
+//                     <td>${item.time}</td>
+//                     <td>${item.address}</td>
+//                     <td>${item.state_of_residence}</td>
+//                     <td>${item.level_of_education}</td>
+//                     <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+//                 </tr>
+//             `
+//             }
+//             else if (item.payment_status === "un-paid") {
+//                 dataItem += `
+//                 <tr>
+//                     <td>${item.name}</td>
+//                     <td>${item.email}</td>
+//                     <td>${item.phone_number}</td>
+//                     <td>${item.amount_paid}</td>
+//                     <td>${item.mode_of_learning}</td>
+//                     <td>${item.course_of_interest}</td>
+//                     <td>${item.mode_of_payment}</td>
+//                     <td>${item.date}</td>
+//                     <td>${item.time}</td>
+//                     <td>${item.address}</td>
+//                     <td>${item.state_of_residence}</td>
+//                     <td>${item.level_of_education}</td>
+//                     <td><button disabled class=${item.payment_status}>${item.payment_status}</button></td>
+//                 </tr>
+//             `
+//             }
+//             else {
+//                 dataItem += `
+//                  <tr>
+//                     <td>${item.name}</td>
+//                     <td>${item.email}</td>
+//                     <td>${item.phone_number}</td>
+//                     <td>${item.amount_paid}</td>
+//                     <td>${item.mode_of_learning}</td>
+//                     <td>${item.course_of_interest}</td>
+//                     <td>${item.mode_of_payment}</td>
+//                     <td>${item.date}</td>
+//                     <td>${item.time}</td>
+//                     <td>${item.address}</td>
+//                     <td>${item.state_of_residence}</td>
+//                     <td>${item.level_of_education}</td>
+//                     <td><button class="${item.payment_status} getMe" onclick="changeInter(${item.id})">${item.payment_status}</button></td>
+//                  </tr>
+//             `
+//             }
+//             const tableInfo = document.querySelector(".tableInterest");
+//             tableInfo.innerHTML = dataItem;
+//             myModal.style.display = "none";
+//         })
+//     })
+//     .catch(error => console.log('error', error));
+// }
+// getInterest()
 
 // function to update interest status
 function changeInter(interestId) {
@@ -3940,6 +3923,7 @@ function createCohort(event) {
 
 // function to get teachable course
 function getTeachableCourse() {
+    const mycour = document.querySelector(".tcourse")
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -3948,14 +3932,153 @@ function getTeachableCourse() {
     myHead.append('Content-Type', 'application/json');
     myHead.append('Authorization', `Bearer ${storageToken}`);
 
-    
+    const tmethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let tdata = [];
+
+    const url = "https://backend.pluralcode.institute/admin/teachable-course";
+
+    fetch(url, tmethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        result.teachable.courses.map((item) => {
+            tdata += `
+             <option value="${item.id}">${item.name}</option>
+            `
+            mycour.innerHTML = tdata;
+        })
+    })
+    .catch(error => console.log('error', error))
+}
+
+// function to get all courses
+function getAllCourse() {
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+    const tal = document.querySelector(".gb1");
+    const til = document.querySelector(".gb2");
+    const tlc = document.querySelector(".gb3");
+    const ilc = document.querySelector(".gb4");
+    const iilc = document.querySelector(".gb5");
+    const tic = document.querySelector(".gb6");
+
+
+    const getMyTableRecords = document.querySelector(".mytableindex");
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const courseMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = "https://backend.pluralcode.institute/admin/get-courses";
+
+    fetch(url, courseMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+
+        if (result.length === 0) {
+            getMyTableRecords.innerHTML = "No records found"
+        }
+        else {
+            result.selfpaced.map((item) => {
+                data += `
+                <tr>
+                   <td>${item.name}</td>
+                   <td>${item.course_email}</td>
+                   <td>${item.percentages}</td>
+                   <td>${item.school}</td>
+                   <td>${item.link}</td>
+                   <td>${item.community_link}</td>
+                   <td>${item.advisor_name}</td>
+                   <td>${item.advisor_contact_detail}</td>
+                   <td>${item.course_type}</td>
+                   <td>$${item.onsite_price}</td>
+                   <td>$${item.virtual_price}</td>
+                   <td>${item.discount_deadline}</td>
+                   <td><button class="${item.status}">${item.status}</button></td>
+                </tr>
+            `
+            getMyTableRecords.innerHTML = data;
+            getSpin.style.display = "none";
+
+            })
+            
+           
+        }
+
+
+        tal.innerHTML = `${result.total_active_loop}`;
+        til.innerHTML = `${result.total_inactive_loop}`;
+        tlc.innerHTML = `${result.total_loop_course}`;
+        ilc.innerHTML = `${result.total_active_instructor_lead_course}`;
+        iilc.innerHTML = `${result.total_inactive_instructor_lead_course}`;
+        tic.innerHTML = `${result.total_instructor_lead}`
+ 
+
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to get loop courses
+function getLoopCourses(event) {
+    event.preventDefault();
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyTableRecords = document.querySelector(".mytableindex");
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const courseMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = "https://backend.pluralcode.institute/admin/get-courses";
+
+    fetch(url, courseMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.loop.length === 0) {
+            getMyTableRecords.innerHTML = "No records found";
+        }
+        else {
+            result.loop.map((item) => {
+                data += `
+                
+                `
+            })
+        }
+    })
+    .catch(error => console.log('error', error));
 }
 
 // function logout
 function logAdminOut(event) {
-event.preventDefault();
-    const myModal = document.querySelector(".pagemodal");
-    myModal.style.display = "block";
+    event.preventDefault();
 
     localStorage.clear();
     location.href = "adminlog.html"
