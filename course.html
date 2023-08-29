@@ -389,10 +389,10 @@
 
         <div class="outer-wrapper">
             <form class="m-3">
-                <button class="btn-sp mr-3">Selfpaced courses</button>
+                <button class="btn-sp mr-3" onclick="getSelfPacedCourse(event)">Selfpaced courses</button>
                 <button class="btn-loop" onclick="getLoopCourses(event)">Loop courses</button>
             </form>
-            <div class="table-wrapper mb-5 table-border">
+            <div class="table-wrapper mb-5 table-border stable">
                 <table class="table">
                     <thead>
                         <tr>
@@ -411,7 +411,14 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <thead class="loopHead">
+                    <tbody class="mytableindex">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-wrapper mb-5 table-border ltable">
+                <table class="table">
+                    <thead>
                         <tr>
                             <th>Name</th>
                             <th>Advisor Details</th>
@@ -419,7 +426,7 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody class="mytableindex">
+                    <tbody class="mytableindex2">
                         
                     </tbody>
                 </table>

@@ -4040,7 +4040,17 @@ function getLoopCourses(event) {
     const getSpin = document.querySelector(".pagemodal");
     getSpin.style.display = "block";
 
-    const getMyTableRecords = document.querySelector(".mytableindex");
+    const getMyTableRecords = document.querySelector(".mytableindex2");
+    
+
+    const sc = document.querySelector(".stable");
+    const lc = document.querySelector(".ltable");
+
+    const loopBtn = document.querySelector(".btn-loop");
+    const spBtn = document.querySelector(".btn-sp");
+
+
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -4068,8 +4078,106 @@ function getLoopCourses(event) {
         else {
             result.loop.map((item) => {
                 data += `
-                
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.advisor_contact_detail}</td>
+                    <td>${item.capstone_project_instruction_link}</td>
+                    <td><button class="${item.status}">${item.status}</button></td>
+                  </tr>
                 `
+                getMyTableRecords.innerHTML = data;
+
+                sc.style.display = "none";
+                lc.style.display = "block";
+
+                loopBtn.style.backgroundColor = "#2334A8";
+                loopBtn.style.color = "#fff";
+
+                spBtn.style.backgroundColor = "#fff";
+                spBtn.style.color = "#2334A8";
+                spBtn.style.border = "1px solid #2334A8";
+
+                getSpin.style.display = "none";
+            })
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to get selfpaced course
+function getSelfPacedCourse(event) {
+    event.preventDefault();
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyTableRecords = document.querySelector(".mytableindex");
+    
+
+    const sc = document.querySelector(".stable");
+    const lc = document.querySelector(".ltable");
+
+    const loopBtn = document.querySelector(".btn-loop");
+    const spBtn = document.querySelector(".btn-sp");
+
+
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const courseMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = "https://backend.pluralcode.institute/admin/get-courses";
+
+    fetch(url, courseMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.loop.length === 0) {
+            getMyTableRecords.innerHTML = "No records found";
+        }
+        else {
+            result.selfpaced.map((item) => {
+                data += `
+                <tr>
+                   <td>${item.name}</td>
+                   <td>${item.course_email}</td>
+                   <td>${item.percentages}</td>
+                   <td>${item.school}</td>
+                   <td>${item.link}</td>
+                   <td>${item.community_link}</td>
+                   <td>${item.advisor_name}</td>
+                   <td>${item.advisor_contact_detail}</td>
+                   <td>${item.course_type}</td>
+                   <td>$${item.onsite_price}</td>
+                   <td>$${item.virtual_price}</td>
+                   <td>${item.discount_deadline}</td>
+                   <td><button class="${item.status}">${item.status}</button></td>
+                </tr>
+            `
+                getMyTableRecords.innerHTML = data;
+
+                sc.style.display = "block";
+                lc.style.display = "none";
+
+                spBtn.style.backgroundColor = "#2334A8";
+                spBtn.style.color = "#fff";
+
+                loopBtn.style.backgroundColor = "#fff";
+                loopBtn.style.color = "#2334A8";
+                loopBtn.style.border = "1px solid #2334A8";
+
+                getSpin.style.display = "none";
             })
         }
     })
