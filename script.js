@@ -4388,6 +4388,8 @@ function listOutCohort() {
     const getSpin = document.querySelector(".pagemodal2");
     getSpin.style.display = "block";
 
+    const cohortTable = document.querySelector(".tableindexcohort");
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -4401,12 +4403,32 @@ function listOutCohort() {
         headers: myHead
     }
 
+    let data = [];
+
     const url = "https://backend.pluralcode.institute/admin/get-list-cohort";
 
     fetch(url, comethod)
     .then(response => response.json())
     .then(result => {
         console.log(result)
+        if (result.cohortarray.length === 0) {
+            cohortTable.innerHTML = "No Records Found!"
+        }else {
+            result.cohortarray.map((item) => {
+                data += `
+                    <tr>
+                        <td class="mt-5">${item.name} </td>
+                        <td>${item.year}</td>
+                        <td>${item.totalenrollment}</td>
+                        <td><button class="update">View</button></td>
+                        <td><button class="deactive">End Cohort</button></td>
+
+                    </tr>
+                `
+                cohortTable.innerHTML = data;
+                getSpin.style.display = "none";
+            })
+        }
     })
     .catch(error => console.log('error', error));
 }
