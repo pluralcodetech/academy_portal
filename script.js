@@ -3616,35 +3616,31 @@ function gotoLoginPage(event) {
 }
 
 // function to get cohort list
-function getCohortList() {
-    const myModal = document.querySelector(".pagemodal");
-    myModal.style.display = "block";
+// function getCohortList() {
 
-    const cohortReq = {
-        method: 'GET',
-    };
+//     const cohortReq = {
+//         method: 'GET',
+//     };
 
-    let cohortData = [];
+//     let cohortData = [];
 
-    const url = "https://pluralcode.academy/pluralcode_apis/api/get_cohort_list";
-    fetch(url, cohortReq)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result)
-        result.map((item) => {
-            cohortData += `
-              <option value="${item.name}">${item.name}</option>
-            `
+//     const url = "https://pluralcode.academy/pluralcode_apis/api/get_cohort_list";
+//     fetch(url, cohortReq)
+//     .then(response => response.json())
+//     .then(result => {
+//         console.log(result)
+//         result.map((item) => {
+//             cohortData += `
+//               <option value="${item.name}">${item.name}</option>
+//             `
 
-            const theCourse2 = document.querySelector(".spinMonth");
-            theCourse2.innerHTML = cohortData;
-
-            myModal.style.display = "none";
-        })
-    })
-    .catch(error => console.log('error', error));
-}
-getCohortList();
+//             const theCourse2 = document.querySelector(".spinMonth");
+//             theCourse2.innerHTML = cohortData;
+//         })
+//     })
+//     .catch(error => console.log('error', error));
+// }
+// getCohortList();
 
 // function
 function getMonthlySummary() {
@@ -4382,6 +4378,35 @@ function getSelfPacedCourse(event) {
                 getSpin.style.display = "none";
             })
         }
+    })
+    .catch(error => console.log('error', error));
+}
+
+
+// function to list out cohort
+function listOutCohort() {
+    const getSpin = document.querySelector(".pagemodal2");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const comethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    const url = "https://backend.pluralcode.institute/admin/get-list-cohort";
+
+    fetch(url, comethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
     })
     .catch(error => console.log('error', error));
 }

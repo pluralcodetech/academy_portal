@@ -1334,7 +1334,7 @@ hr {
 }
 
 /* loader */
-.preloader {
+.preloader, .preloader2 {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -1347,7 +1347,7 @@ hr {
     animation: spin 2s linear infinite;
 }
 
-.pagemodal {
+.pagemodal, .pagemodal2 {
     display: none;
     position: fixed;
     z-index: 1;
