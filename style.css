@@ -252,6 +252,20 @@ main {
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
+.wuta {
+    pointer-events: none;
+}
+
+.cardshow {
+    background: #2334A8 !important;
+    color: #fff !important;
+}
+
+.removeshow {
+    background: #fff !important;
+    color: #000 !important;
+}
+
 .box {
     padding: 1.50rem 0.2rem 1.50rem 1.30rem!important;
     height: 275px;
@@ -814,7 +828,7 @@ hr {
 .btn-sp, .btn-loop {
     background: #2334A8;
     color: #fff;
-    width: 160px;
+    width: 185px;
     padding: 13px 0;
 }
 

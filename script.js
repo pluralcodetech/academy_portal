@@ -4121,6 +4121,140 @@ function getAllCourse() {
     .catch(error => console.log('error', error));
 }
 
+// function to filter active instructor lead
+function filterByActiveLead() {
+    const getMyTableRecords = document.querySelector(".mytableindex");
+    const fba = document.querySelector(".fba");
+    const fba2 = document.querySelector(".fba2");
+
+
+    fba.classList.add("cardshow")
+
+    const selfPaced = "self-paced";
+    const status = 'Active';
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-courses?course_type=${selfPaced}&status=${status}`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.length === 0) {
+            getMyTableRecords.innerHTML = "No records found"
+        }else {
+            result.instructorleadcourse.map((item) => {
+                data += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.course_email}</td>
+                        <td>${item.percentages}</td>
+                        <td>${item.school}</td>
+                        <td>${item.link}</td>
+                        <td>${item.community_link}</td>
+                        <td>${item.advisor_name}</td>
+                        <td>${item.advisor_contact_detail}</td>
+                        <td>${item.course_type}</td>
+                        <td>$${item.onsite_price}</td>
+                        <td>$${item.virtual_price}</td>
+                        <td>${item.discount_deadline}</td>
+                        <td><button class="${item.status}">${item.status}</button></td>
+                    </tr>
+                `
+                getMyTableRecords.innerHTML = data;
+                getSpin.style.display = "none";
+                fba2.classList.remove("cardshow")
+            })
+
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to get inactive instructor lead courses
+function filterByInactiveLead() {
+    const getMyTableRecords = document.querySelector(".mytableindex");
+    const fba = document.querySelector(".fba2");
+    const fba2 = document.querySelector(".fba");
+
+
+    fba.classList.add("cardshow")
+
+    const selfPaced = "self-paced";
+    const status = 'Inactive';
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-courses?course_type=${selfPaced}&status=${status}`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.length === 0) {
+            getMyTableRecords.innerHTML = "No records found"
+        }else {
+            result.instructorleadcourse.map((item) => {
+                data += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.course_email}</td>
+                        <td>${item.percentages}</td>
+                        <td>${item.school}</td>
+                        <td>${item.link}</td>
+                        <td>${item.community_link}</td>
+                        <td>${item.advisor_name}</td>
+                        <td>${item.advisor_contact_detail}</td>
+                        <td>${item.course_type}</td>
+                        <td>$${item.onsite_price}</td>
+                        <td>$${item.virtual_price}</td>
+                        <td>${item.discount_deadline}</td>
+                        <td><button class="${item.status}">${item.status}</button></td>
+                    </tr>
+                `
+                getMyTableRecords.innerHTML = data;
+                getSpin.style.display = "none";
+                fba2.classList.remove("cardshow")
+            })
+
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
 // function to get loop courses
 function getLoopCourses(event) {
     event.preventDefault();
@@ -4137,7 +4271,17 @@ function getLoopCourses(event) {
     const loopBtn = document.querySelector(".btn-loop");
     const spBtn = document.querySelector(".btn-sp");
 
+    const fba = document.querySelector(".fba2");
+    const fba2 = document.querySelector(".fba");
+    const stn = document.querySelector(".stn");
+    const stn2 = document.querySelector(".stn2");
 
+
+    fba.style.pointerEvents = "none";
+    fba2.style.pointerEvents = "none";
+
+    stn.style.pointerEvents = "all"
+    stn2.style.pointerEvents = "all"
 
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
@@ -4154,9 +4298,79 @@ function getLoopCourses(event) {
 
     let data = [];
 
-    const url = "https://backend.pluralcode.institute/admin/get-courses?course_type=loop&status=Active";
+    const url = "https://backend.pluralcode.institute/admin/get-courses";
 
     fetch(url, courseMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.loop.length === 0) {
+            getMyTableRecords.innerHTML = "No records found";
+        }
+        else {
+            result.loop.map((item) => {
+                data += `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.advisor_contact_detail}</td>
+                    <td>${item.capstone_project_instruction_link}</td>
+                    <td><button class="${item.status}">${item.status}</button></td>
+                  </tr>
+                `
+                getMyTableRecords.innerHTML = data;
+
+                sc.style.display = "none";
+                lc.style.display = "block";
+
+                loopBtn.style.backgroundColor = "#2334A8";
+                loopBtn.style.color = "#fff";
+
+                spBtn.style.backgroundColor = "#fff";
+                spBtn.style.color = "#2334A8";
+                spBtn.style.border = "1px solid #2334A8";
+
+                getSpin.style.display = "none";
+            })
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to get total active loop courses
+function filterByTotalActiveLoop() {
+    const getMyTableRecords = document.querySelector(".mytableindex2");
+    const stn = document.querySelector(".stn");
+
+    stn.classList.add("cardshow")
+
+
+    const sc = document.querySelector(".stable");
+    const lc = document.querySelector(".ltable");
+    
+    const lop = "loop";
+    const status = 'Active';
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const lopmethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-courses?course_type=${lop}&status=${status}`;
+
+    fetch(url, lopmethod)
     .then(response => response.json())
     .then(result => {
         console.log(result)
@@ -4177,13 +4391,6 @@ function getLoopCourses(event) {
 
                 sc.style.display = "none";
                 lc.style.display = "block";
-
-                loopBtn.style.backgroundColor = "#2334A8";
-                loopBtn.style.color = "#fff";
-
-                spBtn.style.backgroundColor = "#fff";
-                spBtn.style.color = "#2334A8";
-                spBtn.style.border = "1px solid #2334A8";
 
                 getSpin.style.display = "none";
             })
@@ -4308,6 +4515,8 @@ function getSelfPacedCourse(event) {
 
     const getSpin = document.querySelector(".pagemodal");
     getSpin.style.display = "block";
+    const fba = document.querySelector(".fba2");
+    const fba2 = document.querySelector(".fba");
 
     const getMyTableRecords = document.querySelector(".mytableindex");
     
@@ -4335,17 +4544,17 @@ function getSelfPacedCourse(event) {
 
     let data = [];
 
-    const url = "https://backend.pluralcode.institute/admin/get-courses?course_type=self-paced&status=Active";
+    const url = "https://backend.pluralcode.institute/admin/get-courses";
 
     fetch(url, courseMethod)
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        if (result.instructorleadcourse.length === 0) {
+        if (result.selfpaced.length === 0) {
             getMyTableRecords.innerHTML = "No records found";
         }
         else {
-            result.instructorleadcourse.map((item) => {
+            result.selfpaced.map((item) => {
                 data += `
                 <tr>
                    <td>${item.name}</td>
@@ -4376,7 +4585,11 @@ function getSelfPacedCourse(event) {
                 loopBtn.style.border = "1px solid #2334A8";
 
                 getSpin.style.display = "none";
+                
+
             })
+            fba.classList.remove("cardshow")
+            fba2.classList.remove("cardshow")
         }
     })
     .catch(error => console.log('error', error));

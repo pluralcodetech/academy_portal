@@ -238,7 +238,7 @@
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Course Type</label>
                             <select class="palo ct" onchange="showPercentage(event)">
-                                <option value="cert">Certificate</option>
+                                <option value="entry">Certificate</option>
                                 <option value="diploma">Diploma</option>
                             </select>
                         </div>
@@ -415,7 +415,7 @@
         <h2 class="course-head">Course</h2>
         
         <div class="dash-cards mb-5">
-            <div class="card-single">
+            <div class="card-single wuta stn" onclick="filterByTotalActiveLoop()">
                 <div class="card-body">
                     <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
@@ -424,7 +424,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-single">
+            <div class="card-single wuta stn2">
                 <div class="card-body">
                     <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
@@ -454,20 +454,20 @@
             </div>
         </div>
         <div class="dash-cards mb-5">
-            <div class="card-single">
+            <div class="card-single fba" onclick="filterByActiveLead()">
                 <div class="card-body">
                     <span class="las la-clipboard-list" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <h5 class="rex">Instructor Led Course</h5>
+                        <h5 class="rex">Total Active Instructor Lead Course</h5>
                         <h5 class="gb4"><b></b></h5>
                     </div>
                 </div>
             </div>
-            <div class="card-single">
+            <div class="card-single fba2" onclick="filterByInactiveLead()">
                 <div class="card-body">
                     <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <h5 class="rex">Inactive Instructor Led Courses</h5>
+                        <h5 class="rex">Total Inactive Instructor Lead Course</h5>
                         <h5 class="gb5"><b></b></h5>
                     </div>
                 </div>
@@ -476,7 +476,7 @@
                 <div class="card-body">
                     <span class="las la-file-invoice" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>
-                        <h5 class="rex">Total Inactive Courses </h5>
+                        <h5 class="rex">Total Instructor Lead </h5>
                         <h5 class="gb6"><b></b></h5>
                     </div>
                 </div>
@@ -486,7 +486,7 @@
 
         <div class="outer-wrapper">
             <form class="m-3">
-                <button class="btn-sp mr-3" onclick="getSelfPacedCourse(event)">Selfpaced courses</button>
+                <button class="btn-sp mr-3" onclick="getSelfPacedCourse(event)">Instructor lead courses</button>
                 <button class="btn-loop" onclick="getLoopCourses(event)">Loop courses</button>
             </form>
             <div class="table-wrapper mb-5 table-border stable">
