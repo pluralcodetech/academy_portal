@@ -1,3 +1,4 @@
+let miro;
 let myChart;
 
 // function to sort chat by date range
@@ -3921,6 +3922,97 @@ function createCohort(event) {
 
 }
 
+// function to get the list of advisors
+function advisorList() {
+    const listAdvisor = document.querySelector(".ladv");
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const adMethod = {
+        method: 'GET',
+        headers: myHead,
+    };
+
+    let data = [];
+
+    const url = "https://backend.pluralcode.institute/admin/get-advisors";
+
+    fetch(url, adMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        result.data.map((item) => {
+            data += `
+               <option value="${item.id}">${item.name}</option>
+            `
+            listAdvisor.innerHTML = data;
+        })
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to display percentage input
+function showPercentage(event) {
+    const ct = event.currentTarget.value;
+
+    const perc = document.querySelector(".perc");
+
+    if (ct === "diploma") {
+        perc.style.display = "block";
+    }
+    else {
+        perc.style.display = "none";
+    }
+}
+
+// function to hide virtual price input
+function hideVirtualPrice() {
+    const getVive = document.querySelector(".vive");
+    const hideVive = document.querySelector(".hidevirtual");
+
+    if (getVive.checked === false) {
+        hideVive.style.display = "none";
+    }
+    else if (getVive.checked) {
+        hideVive.style.display = "block";
+    }
+}
+
+// function to hide onsite price input
+function hideOnsite() {
+    const getSite = document.querySelector(".onsite");
+    const hideVive = document.querySelector(".hidesite");
+
+    if (getSite.checked === false) {
+        hideVive.style.display = "none";
+    }
+    else if (getSite.checked) {
+        hideVive.style.display = "block";
+    }
+}
+
+// function to get toggle value
+function toBoolean() {
+    const perc = document.querySelector(".tog").checked;
+    const getCapstone = document.querySelector(".capstone");
+    if (!perc) {
+        getCapstone.style.display = "none";
+        getCapstone.classList.remove("adlay");
+
+    }
+    else {
+        getCapstone.style.display = "block";
+        getCapstone.classList.add("adlay");
+    }
+
+    
+}
+
 // function to get teachable course
 function getTeachableCourse() {
     const mycour = document.querySelector(".tcourse")
@@ -4066,17 +4158,17 @@ function getLoopCourses(event) {
 
     let data = [];
 
-    const url = "https://backend.pluralcode.institute/admin/get-courses";
+    const url = "https://backend.pluralcode.institute/admin/get-courses?course_type=loop&status=Active";
 
     fetch(url, courseMethod)
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        if (result.loop.length === 0) {
+        if (result.loopCourses.length === 0) {
             getMyTableRecords.innerHTML = "No records found";
         }
         else {
-            result.loop.map((item) => {
+            result.loopCourses.map((item) => {
                 data += `
                   <tr>
                     <td>${item.name}</td>
@@ -4102,6 +4194,116 @@ function getLoopCourses(event) {
         }
     })
     .catch(error => console.log('error', error));
+}
+
+// function to create course
+function createCourse(event) {
+    event.preventDefault();
+
+    const getSpin = document.querySelector(".spin");
+    getSpin.style.display = "inline-block";
+
+    const cName = document.querySelector(".cName").value;
+    const tcourse = document.querySelector(".tcourse").value;
+
+    const cschool = document.querySelector(".cschool").value;
+
+    const ct = document.querySelector(".ct").value;
+    let cpercent = document.querySelector(".cpercentage").value;
+    const cadv = document.querySelector(".ladv").value;
+    const culink = document.querySelector(".culink").value;
+    const relink = document.querySelector(".rlink").value;
+
+    const osprice = document.querySelector(".osprice").value;
+    const vprice = document.querySelector(".virprice").value;
+
+    const caplink = document.querySelector(".caplink").value;
+    let tog = document.querySelector(".tog");
+
+
+    if (tog.checked) {
+        tog = true;
+        console.log(tog)
+    }
+    else {
+        tog = false;
+        console.log(tog)
+    }
+
+    
+    if (cName === "" || tcourse === "" || cschool === "" || ct === "" || cadv === "" || culink === "" || relink === "") {
+        Swal.fire({
+            icon: 'info',
+            text: "All fields are required!",
+            confirmButtonColor: '#25067C'
+        })
+        getSpin.style.display = "none";
+    }
+    else {
+        const getMyStorage = localStorage.getItem("adminLogin");
+        const myStorage = JSON.parse(getMyStorage);
+        const storageToken = myStorage.token;
+
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json');
+        myHead.append('Authorization', `Bearer ${storageToken}`);
+
+        let getPercentage = cpercent / 100;
+        console.log(getPercentage)
+
+        const courseProfile = JSON.stringify({
+            "name": cName,
+            "advisor_id": cadv,
+            "teachable_course_id": tcourse,
+            "community_link": culink,
+            "course_type": ct,
+            "percentages": getPercentage,
+            "school": cschool,
+            "virtual_price": vprice,
+            "onsite_price": osprice,
+            "link": relink,
+            "capstone_project_instruction_link": caplink,
+            "add_to_loop": tog
+        })
+
+        const courMethod = {
+            method: 'POST',
+            headers: myHead,
+            body: courseProfile
+        }
+
+        console.log(cadv)
+
+
+        const url = "https://backend.pluralcode.institute/admin/create-course";
+        fetch(url, courMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+
+            if (result.message === "course created") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+
+                setTimeout(() => {
+                    location.reload();
+                }, 4000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+
 }
 
 // function to get selfpaced course
@@ -4137,17 +4339,17 @@ function getSelfPacedCourse(event) {
 
     let data = [];
 
-    const url = "https://backend.pluralcode.institute/admin/get-courses";
+    const url = "https://backend.pluralcode.institute/admin/get-courses?course_type=self-paced&status=Active";
 
     fetch(url, courseMethod)
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        if (result.loop.length === 0) {
+        if (result.instructorleadcourse.length === 0) {
             getMyTableRecords.innerHTML = "No records found";
         }
         else {
-            result.selfpaced.map((item) => {
+            result.instructorleadcourse.map((item) => {
                 data += `
                 <tr>
                    <td>${item.name}</td>

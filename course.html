@@ -130,10 +130,72 @@
               width: 59%;
             }
         }
+
+
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2334A8;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2334A8;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
     </style>
 
 </head>
-<body onload="getCurrentDate(), getTeachableCourse(), getAllCourse()">
+<body onload="getCurrentDate(), getTeachableCourse(), getAllCourse(), advisorList()">
     <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
@@ -157,7 +219,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                           <label class="lab">Course Name</label>
-                          <input type="text" class="palo" placeholder="Enter course name">
+                          <input type="text" class="palo cName" placeholder="Enter course name">
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                           <label class="lab">Teachable Course</label>
@@ -166,14 +228,18 @@
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Course School</label>
-                            <select class="palo">
-                                <option value="">select</option>
+                            <select class="palo cschool">
+                                <option value="software">Software</option>
+                                <option value="product">Product</option>
+                                <option value="data">Data</option>
+                                <option value="cloud">Cloud</option>
                             </select>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Course Type</label>
-                            <select class="palo">
-                                <option value="">select</option>
+                            <select class="palo ct" onchange="showPercentage(event)">
+                                <option value="cert">Certificate</option>
+                                <option value="diploma">Diploma</option>
                             </select>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
@@ -182,7 +248,7 @@
                                 <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
                                     <div class="form-group">
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" id="gridCheck" checked>
+                                          <input class="form-check-input onsite" type="checkbox" id="gridCheck" checked onchange="hideOnsite()">
                                           <label class="form-check-label" for="gridCheck">
                                             Onsite
                                           </label>
@@ -192,7 +258,7 @@
                                 <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
                                     <div class="form-group">
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" id="gridCheck" checked>
+                                          <input class="form-check-input vive" type="checkbox" id="gridCheck" checked onchange="hideVirtualPrice()">
                                           <label class="form-check-label" for="gridCheck">
                                             Virtual 
                                           </label>
@@ -201,10 +267,21 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                          <label class="lab">Course Cohort</label>
-                          <input type="text" class="palo" placeholder="Enter course fee">
-                        </div> -->
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 perc">
+                          <label class="lab">Percentage For Part Payment</label>
+                          <select class="palo cpercentage">
+                              <option>choose percentage value</option>
+                              <option value="10">10%</option>
+                              <option value="20">20%</option>
+                              <option value="30">30%</option>
+                              <option value="40">40%</option>
+                              <option value="50">50%</option>
+                              <option value="60">60%</option>
+                              <option value="70">70%</option>
+                              <option value="80">80%</option>
+                              <option value="90">90%</option>
+                          </select>
+                        </div>
                         
                     </div>
                     <p class="itev mt-5 ml-3">Advisor Details</p>
@@ -212,8 +289,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Select Advisor</label>
-                            <select class="palo">
-                                <option value="">select</option>
+                            <select class="palo ladv">
                             </select>
                         </div>
                     </div>
@@ -222,27 +298,48 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Create Community Link</label>
-                            <input type="text" class="palo" placeholder="Enter link">
+                            <input type="text" class="palo culink" placeholder="Enter link">
                         </div>
                           <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Resources Link</label>
-                            <input type="text" class="palo" placeholder="Enter link">
+                            <label class="lab">Study Pack Resourse Link</label>
+                            <input type="text" class="palo rlink" placeholder="Enter link">
                         </div>
                     </div>
                     <p class="itev mt-5 ml-3">Price Details</p>
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 hidesite">
                             <label class="lab">Onsite Price(USD)</label>
-                            <input type="text" class="palo" placeholder="100(USD)">
+                            <input type="text" class="palo osprice" placeholder="100(USD)">
                         </div>
-                          <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 hidevirtual">
                             <label class="lab">Virtual Price(USD)</label>
-                            <input type="text" class="palo" placeholder="100(USD)">
+                            <input type="text" class="palo virprice" placeholder="100(USD)">
                         </div>
                     </div>
 
+                    <div class="combi">
+                                
+                        <label class="switch mt-5">
+                            <input type="checkbox" class="tog" onclick="toBoolean()">
+                            <span class="slider round"></span>
+                        </label>
+                        <p class="ejk">Add to Loop</p>
+                    </div>
+
+                    <div class="capstone">
+                        <label class="lab mt-5">Capstone Project Instruction Link</label>
+                        <input type="text" class="palo caplink" placeholder="enter link">
+                    </div>
+
+                    
+
                     <div class="form-footer-item text-center mt-5 mb-5">
-                      <button class="co-btn">Create Course</button>
+                      <button class="co-btn" onclick="createCourse(event)">
+                        <div class="spinner-border spinner-border-sm text-light spin" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                          Create Course
+                      </button>
                     </div>
                 </form>
             </div>

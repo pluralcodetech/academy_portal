@@ -968,8 +968,15 @@ hr {
     font-size: 14px;
 }
 
-.sec2, .sec3 {
+.sec2, .sec3, .capstone {
     display: none;
+}
+
+
+
+.adlay {
+    animation-name: modalopen;
+    animation-delay: 10s;
 }
 
 /* enrolled page */
@@ -1144,7 +1151,10 @@ hr {
 
 ::placeholder {
     color: #b8b4b4;
+    font-size: 14px;
 }
+
+
 
 .box-student {
     margin: 5% auto;
@@ -1414,12 +1424,20 @@ hr {
     margin-top: 20px;
 }
 
-.sn, .sn2 {
+.sn, .sn2, .perc {
     display: none;
 }
 
 .bare {
     display: flex;
+}
+
+.combi {
+    display: flex;
+}
+
+.ejk {
+    margin: 54px 0 0 14px;
 }
 
 .spinchat {
