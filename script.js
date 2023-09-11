@@ -4005,8 +4005,20 @@ function toBoolean() {
         getCapstone.style.display = "block";
         getCapstone.classList.add("adlay");
     }
+}
 
-    
+function displayDiscount() {
+    const perc = document.querySelector(".tog2").checked;
+    const getCapstone = document.querySelector(".socra");
+    if (!perc) {
+        getCapstone.style.display = "none";
+        getCapstone.classList.remove("adlay");
+
+    }
+    else {
+        getCapstone.style.display = "block";
+        getCapstone.classList.add("adlay");
+    }
 }
 
 // function to get teachable course
@@ -4071,12 +4083,15 @@ function getAllCourse() {
 
     let data = [];
 
+    let statusData = [];
+
     const url = "https://backend.pluralcode.institute/admin/get-courses";
 
     fetch(url, courseMethod)
     .then(response => response.json())
     .then(result => {
         console.log(result)
+
 
         if (result.length === 0) {
             getMyTableRecords.innerHTML = "No records found"
@@ -4097,17 +4112,21 @@ function getAllCourse() {
                    <td>$${item.onsite_price}</td>
                    <td>$${item.virtual_price}</td>
                    <td>${item.discount_deadline}</td>
-                   <td><button class="${item.status}">${item.status}</button></td>
+                   <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">
+                   ${item.status}
+                   </button>
+                   </td>
                 </tr>
             `
             getMyTableRecords.innerHTML = data;
             getSpin.style.display = "none";
+            
+            statusData.push({"status":item.status, id:item.id})
+
+            localStorage.setItem("self", JSON.stringify(statusData))
 
             })
-            
-           
         }
-
 
         tal.innerHTML = `${result.total_active_loop}`;
         til.innerHTML = `${result.total_inactive_loop}`;
@@ -4130,7 +4149,7 @@ function filterByActiveLead() {
 
     fba.classList.add("cardshow")
 
-    const selfPaced = "self-paced";
+    const selfPaced = "instructor-lead";
     const status = 'Active';
 
     const getSpin = document.querySelector(".pagemodal");
@@ -4175,7 +4194,7 @@ function filterByActiveLead() {
                         <td>$${item.onsite_price}</td>
                         <td>$${item.virtual_price}</td>
                         <td>${item.discount_deadline}</td>
-                        <td><button class="${item.status}">${item.status}</button></td>
+                        <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
                     </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4197,7 +4216,7 @@ function filterByInactiveLead() {
 
     fba.classList.add("cardshow")
 
-    const selfPaced = "self-paced";
+    const selfPaced = "instructor-lead";
     const status = 'Inactive';
 
     const getSpin = document.querySelector(".pagemodal");
@@ -4242,7 +4261,7 @@ function filterByInactiveLead() {
                         <td>$${item.onsite_price}</td>
                         <td>$${item.virtual_price}</td>
                         <td>${item.discount_deadline}</td>
-                        <td><button class="${item.status}">${item.status}</button></td>
+                        <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
                     </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4298,6 +4317,8 @@ function getLoopCourses(event) {
 
     let data = [];
 
+    let statusLoopData = [];
+
     const url = "https://backend.pluralcode.institute/admin/get-courses";
 
     fetch(url, courseMethod)
@@ -4314,7 +4335,7 @@ function getLoopCourses(event) {
                     <td>${item.name}</td>
                     <td>${item.advisor_contact_detail}</td>
                     <td>${item.capstone_project_instruction_link}</td>
-                    <td><button class="${item.status}">${item.status}</button></td>
+                    <td><button class="${item.status}" onclick="updateLoopStatus(${item.id})">${item.status}</button></td>
                   </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4330,7 +4351,14 @@ function getLoopCourses(event) {
                 spBtn.style.border = "1px solid #2334A8";
 
                 getSpin.style.display = "none";
+
+                statusLoopData.push({"status":item.status, id:item.id})
+                localStorage.setItem("loop", JSON.stringify(statusLoopData))
             })
+            stn.classList.remove("cardshow");
+            stn2.classList.remove("cardshow");
+
+
         }
     })
     .catch(error => console.log('error', error));
@@ -4340,6 +4368,8 @@ function getLoopCourses(event) {
 function filterByTotalActiveLoop() {
     const getMyTableRecords = document.querySelector(".mytableindex2");
     const stn = document.querySelector(".stn");
+    const stn2 = document.querySelector(".stn2");
+
 
     stn.classList.add("cardshow")
 
@@ -4376,6 +4406,7 @@ function filterByTotalActiveLoop() {
         console.log(result)
         if (result.loopCourses.length === 0) {
             getMyTableRecords.innerHTML = "No records found";
+            stn2.classList.remove("cardshow")
         }
         else {
             result.loopCourses.map((item) => {
@@ -4384,7 +4415,7 @@ function filterByTotalActiveLoop() {
                     <td>${item.name}</td>
                     <td>${item.advisor_contact_detail}</td>
                     <td>${item.capstone_project_instruction_link}</td>
-                    <td><button class="${item.status}">${item.status}</button></td>
+                    <td><button class="${item.status}" onclick="updateLoopStatus(${item.id})">${item.status}</button></td>
                   </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4394,10 +4425,195 @@ function filterByTotalActiveLoop() {
 
                 getSpin.style.display = "none";
             })
+            stn2.classList.remove("cardshow")
         }
     })
     .catch(error => console.log('error', error));
 }
+
+// function to get tottal inactive loop courses
+function filterByTotalInactiveLoop() {
+    const getMyTableRecords = document.querySelector(".mytableindex2");
+    const stn = document.querySelector(".stn");
+    const stn2 = document.querySelector(".stn2");
+
+
+    stn2.classList.add("cardshow")
+
+
+    const sc = document.querySelector(".stable");
+    const lc = document.querySelector(".ltable");
+    
+    const lop = "loop";
+    const status = 'Inactive';
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const lopmethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-courses?course_type=${lop}&status=${status}`;
+    fetch(url, lopmethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.loopCourses.length === 0) {
+            getMyTableRecords.innerHTML = "No records found";
+            getSpin.style.display = "none";
+            stn.classList.remove("cardshow")
+        }
+        else {
+            result.loopCourses.map((item) => {
+                data += `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.advisor_contact_detail}</td>
+                    <td>${item.capstone_project_instruction_link}</td>
+                    <td><button class="${item.status}" onclick="updateLoopStatus(${item.id})">${item.status}</button></td>
+                  </tr>
+                `
+                getMyTableRecords.innerHTML = data;
+
+                sc.style.display = "none";
+                lc.style.display = "block";
+
+                getSpin.style.display = "none";
+            })
+
+            stn.classList.remove("cardshow")
+        }
+    })
+    .catch(error => console.log('error', error));
+
+}
+
+// function to update loop courses
+function updateLoopStatus(lId) {
+    let myStatus;
+
+    const getItem = localStorage.getItem("loop");
+    const itemValue = JSON.parse(getItem);
+
+    itemValue.map((item) => {
+        if (lId === item.id) {
+            myStatus =  item.status;
+
+            if (myStatus === "Active") {
+                myStatus = "Inactive"
+            }
+            else {
+                myStatus = "Active"
+            }
+            console.log(myStatus);
+
+        }
+    })
+
+    let coursetype = "loop";
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const cMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    const url = `https://backend.pluralcode.institute/admin/update-course-status?course_type=${coursetype}&status=${myStatus}&course_id=${lId}`;
+
+    fetch(url, cMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.message === "updated successfully") {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+            setTimeout(() => {
+                location.reload()
+            }, 3000)
+        }else {
+            Swal.fire({
+                icon: 'info',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+        }
+    })
+}
+
+function formatDate1(inputDate) {
+    const dateParts = inputDate.split('-');
+    if (dateParts.length !== 3) {
+      throw new Error('Invalid date format');
+    }
+  
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2];
+  
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+}
+
+  
+
+function formatDate(inputDate) {
+    const dateParts = inputDate.split('/');
+    const day = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const year = parseInt(dateParts[2]);
+  
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'
+    ];
+
+  
+    // Add "st", "nd", "rd", or "th" to the day based on its value
+    let daySuffix;
+    if (day >= 11 && day <= 13) {
+      daySuffix = 'th';
+    } else {
+      switch (day % 10) {
+        case 1:
+          daySuffix = 'st';
+          break;
+        case 2:
+          daySuffix = 'nd';
+          break;
+        case 3:
+          daySuffix = 'rd';
+          break;
+        default:
+          daySuffix = 'th';
+      }
+    }
+  
+    const formattedDate = `${day}${daySuffix} ${months[month - 1]} ${year}`;
+    return formattedDate;
+}
+
+  
 
 // function to create course
 function createCourse(event) {
@@ -4422,6 +4638,14 @@ function createCourse(event) {
 
     const caplink = document.querySelector(".caplink").value;
     let tog = document.querySelector(".tog");
+
+    const getOffset = document.querySelector(".offset").value;
+    let deadLine = document.querySelector(".discount_deadline").value;
+
+    let myDate = formatDate1(deadLine)
+
+    const ftime = formatDate(myDate);
+
 
 
     if (tog.checked) {
@@ -4466,7 +4690,9 @@ function createCourse(event) {
             "onsite_price": osprice,
             "link": relink,
             "capstone_project_instruction_link": caplink,
-            "add_to_loop": tog
+            "add_to_loop": tog,
+            "offset": getOffset,
+            "discount_deadline": ftime
         })
 
         const courMethod = {
@@ -4518,6 +4744,9 @@ function getSelfPacedCourse(event) {
     const fba = document.querySelector(".fba2");
     const fba2 = document.querySelector(".fba");
 
+    const stn = document.querySelector(".stn");
+    const stn2 = document.querySelector(".stn2");
+
     const getMyTableRecords = document.querySelector(".mytableindex");
     
 
@@ -4526,6 +4755,12 @@ function getSelfPacedCourse(event) {
 
     const loopBtn = document.querySelector(".btn-loop");
     const spBtn = document.querySelector(".btn-sp");
+
+    fba.style.pointerEvents = "all";
+    fba2.style.pointerEvents = "all";
+
+    stn.style.pointerEvents = "none"
+    stn2.style.pointerEvents = "none"
 
 
 
@@ -4569,7 +4804,7 @@ function getSelfPacedCourse(event) {
                    <td>$${item.onsite_price}</td>
                    <td>$${item.virtual_price}</td>
                    <td>${item.discount_deadline}</td>
-                   <td><button class="${item.status}">${item.status}</button></td>
+                   <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
                 </tr>
             `
                 getMyTableRecords.innerHTML = data;
@@ -4590,6 +4825,76 @@ function getSelfPacedCourse(event) {
             })
             fba.classList.remove("cardshow")
             fba2.classList.remove("cardshow")
+
+            stn.classList.remove("cardshow")
+            stn2.classList.remove("cardshow")
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to update status
+function updateCourseStatus(upId) {
+    // const getSpin = document.querySelector(".spin2");
+    // getSpin.style.display = "inline-block";
+
+    let myStatus;
+
+    const getItem = localStorage.getItem("self");
+    const itemValue = JSON.parse(getItem);
+
+    itemValue.map((item) => {
+        if (upId === item.id) {
+            myStatus =  item.status;
+
+            if (myStatus === "Active") {
+                myStatus = "Inactive"
+            }
+            else {
+                myStatus = "Active"
+            }
+            console.log(myStatus);
+
+        }
+    })
+
+    let coursetype = "instructor-lead";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const cMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    const url = `https://backend.pluralcode.institute/admin/update-course-status?course_type=${coursetype}&status=${myStatus}&course_id=${upId}`;
+
+    fetch(url, cMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.message === "updated successfully") {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+            setTimeout(() => {
+                location.reload()
+            }, 3000)
+        }else {
+            Swal.fire({
+                icon: 'info',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+            // getSpin.style.display = "none";
         }
     })
     .catch(error => console.log('error', error));

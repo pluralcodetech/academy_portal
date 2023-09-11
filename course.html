@@ -317,21 +317,39 @@
                         </div>
                     </div>
 
-                    <div class="combi">
-                                
-                        <label class="switch mt-5">
-                            <input type="checkbox" class="tog" onclick="toBoolean()">
-                            <span class="slider round"></span>
-                        </label>
-                        <p class="ejk">Add to Loop</p>
-                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="combi"> 
+                                <label class="switch mt-5">
+                                    <input type="checkbox" class="tog" onclick="toBoolean()">
+                                    <span class="slider round"></span>
+                                </label>
+                                <p class="ejk">Add to Loop</p>
+                            </div>
+        
+                            <div class="capstone">
+                                <label class="lab mt-5">Capstone Project Instruction Link</label>
+                                <input type="text" class="palo caplink" placeholder="enter link">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="combi"> 
+                                <label class="switch mt-5">
+                                    <input type="checkbox" class="tog2" onclick="displayDiscount()">
+                                    <span class="slider round"></span>
+                                </label>
+                                <p class="ejk">Add Discount</p>
+                            </div>
+        
+                            <div class="socra">
+                                <label class="lab mt-5">Deadline Offset</label>
+                                <input type="number" class="palo offset" placeholder="enter link">
 
-                    <div class="capstone">
-                        <label class="lab mt-5">Capstone Project Instruction Link</label>
-                        <input type="text" class="palo caplink" placeholder="enter link">
+                                <label class="lab mt-5">Discount deadline</label>
+                                <input type="date" class="palo discount_deadline" placeholder="enter link">
+                            </div>
+                        </div>
                     </div>
-
-                    
 
                     <div class="form-footer-item text-center mt-5 mb-5">
                       <button class="co-btn" onclick="createCourse(event)">
@@ -424,7 +442,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-single wuta stn2">
+            <div class="card-single wuta stn2" onclick="filterByTotalInactiveLoop()">
                 <div class="card-body">
                     <span class="las la-layer-group" style="color: #b6cc00; font-size: 32px;"></span>
                     <div>

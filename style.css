@@ -982,7 +982,7 @@ hr {
     font-size: 14px;
 }
 
-.sec2, .sec3, .capstone {
+.sec2, .sec3, .capstone, .socra {
     display: none;
 }
 
@@ -1032,7 +1032,7 @@ hr {
     background: #0C1E5B;
 }
 
-.spin {
+.spin, .spin2 {
     display: none;
 }
 
