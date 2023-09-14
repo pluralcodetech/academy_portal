@@ -2761,6 +2761,36 @@ function closehModal() {
     myModal.style.display = "none";
 }
 
+function closehModal2() {
+    const myModal = document.getElementById("in-modal");
+    const upct = document.querySelector(".upct");
+    const upPercentage = document.querySelector(".upcpercentage");
+    const upCschool = document.querySelector(".upcschool");
+    const uptCourse = document.querySelector(".uptcourse");
+    const upAdv = document.querySelector(".upladv");
+
+
+    for (let i = 0; i < upct.options.length; i++) {
+        upct.options[i].removeAttribute('selected')
+    }
+
+    for (let i = 0; i < upPercentage.options.length; i++) {
+        upPercentage.options[i].removeAttribute('selected')
+    }
+
+    for (let i = 0; i < upCschool.options.length; i++) {
+        upCschool.options[i].removeAttribute('selected')
+    }
+
+    for (let i = 0; i < uptCourse.options.length; i++) {
+        uptCourse.options[i].removeAttribute('selected')
+    }
+    for (let i = 0; i < upAdv.options.length; i++) {
+        upAdv.options[i].removeAttribute('selected')
+    }
+    myModal.style.display = "none";
+}
+
 //     const locReq = {
 //         method: 'POST',
 //         headers: locHead,
@@ -3921,6 +3951,8 @@ function createCohort(event) {
 // function to get the list of advisors
 function advisorList() {
     const listAdvisor = document.querySelector(".ladv");
+    const listAdvisor2 = document.querySelector(".upladv");
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -3947,6 +3979,7 @@ function advisorList() {
                <option value="${item.id}">${item.name}</option>
             `
             listAdvisor.innerHTML = data;
+            listAdvisor2.innerHTML = data;
         })
     })
     .catch(error => console.log('error', error));
@@ -3957,6 +3990,19 @@ function showPercentage(event) {
     const ct = event.currentTarget.value;
 
     const perc = document.querySelector(".perc");
+
+    if (ct === "diploma") {
+        perc.style.display = "block";
+    }
+    else {
+        perc.style.display = "none";
+    }
+}
+
+function showPercentage2(event) {
+    const ct = event.currentTarget.value;
+
+    const perc = document.querySelector(".perc2");
 
     if (ct === "diploma") {
         perc.style.display = "block";
@@ -3979,10 +4025,34 @@ function hideVirtualPrice() {
     }
 }
 
+function hideVirtualPrice2() {
+    const getVive = document.querySelector(".vive2");
+    const hideVive = document.querySelector(".hidevirtual2");
+
+    if (getVive.checked === false) {
+        hideVive.style.display = "none";
+    }
+    else if (getVive.checked) {
+        hideVive.style.display = "block";
+    }
+}
+
 // function to hide onsite price input
 function hideOnsite() {
     const getSite = document.querySelector(".onsite");
     const hideVive = document.querySelector(".hidesite");
+
+    if (getSite.checked === false) {
+        hideVive.style.display = "none";
+    }
+    else if (getSite.checked) {
+        hideVive.style.display = "block";
+    }
+}
+
+function hideOnsite2() {
+    const getSite = document.querySelector(".onsite2");
+    const hideVive = document.querySelector(".hidesite2");
 
     if (getSite.checked === false) {
         hideVive.style.display = "none";
@@ -4023,7 +4093,9 @@ function displayDiscount() {
 
 // function to get teachable course
 function getTeachableCourse() {
-    const mycour = document.querySelector(".tcourse")
+    const mycour = document.querySelector(".tcourse");
+    const mycour2 = document.querySelector(".uptcourse");
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -4050,6 +4122,8 @@ function getTeachableCourse() {
              <option value="${item.id}">${item.name}</option>
             `
             mycour.innerHTML = tdata;
+            mycour2.innerHTML = tdata;
+
         })
     })
     .catch(error => console.log('error', error))
@@ -4116,6 +4190,7 @@ function getAllCourse() {
                    ${item.status}
                    </button>
                    </td>
+                   <td><i class="fas fa-edit" onclick="courseModal(${item.id})"></i></td>
                 </tr>
             `
             getMyTableRecords.innerHTML = data;
@@ -4272,6 +4347,155 @@ function filterByInactiveLead() {
         }
     })
     .catch(error => console.log('error', error));
+}
+
+// function to call update form modal
+function courseModal(id) {
+    const upModal = document.getElementById("in-modal");
+    const getModal = document.querySelector(".pagemodal");
+    getModal.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const courseMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    const url = `https://backend.pluralcode.institute/admin/get-courses-details?course_type=instructor-lead&course_id=${id}`;
+
+    fetch(url, courseMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        const perc = document.querySelector(".perc2")
+        const upName = document.querySelector(".upName");
+        const upCschool = document.querySelector(".upcschool");
+        const upct = document.querySelector(".upct");
+        const uptCourse = document.querySelector(".uptcourse");
+        const upPercentage = document.querySelector(".upcpercentage");
+        const upAdv = document.querySelector(".upladv");
+        const upculink = document.querySelector(".upculink");
+        const uprl = document.querySelector(".uprlink");
+        const upOnsitePrice = document.querySelector(".uposprice");
+        const upVirtualPrice = document.querySelector(".upvirprice");
+        // const upOffset = document.querySelector(".upoffset");
+        const upDiscount = document.querySelector(".updiscount_deadline");
+
+        upName.setAttribute("value", result.instructor_lead.name);
+        upculink.setAttribute("value", result.instructor_lead.community_link);
+        uprl.setAttribute("value", result.instructor_lead.link);
+        upOnsitePrice.setAttribute("value", result.instructor_lead.onsite_price);
+        upVirtualPrice.setAttribute("value", result.instructor_lead.virtual_price);
+        upDiscount.setAttribute("value", result.instructor_lead.discount_deadline);
+
+
+
+        for (let i = 0; i < upCschool.options.length; i++) {
+            if(upCschool.options[i].value === `${result.instructor_lead.school}`) {
+                upCschool.options[i].setAttribute('selected', 'selected')
+            }
+        }
+        for (let i = 0; i < upct.options.length; i++) {
+            if(upct.options[i].value === `${result.instructor_lead.course_type}` && upct.options[i].value === "diploma") {
+                upct.options[i].setAttribute('selected', 'selected');
+                perc.style.display = "block";
+            }
+            if (upct.options[i].value === `${result.instructor_lead.course_type}` && upct.options[i].value === "entry"){
+                upct.options[i].setAttribute('selected', 'selected');
+                perc.style.display = "none";
+            }
+        }
+
+        let percentageValue = `${result.instructor_lead.percentages}` * 100;
+        localStorage.setItem("tc", `${result.instructor_lead.teachable_course_id}`)
+
+        for (let i = 0; i < upPercentage.length; i++) {
+            if (upPercentage.options[i].value === percentageValue.toString()) {
+                upPercentage.options[i].setAttribute('selected', 'selected')
+            }
+        }
+
+        for (let i = 0; i < uptCourse.length; i++) {
+            if (uptCourse.options[i].value === `${result.instructor_lead.teachable_course_id}`) {
+              uptCourse.options[i].setAttribute('selected', 'selected')
+            }
+        }
+
+        for (let i = 0; i < upAdv.length; i++) {
+            if (upAdv.options[i].innerHTML === `${result.instructor_lead.advisor_name}`) {
+              upAdv.options[i].setAttribute('selected', 'selected')
+            }
+        }
+        upModal.style.display = "block";
+        getModal.style.display = "none";
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to update course details
+function UpdateCourseDetails(event) {
+    event.preventDefault();
+
+    const upName = document.querySelector(".upName").value;
+    const upCschool = document.querySelector(".upcschool").value;
+    const upct = document.querySelector(".upct").value;
+    const uptCourse = document.querySelector(".uptcourse").value;
+    const upPercentage = document.querySelector(".upcpercentage").value;
+    const upAdv = document.querySelector(".upladv").value;
+    const upculink = document.querySelector(".upculink").value;
+    const uprl = document.querySelector(".uprlink").value;
+    const upOnsitePrice = document.querySelector(".uposprice").value;
+    const upVirtualPrice = document.querySelector(".upvirprice").value;
+    const upOffset = document.querySelector(".upoffset").value;
+    const upDiscount = document.querySelector(".updiscount_deadline").value;
+
+    if (upculink === "" || uprl === "" || upOnsitePrice === "" || upVirtualPrice === "") {
+        Swal.fire({
+            icon: 'info',
+            text: "These fields are required",
+            confirmButtonColor: '#25067C'
+        })
+    }
+    else {
+        const getTc = localStorage.getItem("tc");
+        const tc = JSON.parse(getTc);
+        
+        const updateProfile = JSON.stringify({
+            "name": upName,
+            "advisor_id": upAdv,
+            "teachable_course_id": uptCourse,
+            "community_link": upculink,
+            "course_type": upct,
+            "percentages": upPercentage,
+            "school": upCschool,
+            "virtual_price": upVirtualPrice,
+            "onsite_price": upOnsitePrice,
+            "link": uprl,
+            "offset": upOffset,
+            "discount_deadline": ftime,
+            "old_teachable_course_id": tc
+        })
+        const getMyStorage = localStorage.getItem("adminLogin");
+        const myStorage = JSON.parse(getMyStorage);
+        const storageToken = myStorage.token;
+
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json');
+        myHead.append('Authorization', `Bearer ${storageToken}`);
+
+        const courseMethod = {
+            method: 'GET',
+            headers: myHead
+        }
+    }
+
 }
 
 // function to get loop courses
@@ -4650,11 +4874,9 @@ function createCourse(event) {
 
     if (tog.checked) {
         tog = true;
-        console.log(tog)
     }
     else {
         tog = false;
-        console.log(tog)
     }
 
     
