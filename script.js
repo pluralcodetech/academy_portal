@@ -2791,6 +2791,22 @@ function closehModal2() {
     myModal.style.display = "none";
 }
 
+function closehModal3() {
+    const myModal = document.getElementById("loop-modal");
+    const ltcouse = document.querySelector(".loopuptcourse");
+    const ladv = document.querySelector(".loopupladv");
+
+
+    for (let i = 0; i < ladv.length; i++) {
+        ladv.options[i].removeAttribute('selected')
+    }
+
+    for (let i = 0; i < ltcouse.length; i++) {
+        ltcouse.options[i].removeAttribute('selected')
+    }
+    myModal.style.display = "none";
+}
+
 //     const locReq = {
 //         method: 'POST',
 //         headers: locHead,
@@ -3952,6 +3968,8 @@ function createCohort(event) {
 function advisorList() {
     const listAdvisor = document.querySelector(".ladv");
     const listAdvisor2 = document.querySelector(".upladv");
+    const listAdvisor3 = document.querySelector(".loopupladv");
+
 
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
@@ -3980,6 +3998,8 @@ function advisorList() {
             `
             listAdvisor.innerHTML = data;
             listAdvisor2.innerHTML = data;
+            listAdvisor3.innerHTML = data;
+
         })
     })
     .catch(error => console.log('error', error));
@@ -4095,6 +4115,8 @@ function displayDiscount() {
 function getTeachableCourse() {
     const mycour = document.querySelector(".tcourse");
     const mycour2 = document.querySelector(".uptcourse");
+    const mycour3 = document.querySelector(".loopuptcourse");
+
 
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
@@ -4123,6 +4145,8 @@ function getTeachableCourse() {
             `
             mycour.innerHTML = tdata;
             mycour2.innerHTML = tdata;
+            mycour3.innerHTML = tdata;
+
 
         })
     })
@@ -4270,6 +4294,7 @@ function filterByActiveLead() {
                         <td>$${item.virtual_price}</td>
                         <td>${item.discount_deadline}</td>
                         <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
+                        <td><i class="fas fa-edit" onclick="courseModal(${item.id})"></i></td>
                     </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4337,6 +4362,7 @@ function filterByInactiveLead() {
                         <td>$${item.virtual_price}</td>
                         <td>${item.discount_deadline}</td>
                         <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
+                        <td><i class="fas fa-edit" onclick="courseModal(${item.id})"></i></td>
                     </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4424,7 +4450,7 @@ function courseModal(id) {
 
         for (let i = 0; i < uptCourse.length; i++) {
             if (uptCourse.options[i].value === `${result.instructor_lead.teachable_course_id}`) {
-              uptCourse.options[i].setAttribute('selected', 'selected')
+               uptCourse.options[i].setAttribute('selected', 'selected')
             }
         }
 
@@ -4442,6 +4468,9 @@ function courseModal(id) {
 // function to update course details
 function UpdateCourseDetails(event) {
     event.preventDefault();
+
+    const getSpin = document.querySelector(".spin2");
+    getSpin.style.display = "inline-block";
 
     const upName = document.querySelector(".upName").value;
     const upCschool = document.querySelector(".upcschool").value;
@@ -4462,18 +4491,24 @@ function UpdateCourseDetails(event) {
             text: "These fields are required",
             confirmButtonColor: '#25067C'
         })
+        getSpin.style.display = "none";
     }
     else {
+        let cent = upPercentage / 100;
+        let myDate = formatDate1(upDiscount)
+
+        const ftime = formatDate(myDate);
+
         const getTc = localStorage.getItem("tc");
         const tc = JSON.parse(getTc);
-        
+
         const updateProfile = JSON.stringify({
             "name": upName,
             "advisor_id": upAdv,
             "teachable_course_id": uptCourse,
             "community_link": upculink,
             "course_type": upct,
-            "percentages": upPercentage,
+            "percentages": cent,
             "school": upCschool,
             "virtual_price": upVirtualPrice,
             "onsite_price": upOnsitePrice,
@@ -4491,9 +4526,39 @@ function UpdateCourseDetails(event) {
         myHead.append('Authorization', `Bearer ${storageToken}`);
 
         const courseMethod = {
-            method: 'GET',
-            headers: myHead
+            method: 'POST',
+            headers: myHead,
+            body: updateProfile
         }
+
+        const url = "https://backend.pluralcode.institute/admin/update-courses";
+
+        fetch(url, courseMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+
+            if (result.message === "course updated") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+
+                setTimeout(() => {
+                    location.reload();
+                }, 4000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+        })
+        .catch(error => console.log('error', error))
     }
 
 }
@@ -4560,6 +4625,7 @@ function getLoopCourses(event) {
                     <td>${item.advisor_contact_detail}</td>
                     <td>${item.capstone_project_instruction_link}</td>
                     <td><button class="${item.status}" onclick="updateLoopStatus(${item.id})">${item.status}</button></td>
+                    <td><i class="fas fa-edit" onclick="courseLoopModal(${item.id})"></i></td>
                   </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4640,6 +4706,7 @@ function filterByTotalActiveLoop() {
                     <td>${item.advisor_contact_detail}</td>
                     <td>${item.capstone_project_instruction_link}</td>
                     <td><button class="${item.status}" onclick="updateLoopStatus(${item.id})">${item.status}</button></td>
+                    <td><i class="fas fa-edit" onclick="courseLoopModal(${item.id})"></i></td>
                   </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4707,6 +4774,7 @@ function filterByTotalInactiveLoop() {
                     <td>${item.advisor_contact_detail}</td>
                     <td>${item.capstone_project_instruction_link}</td>
                     <td><button class="${item.status}" onclick="updateLoopStatus(${item.id})">${item.status}</button></td>
+                    <td><i class="fas fa-edit" onclick="courseLoopModal(${item.id})"></i></td>
                   </tr>
                 `
                 getMyTableRecords.innerHTML = data;
@@ -4783,6 +4851,83 @@ function updateLoopStatus(lId) {
             })
         }
     })
+}
+
+// function to update loop course
+function courseLoopModal(loopId) {
+    const upModal = document.getElementById("loop-modal");
+    const getModal = document.querySelector(".pagemodal");
+    getModal.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const courseMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    const url = `https://backend.pluralcode.institute/admin/get-courses-details?course_type=loop&course_id=${loopId}`;
+
+    fetch(url, courseMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+
+        const lName = document.querySelector(".loopupName");
+        const ltcouse = document.querySelector(".loopuptcourse");
+        const ladv = document.querySelector(".loopupladv");
+        const lcap = document.querySelector(".loopcaplink");
+
+        localStorage.setItem("lc", `${loopdata.teachable_course_id}`)
+
+        lName.setAttribute("value", `${result.loopdata.name}`);
+        lcap.setAttribute("value", `${result.loopdata.capstone_project_instruction_link}`);
+
+        for (let i = 0; i < ladv.length; i++) {
+            if (ladv.options[i].innerHTML === `${result.loopdata.advisor_name}`) {
+              ladv.options[i].setAttribute('selected', 'selected')
+            }
+        }
+
+        for (let i = 0; i < ltcouse.length; i++) {
+            if (ltcouse.options[i].value === `${result.loopdata.teachable_course_id}`) {
+               ltcouse.options[i].setAttribute('selected', 'selected')
+            }
+        }
+
+        upModal.style.display = "block";
+        getModal.style.display = "none";
+
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to update loop courses
+function updateLoopDetails(event) {
+    event.preventDefault();
+
+    const getSpin = document.querySelector(".spin3");
+    getSpin.style.display = "inline-block";
+
+    const lname = document.querySelector(".loopupName").value;
+    const ltcourse = document.querySelector(".loopuptcourse").value;
+    const ladvisor = document.querySelector(".loopupladv").value;
+    const lcap = document.querySelector(".loopcaplink").value;
+
+    if (lcap === "" || lname === "") {
+        Swal.fire({
+            icon: 'info',
+            text: 'These fields are required!',
+            confirmButtonColor: '#25067C'
+        })
+    }
+
 }
 
 function formatDate1(inputDate) {
@@ -5027,6 +5172,7 @@ function getSelfPacedCourse(event) {
                    <td>$${item.virtual_price}</td>
                    <td>${item.discount_deadline}</td>
                    <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
+                   <td><i class="fas fa-edit" onclick="courseModal(${item.id})"></i></td>
                 </tr>
             `
                 getMyTableRecords.innerHTML = data;

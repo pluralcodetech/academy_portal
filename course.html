@@ -538,6 +538,7 @@
                             <th>Advisor Details</th>
                             <th>Capstone Project Instruction Link</th>
                             <th>Status</th>
+                            <th>Update</th>
                         </tr>
                     </thead>
                     <tbody class="mytableindex2">
@@ -556,8 +557,6 @@
         </div>
 
         
-
-          
         <div id="in-modal" class="mymodal mb-5">
             <div class="modal-content">
                 <div class="modal-header">
@@ -691,6 +690,62 @@
                                 <span class="sr-only"></span>
                             </div>
                               Update Course
+                          </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="loop-modal" class="mymodal mb-5">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="closehModal3()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center">Update Loop</h4>
+                    <!-- <p class="text-center din">
+                        Discount you give will be deducted from the tuition<br> fee once the user use code on this course only
+                    </p> -->
+                    <p class="itev mt-5 ml-3">
+                        Course Details
+                    </p>
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                              <label class="lab">Update Loop Course Name</label>
+                              <input type="text" class="palo loopupName">
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                              <label class="lab">Update Loop Teachable Course</label>
+                              <select class="palo loopuptcourse">
+                              </select>
+                            </div>
+                            
+                        </div>
+                        <p class="itev mt-5 ml-3">Update Loop Advisor Details</p>
+    
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                                <label class="lab">Loop Update Advisor</label>
+                                <select class="palo loopupladv">
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                                <label class="lab">Loop Capstone Project Instruction Link</label>
+                                <input type="text" class="palo loopcaplink" placeholder="enter link">
+                            </div>
+                        </div>
+
+    
+                        <div class="form-footer-item text-center mt-5 mb-5">
+                          <button class="co-btn" onclick="updateLoopDetails(event)">
+                            <div class="spinner-border spinner-border-sm text-light spin3" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                              Update Loop Course
                           </button>
                         </div>
                     </form>
