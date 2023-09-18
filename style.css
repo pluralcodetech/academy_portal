@@ -723,6 +723,7 @@ hr {
     padding: 6px 15px;
     border-radius: 12px;
     margin-top: -8px;
+    text-decoration: none !important;
 }
 
 .update:hover {

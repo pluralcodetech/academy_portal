@@ -31,8 +31,7 @@ function getAccessLevel() {
         if (currentUrl === '/advisor-details.html' || currentUrl === '/advisor.html' 
         || currentUrl === '/advisoryview.html'
         || currentUrl === '/monthly.html' || currentUrl === "/newsignup.html" 
-        || currentUrl === '/setting.html' || currentUrl === '/update.html' 
-        || currentUrl === '/view-cohort.html' 
+        || currentUrl === '/setting.html' || currentUrl === '/update.html'
         || currentUrl === '/view-materials.html') {
             localStorage.clear();
             location.href = "error.html"

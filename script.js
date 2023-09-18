@@ -3964,6 +3964,62 @@ function createCohort(event) {
 
 }
 
+// function to get cohort courses
+function cohortCourseList() {
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const ctable = document.querySelector(".tableindexcourse");
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-cohort-courses?cohort_id=${getId}`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.coursearray.length === 0) {
+            ctable.innerHTML = "No Records Found!";
+            getSpin.style.display = "none";
+        }
+        else {
+            result.coursearray.map((item) => {
+                data += `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.onsite_price}</td>
+                    <td>${item.virtual_price}</td>
+                    <td>${item.school}</td>
+                    <td>${item.advisor_name}</td>
+                    <td>${item.advisor_contact_detail}</td>
+                    <td><button class="update">View Materials</button></td>
+                  </tr>
+                `
+                ctable.innerHTML = data;
+            })
+        }
+        getSpin.style.display = "none";
+    })
+    .catch(error => console.log('error', error));
+}
+
 // function to get the list of advisors
 function advisorList() {
     const listAdvisor = document.querySelector(".ladv");
@@ -4096,6 +4152,17 @@ function toBoolean() {
         getCapstone.classList.add("adlay");
     }
 }
+
+// function toBoolean2() {
+//     let aloop = document.querySelector(".tog2").checked;
+//     if (aloop) {
+//         aloop === true;
+//         console.log(aloop)
+//     }
+//     console.log(aloop)
+//     localStorage.setItem("lpt", aloop);
+// }
+
 
 function displayDiscount() {
     const perc = document.querySelector(".tog2").checked;
@@ -4381,6 +4448,8 @@ function courseModal(id) {
     const getModal = document.querySelector(".pagemodal");
     getModal.style.display = "block";
 
+    localStorage.setItem("cid", id);
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -4494,6 +4563,7 @@ function UpdateCourseDetails(event) {
         getSpin.style.display = "none";
     }
     else {
+        const getCid = localStorage.getItem("cid");
         let cent = upPercentage / 100;
         let myDate = formatDate1(upDiscount)
 
@@ -4515,7 +4585,8 @@ function UpdateCourseDetails(event) {
             "link": uprl,
             "offset": upOffset,
             "discount_deadline": ftime,
-            "old_teachable_course_id": tc
+            "old_teachable_course_id": tc,
+            "course_id": getCid
         })
         const getMyStorage = localStorage.getItem("adminLogin");
         const myStorage = JSON.parse(getMyStorage);
@@ -4859,6 +4930,8 @@ function courseLoopModal(loopId) {
     const getModal = document.querySelector(".pagemodal");
     getModal.style.display = "block";
 
+    localStorage.setItem("lcoid", loopId)
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -4884,7 +4957,7 @@ function courseLoopModal(loopId) {
         const ladv = document.querySelector(".loopupladv");
         const lcap = document.querySelector(".loopcaplink");
 
-        localStorage.setItem("lc", `${loopdata.teachable_course_id}`)
+        localStorage.setItem("lc", `${result.loopdata.teachable_course_id}`)
 
         lName.setAttribute("value", `${result.loopdata.name}`);
         lcap.setAttribute("value", `${result.loopdata.capstone_project_instruction_link}`);
@@ -4920,12 +4993,77 @@ function updateLoopDetails(event) {
     const ladvisor = document.querySelector(".loopupladv").value;
     const lcap = document.querySelector(".loopcaplink").value;
 
+    const getLocd = localStorage.getItem("lcoid");
+    const locd = JSON.parse(getLocd);
+    
+    
+
     if (lcap === "" || lname === "") {
         Swal.fire({
             icon: 'info',
             text: 'These fields are required!',
             confirmButtonColor: '#25067C'
         })
+        getSpin.style.display = "none";
+    }
+    
+    else {
+        
+        const loopT = localStorage.getItem("lc");
+        const lot = JSON.parse(loopT);
+
+        const loopUp = JSON.stringify({
+            "name": lname,
+            "teachable_course_id": ltcourse,
+            "advisor_id": ladvisor,
+            "capstone_project_instruction_link": lcap,
+            "old_teachable_course_id": lot,
+            "edit_to_loop": true,
+            "course_id": locd
+        })
+
+        const getMyStorage = localStorage.getItem("adminLogin");
+        const myStorage = JSON.parse(getMyStorage);
+        const storageToken = myStorage.token;
+
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json');
+        myHead.append('Authorization', `Bearer ${storageToken}`);
+
+        const courseMethod = {
+            method: 'POST',
+            headers: myHead,
+            body: loopUp
+        }
+
+        const url = "https://backend.pluralcode.institute/admin/update-courses";
+
+        fetch(url, courseMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+
+            if (result.message === "course updated") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+
+                setTimeout(() => {
+                    location.reload();
+                }, 4000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+        })
+        .catch(error => console.log('error', error))
     }
 
 }
@@ -5306,9 +5444,8 @@ function listOutCohort() {
                         <td class="mt-5">${item.name} </td>
                         <td>${item.year}</td>
                         <td>${item.totalenrollment}</td>
-                        <td><button class="update">View</button></td>
+                        <td><a class="update" href="view-cohort.html?cohort_id=${item.id}">View</a></td>
                         <td><button class="deactive">End Cohort</button></td>
-
                     </tr>
                 `
                 cohortTable.innerHTML = data;
