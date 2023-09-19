@@ -1,6 +1,9 @@
 let miro;
 let myChart;
 
+let cohNext;
+let cohPrev;
+
 // function to sort chat by date range
 function getChatItem() {
     const myModal = document.querySelector(".pagemodal");
@@ -4018,6 +4021,172 @@ function cohortCourseList() {
         getSpin.style.display = "none";
     })
     .catch(error => console.log('error', error));
+}
+
+function getcohortCourseList(event) {
+    event.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const ctable = document.querySelector(".tableindexcourse");
+    const xtable = document.querySelector(".co1");
+    const xtable2 = document.querySelector(".co2");
+
+    const btnCoh = document.querySelector(".btn-coh");
+    const btnCoh2 = document.querySelector(".btn-coh2");
+    const getAcrite = document.querySelector(".acrite");
+
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-cohort-courses?cohort_id=${getId}`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.coursearray.length === 0) {
+            ctable.innerHTML = "No Records Found!";
+            getSpin.style.display = "none";
+        }
+        else {
+            result.coursearray.map((item) => {
+                data += `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.onsite_price}</td>
+                    <td>${item.virtual_price}</td>
+                    <td>${item.school}</td>
+                    <td>${item.advisor_name}</td>
+                    <td>${item.advisor_contact_detail}</td>
+                    <td><button class="update">View Materials</button></td>
+                  </tr>
+                `
+                ctable.innerHTML = data;
+                getAcrite.style.display = "none";
+                xtable.style.display = "block";
+                xtable2.style.display = "none";
+
+
+                btnCoh2.style.backgroundColor = "#fff",
+                btnCoh2.style.color = "#2334A8";
+
+
+                btnCoh.style.backgroundColor = "#2334A8",
+                btnCoh.style.color = "#fff";
+            })
+        }
+        getSpin.style.display = "none";
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to get students under a cohort
+function getStudentsUnderCohort(event) {
+    event.preventDefault()
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const coTable = document.querySelector(".tableindexcohort");
+
+    const xtable = document.querySelector(".co1");
+    const xtable2 = document.querySelector(".co2");
+
+    const btnCoh = document.querySelector(".btn-coh");
+    const btnCoh2 = document.querySelector(".btn-coh2");
+
+    const getAcrite = document.querySelector(".acrite");
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=0`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.data.length === 0) {
+            coTable.innerHTML = "No Records Found!";
+            getSpin.style.display = "none";
+        }
+        else {
+            result.data.map((item) => {
+                data +=`
+                    <tr>
+                       <td>${item.name}</td>
+                       <td>${item.email}</td>
+                       <td>${item.country}</td>
+                       <td>${item.state}</td>
+                       <td>${item.program_type}</td>
+                       <td>${item.level_of_education}</td>
+                       <td>${item.course_of_interest}</td>
+                       <td>${item.age}</td>
+                       <td>${item.balance}</td>
+                       <td>${item.year}</td>
+                       <td>${item.month}</td>
+                       <td>${item.date}</td>
+                       <td>${item.phone_number}</td>
+                       <td>${item.referral_code}</td>
+                       <td>${item.currency}</td>
+                       <td>${item.payment_plan}</td>
+                       <td>${item.amount_paid}</td>
+                       <td>${item.registeration_number}</td>
+                       <td>${item.enrollment_source}</td>
+                       <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                    </td>
+                `
+                coTable.innerHTML = data;
+                getAcrite.style.display = "block";
+                xtable.style.display = "none";
+                xtable2.style.display = "block";
+                getSpin.style.display = "none";
+
+                btnCoh.style.backgroundColor = "#fff",
+                btnCoh.style.color = "#2334A8";
+                btnCoh.border = "2px solid #2334A8";
+
+
+                btnCoh2.style.backgroundColor = "#2334A8",
+                btnCoh2.style.color = "#fff";
+            })
+        }
+    })
+    .catch(error => console.log('error', error));
+
 }
 
 // function to get the list of advisors

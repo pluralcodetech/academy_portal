@@ -666,7 +666,8 @@ hr {
 .unreachable, .active, .dele-btn, .assigned, 
 .undecided, .not_interested, .next, .enrolled, 
 .update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
-.btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, .advi-btn, .btn-sp, .btn-loop, .Active, .Inactive {
+.btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, 
+.advi-btn, .btn-sp, .btn-loop, .Active, .Inactive, .Complete, .Incomplete {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -676,7 +677,7 @@ hr {
     border-radius: 5px;
 }
 
-.pending {
+.pending, .Incomplete {
     background-color: red;
 }
 
@@ -740,7 +741,7 @@ hr {
     width: 150px;
 }
 
-.a-btn {
+.a-btn, .Complete {
     background: #008000;
     color: #fff;
 }
@@ -848,7 +849,11 @@ hr {
     width: 100px;
 }
 
-.ltable {
+.Complete, .Incomplete {
+    width: 100px;
+}
+
+.ltable, .co2, .acrite {
     display: none;
 }
 
@@ -1649,3 +1654,4 @@ progress::-webkit-progress-value {
 .form-img h5 {
     font-weight: 800;
 }
+

@@ -266,8 +266,8 @@
         <div class="outer-wrapper pt-3 pl-3 pr-3">
             <div class="sort-sec">
                 <div class="sort-btn-item">
-                    <button class="btn-coh">Courses</button>
-                    <button class="btn-coh2">Students</button>
+                    <button class="btn-coh" onclick="getcohortCourseList(event)">Courses</button>
+                    <button class="btn-coh2" onclick="getStudentsUnderCohort(event)">Students</button>
                 </div>
                 <div class="selectdiv">
                     <label class="raa">
@@ -278,7 +278,7 @@
                 </div>
             </div>
             <hr class="chr">
-            <div class="table-wrapper mb-5">
+            <div class="table-wrapper mb-5 co1">
                 <table class="table">
                     <thead>
                         <tr>
@@ -296,12 +296,44 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="table-wrapper mb-5 co2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Email</th>
+                            <th>Country</th>
+                            <th>State</th>
+                            <th>Program Type</th>
+                            <th>Level Of Education</th>
+                            <th>Course Of Interest</th>
+                            <th>Age Range</th>
+                            <th>Balance</th>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Date</th>
+                            <th>Phone Number</th>
+                            <th>Referral Code</th>
+                            <th>Currency</th>
+                            <th>Payment Plan</th>
+                            <th>Amount Paid</th>
+                            <th>Registration Number</th>
+                            <th>Enrollment Source</th>
+                            <th>Pament Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableindexcohort">
+                        
+                    </tbody>
+                </table>
+            </div>
             
-            <nav class="mt-5 mio">
+            <nav class="mt-5 mio acrite">
                 <ul class="pagination pg-blue justify-content-center">
-                    <button class="get-previous" onclick="prevPageItem(event)"><i class="fa fa-chevron-left"></i></button>
+                    <button class="get-previous" onclick="coPrev(event)"><i class="fa fa-chevron-left"></i></button>
                     <p class="current-page"></p>
-                    <button class="get-next" onclick="nextPageItem(event)"><i class="fa fa-chevron-right"></i></button>
+                    <button class="get-next" onclick="nextCo(event)"><i class="fa fa-chevron-right"></i></button>
                 </ul>
             </nav>
         </div>
