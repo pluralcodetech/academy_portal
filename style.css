@@ -1423,6 +1423,15 @@ hr {
     cursor: pointer;
 }
 
+.monc {
+    padding: 10px 15px;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    outline: none;
+    margin: 10px;
+    cursor: pointer;
+}
+
 .get-url, .get-url2 {
     display: none;
 }

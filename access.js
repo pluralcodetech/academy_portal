@@ -32,7 +32,7 @@ function getAccessLevel() {
         || currentUrl === '/advisoryview.html'
         || currentUrl === '/monthly.html' || currentUrl === "/newsignup.html" 
         || currentUrl === '/setting.html' || currentUrl === '/update.html'
-        || currentUrl === '/view-materials.html') {
+        ) {
             localStorage.clear();
             location.href = "error.html"
         }
@@ -45,7 +45,7 @@ function getAccessLevel() {
         || currentUrl === '/advisoryview.html'
         || currentUrl === '/monthly.html' || currentUrl === "/newsignup.html" 
         || currentUrl === '/setting.html' || currentUrl === '/update.html' 
-        || currentUrl === '/view-materials.html' || currentUrl === '/enroll.html') {
+        || currentUrl === '/enroll.html') {
             localStorage.clear();
             location.href = "error.html"
         }

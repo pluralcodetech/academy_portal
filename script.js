@@ -1,8 +1,90 @@
+
 let miro;
 let myChart;
 
 let cohNext;
 let cohPrev;
+
+const numPag = localStorage.getItem("pag");
+const numAg = JSON.parse(numPag);
+
+function getLit() {
+    let myDiv = document.querySelector(".mydiv");
+    console.log(numAg)
+
+    for (let i = 1; i <= numAg; i++) {
+        let pagButton = document.createElement("button");
+        pagButton.innerText = i;
+        pagButton.classList.add("monc")
+
+        pagButton.onclick = function(num) {
+            return function() {
+                console.log(num);
+
+                const getSpin = document.querySelector(".pagemodal");
+                getSpin.style.display = "block";
+
+                const params = new URLSearchParams(window.location.search);
+                let getId = params.get('cohort_id');
+
+                const coTable = document.querySelector(".tableindexcohort");
+                const getMyStorage = localStorage.getItem("adminLogin");
+                const myStorage = JSON.parse(getMyStorage);
+                const storageToken = myStorage.token;
+
+                const myHead = new Headers();
+                myHead.append('Content-Type', 'application/json');
+                myHead.append('Authorization', `Bearer ${storageToken}`);
+
+                const fbal = {
+                    method: 'GET',
+                    headers: myHead
+                }
+
+                let data = [];
+
+                const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${num}`;
+
+                fetch(url, fbal)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result)
+                    result.data.map((item) => {
+                        data +=`
+                            <tr>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.country}</td>
+                            <td>${item.state}</td>
+                            <td>${item.program_type}</td>
+                            <td>${item.level_of_education}</td>
+                            <td>${item.course_of_interest}</td>
+                            <td>${item.age}</td>
+                            <td>${item.balance}</td>
+                            <td>${item.year}</td>
+                            <td>${item.month}</td>
+                            <td>${item.date}</td>
+                            <td>${item.phone_number}</td>
+                            <td>${item.referral_code}</td>
+                            <td>${item.currency}</td>
+                            <td>${item.payment_plan}</td>
+                            <td>${item.amount_paid}</td>
+                            <td>${item.registeration_number}</td>
+                            <td>${item.enrollment_source}</td>
+                            <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                            </td>
+                        `
+                        coTable.innerHTML = data;
+                        getSpin.style.display = "none";
+                    })
+                })
+                .catch(error => console.log('error', error));
+            };
+        }(i);
+
+        myDiv.appendChild(pagButton);
+    }
+}
 
 // function to sort chat by date range
 function getChatItem() {
@@ -4012,7 +4094,7 @@ function cohortCourseList() {
                     <td>${item.school}</td>
                     <td>${item.advisor_name}</td>
                     <td>${item.advisor_contact_detail}</td>
-                    <td><button class="update">View Materials</button></td>
+                    <td><a class="update" href="view-materials.html?course_id=${item.id}&cohort_id=${getId}">View Materials</a></td>
                   </tr>
                 `
                 ctable.innerHTML = data;
@@ -4076,7 +4158,7 @@ function getcohortCourseList(event) {
                     <td>${item.school}</td>
                     <td>${item.advisor_name}</td>
                     <td>${item.advisor_contact_detail}</td>
-                    <td><button class="update">View Materials</button></td>
+                    <td><a class="update" href="view-materials.html?course_id=${item.id}&cohort_id=${getId}">View Materials</a></td>
                   </tr>
                 `
                 ctable.innerHTML = data;
@@ -4100,7 +4182,9 @@ function getcohortCourseList(event) {
 
 // function to get students under a cohort
 function getStudentsUnderCohort(event) {
-    event.preventDefault()
+    event.preventDefault();
+
+    const getPre = document.querySelector(".get-previous")
 
     const getSpin = document.querySelector(".pagemodal");
     getSpin.style.display = "block";
@@ -4139,6 +4223,14 @@ function getStudentsUnderCohort(event) {
     .then(response => response.json())
     .then(result => {
         console.log(result)
+        localStorage.setItem("pag", result.total_pages);
+        cohNext = result.next_page;
+        if (result.pre_page === null) {
+            getPre.disabled = true;
+        }
+        else {
+            cohPrev = result.pre_page
+        }
         if (result.data.length === 0) {
             coTable.innerHTML = "No Records Found!";
             getSpin.style.display = "none";
@@ -4187,6 +4279,166 @@ function getStudentsUnderCohort(event) {
     })
     .catch(error => console.log('error', error));
 
+}
+
+
+
+
+
+
+
+function nextCo(event) {
+    event.preventDefault();
+    let rocNext = cohNext;
+
+    const coTable = document.querySelector(".tableindexcohort");
+    const getNext = document.querySelector(".get-next");
+    const getPrev = document.querySelector(".get-previous");
+
+
+
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${rocNext}`;
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.next_page === null) {
+            getNext.disabled = true;
+            getPrev.disabled = false;
+        }
+        else {
+            cohNext = result.next_page;
+            cohPrev = result.prev_page;
+            console.log(cohNext)
+        }
+        result.data.map((item) => {
+            data +=`
+                <tr>
+                   <td>${item.name}</td>
+                   <td>${item.email}</td>
+                   <td>${item.country}</td>
+                   <td>${item.state}</td>
+                   <td>${item.program_type}</td>
+                   <td>${item.level_of_education}</td>
+                   <td>${item.course_of_interest}</td>
+                   <td>${item.age}</td>
+                   <td>${item.balance}</td>
+                   <td>${item.year}</td>
+                   <td>${item.month}</td>
+                   <td>${item.date}</td>
+                   <td>${item.phone_number}</td>
+                   <td>${item.referral_code}</td>
+                   <td>${item.currency}</td>
+                   <td>${item.payment_plan}</td>
+                   <td>${item.amount_paid}</td>
+                   <td>${item.registeration_number}</td>
+                   <td>${item.enrollment_source}</td>
+                   <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                </td>
+            `
+            coTable.innerHTML = data;
+            getSpin.style.display = "none";
+        })
+    })
+    .catch(error => console.log('error', error));
+
+}
+
+function coPrev(event) {
+    event.preventDefault();
+    let rocPrev = cohPrev;
+
+    const coTable = document.querySelector(".tableindexcohort");
+    const getNext = document.querySelector(".get-next");
+    const getPrev = document.querySelector(".get-previous");
+
+
+
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${rocPrev}`;
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.pre_page === null) {
+            getPrev.disabled = true;
+            getNext.disabled = false;
+        }
+        else {
+            cohNext = result.next_page;
+            cohPrev = result.prev_page;
+        }
+        result.data.map((item) => {
+            data +=`
+                <tr>
+                   <td>${item.name}</td>
+                   <td>${item.email}</td>
+                   <td>${item.country}</td>
+                   <td>${item.state}</td>
+                   <td>${item.program_type}</td>
+                   <td>${item.level_of_education}</td>
+                   <td>${item.course_of_interest}</td>
+                   <td>${item.age}</td>
+                   <td>${item.balance}</td>
+                   <td>${item.year}</td>
+                   <td>${item.month}</td>
+                   <td>${item.date}</td>
+                   <td>${item.phone_number}</td>
+                   <td>${item.referral_code}</td>
+                   <td>${item.currency}</td>
+                   <td>${item.payment_plan}</td>
+                   <td>${item.amount_paid}</td>
+                   <td>${item.registeration_number}</td>
+                   <td>${item.enrollment_source}</td>
+                   <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                </td>
+            `
+            coTable.innerHTML = data;
+            getSpin.style.display = "none";
+        })
+    })
+    .catch(error => console.log('error', error));
 }
 
 // function to get the list of advisors
