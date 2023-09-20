@@ -13,9 +13,7 @@
 
     <!-- custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <style>
         table th:first-child {
         text-align: left;
@@ -98,12 +96,12 @@
     </style>
 
 </head>
-<body onload="getCurrentDate()">
-    <!-- <div class="pagemodal">
+<body onload="getCurrentDate(), getCourseMaterials()">
+    <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
-    </div> -->
+    </div>
 
     </div>
     <input type="checkbox" id="nav-toggle">
@@ -176,99 +174,11 @@
         <h2 class="course-head">Course</h2>
 
         <div class="jumbotron">
-            <h4 class="mb-5"> <img src="./assets/lt.png" alt="" class="mr-3 mt-0">Product Design Course Materials</h4>
+            <h4 class="mb-5"> <img src="./assets/lt.png" alt="" class="mr-3 mt-0" onclick="goBackTo(event)">Course Materials</h4>
 
-            <div class="jum-sec">
-                <div class="course-mat">
-                    <div class="mr-5">
-                      <i class="fa-regular fa-folder fa-xl"></i>
-                    </div>
-    
-                    <div class="jum-text">
-                        <p>Week 1</p>
-                        <p class="jet-p">Introduction to User Experience Design.</p>
-                        <p>Sept 2, 2022</p>
-                    </div>
-                </div>
-                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
+            <div class="hoodBang">
+                
             </div>
-            <hr class="hr-c">
-            <div class="jum-sec">
-                <div class="course-mat">
-                    <div class="mr-5">
-                      <i class="fa-regular fa-folder fa-xl"></i>
-                    </div>
-    
-                    <div class="jum-text">
-                        <p>Week 1</p>
-                        <p class="jet-p">Introduction to User Experience Design.</p>
-                        <p>Sept 2, 2022</p>
-                    </div>
-                </div>
-                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
-            </div>
-            <hr class="hr-c">
-            <div class="jum-sec">
-                <div class="course-mat">
-                    <div class="mr-5">
-                      <i class="fa-regular fa-folder fa-xl"></i>
-                    </div>
-    
-                    <div class="jum-text">
-                        <p>Week 1</p>
-                        <p class="jet-p">Introduction to User Experience Design.</p>
-                        <p>Sept 2, 2022</p>
-                    </div>
-                </div>
-                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
-            </div>
-            <hr class="hr-c">
-            <div class="jum-sec">
-                <div class="course-mat">
-                    <div class="mr-5">
-                      <i class="fa-regular fa-folder fa-xl"></i>
-                    </div>
-    
-                    <div class="jum-text">
-                        <p>Week 1</p>
-                        <p class="jet-p">Introduction to User Experience Design.</p>
-                        <p>Sept 2, 2022</p>
-                    </div>
-                </div>
-                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
-            </div>
-            <hr class="hr-c">
-            <div class="jum-sec">
-                <div class="course-mat">
-                    <div class="mr-5">
-                      <i class="fa-regular fa-folder fa-xl"></i>
-                    </div>
-    
-                    <div class="jum-text">
-                        <p>Week 1</p>
-                        <p class="jet-p">Introduction to User Experience Design.</p>
-                        <p>Sept 2, 2022</p>
-                    </div>
-                </div>
-                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
-            </div>
-            <hr class="hr-c">
-            <div class="jum-sec">
-                <div class="course-mat">
-                    <div class="mr-5">
-                      <i class="fa-regular fa-folder fa-xl"></i>
-                    </div>
-    
-                    <div class="jum-text">
-                        <p>Week 1</p>
-                        <p class="jet-p">Introduction to User Experience Design.</p>
-                        <p>Sept 2, 2022</p>
-                    </div>
-                </div>
-                <button class="btn-lock"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Unlock Module</button>
-            </div>
-            <hr class="hr-c">
-
         </div>
 
         
@@ -278,7 +188,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 

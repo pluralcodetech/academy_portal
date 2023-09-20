@@ -4095,6 +4095,7 @@ function cohortCourseList() {
                     <td>${item.advisor_name}</td>
                     <td>${item.advisor_contact_detail}</td>
                     <td><a class="update" href="view-materials.html?course_id=${item.id}&cohort_id=${getId}">View Materials</a></td>
+                   <td><i class="fas fa-edit" onclick="cohortCourseModal(${item.id})"></i></td>
                   </tr>
                 `
                 ctable.innerHTML = data;
@@ -4159,6 +4160,7 @@ function getcohortCourseList(event) {
                     <td>${item.advisor_name}</td>
                     <td>${item.advisor_contact_detail}</td>
                     <td><a class="update" href="view-materials.html?course_id=${item.id}&cohort_id=${getId}">View Materials</a></td>
+                   <td><i class="fas fa-edit" onclick="cohortCourseModal(${item.id})"></i></td>
                   </tr>
                 `
                 ctable.innerHTML = data;
@@ -4176,6 +4178,173 @@ function getcohortCourseList(event) {
             })
         }
         getSpin.style.display = "none";
+    })
+    .catch(error => console.log('error', error));
+}
+
+function goBackTo(event) {
+    event.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    location.href = `view-cohort.html?cohort_id=${getId}`;
+}
+
+// function to get materials for courses
+function getCourseMaterials() {
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const params2 = new URLSearchParams(window.location.search);
+    let getcId = params2.get('course_id');
+
+    const jumSec = document.querySelector(".hoodBang");
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+    const url = `https://backend.pluralcode.institute/admin/cohort-course-materials?cohort_id=${getId}&course_id=${getcId}`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.length === 0) {
+            let centerMessage = document.createElement("h1");
+            centerMessage.innerText = "No Records Found!";
+            centerMessage.style.margin = "20% auto";
+            jumSec.appendChild(centerMessage);
+        }
+        
+        else {
+            result.map((item) => {
+                if (item.unlockedstatus === true) {
+                    data += `
+                    <div class="jum-sec">
+                        <div class="course-mat">
+                            <div class="mr-5">
+                            <i class="fa-regular fa-folder fa-xl"></i>
+                            </div>
+            
+                            <div class="jum-text">
+                                <p class="jet-p">${item.name}</p>
+                                <p>${item.position}</p>
+                            </div>
+                        </div>
+                        <button class="btn-lock" onclick="unlockModule(${item.id})"><i class="fa-solid fa-unlock fa-xl mr-2" style="color: #2334A8"></i>Unlocked Module</button>
+                    </div>
+                    <hr class="hr-c">
+                `
+                }
+                if (item.unlockedstatus === false) {
+                    data += `
+                    <div class="jum-sec">
+                        <div class="course-mat">
+                            <div class="mr-5">
+                            <i class="fa-regular fa-folder fa-xl"></i>
+                            </div>
+            
+                            <div class="jum-text">
+                                <p class="jet-p">${item.name}</p>
+                                <p>${item.position}</p>
+                            </div>
+                        </div>
+                        <button class="btn-lock" onclick="unlockModule(${item.id})"><i class="fa-solid fa-lock fa-xl mr-3" style="color: #2334A8"></i>Locked Module</button>
+                    </div>
+                    <hr class="hr-c">
+                `
+                }
+                
+
+                jumSec.innerHTML = data;
+            })
+        }
+
+        getSpin.style.display = "none";
+    })
+    .catch(error => console.log('error', error));
+}
+
+// function to unlock module
+function unlockModule(modId) {
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const params2 = new URLSearchParams(window.location.search);
+    let getcId = params2.get('course_id');
+
+    const moduleProfile = JSON.stringify({
+        "course_id": getcId,
+        "cohort_id": getId,
+        "module_id": modId
+    })
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'POST',
+        headers: myHead,
+        body: moduleProfile
+    }
+
+    const url = "https://backend.pluralcode.institute/admin/unlock-course-module";
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+
+        if (result.message === "Module locked") {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+            setTimeout(() => {
+                location.reload()
+            }, 3000)
+        }
+        else if(result.message === "module unlocked") {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+            setTimeout(() => {
+                location.reload()
+            }, 3000)
+        }
+        else {
+            Swal.fire({
+                icon: 'success',
+                text: `${result.message}`,
+                confirmButtonColor: '#25067C'
+            })
+            getSpin.style.display = "none";
+        }
     })
     .catch(error => console.log('error', error));
 }
