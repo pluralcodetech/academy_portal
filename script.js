@@ -5,6 +5,8 @@ let myChart;
 let cohNext;
 let cohPrev;
 
+let cohortId
+
 const numPag = localStorage.getItem("pag");
 const numAg = JSON.parse(numPag);
 
@@ -4106,6 +4108,8 @@ function cohortCourseList() {
     .catch(error => console.log('error', error));
 }
 
+
+
 function getcohortCourseList(event) {
     event.preventDefault();
 
@@ -4180,6 +4184,14 @@ function getcohortCourseList(event) {
         getSpin.style.display = "none";
     })
     .catch(error => console.log('error', error));
+}
+
+// function to update course cohort
+function cohortCourseModal(ccId) {
+    let myModal = document.getElementById("re-modal");
+    myModal.style.display = "block";
+
+    localStorage.setItem("cod", ccId);
 }
 
 function goBackTo(event) {
