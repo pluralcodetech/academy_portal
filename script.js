@@ -5,88 +5,9 @@ let myChart;
 let cohNext;
 let cohPrev;
 
-let cohortId
+let cohortId;
 
-const numPag = localStorage.getItem("pag");
-const numAg = JSON.parse(numPag);
 
-function getLit() {
-    let myDiv = document.querySelector(".mydiv");
-    console.log(numAg)
-
-    for (let i = 1; i <= numAg; i++) {
-        let pagButton = document.createElement("button");
-        pagButton.innerText = i;
-        pagButton.classList.add("monc")
-
-        pagButton.onclick = function(num) {
-            return function() {
-                console.log(num);
-
-                const getSpin = document.querySelector(".pagemodal");
-                getSpin.style.display = "block";
-
-                const params = new URLSearchParams(window.location.search);
-                let getId = params.get('cohort_id');
-
-                const coTable = document.querySelector(".tableindexcohort");
-                const getMyStorage = localStorage.getItem("adminLogin");
-                const myStorage = JSON.parse(getMyStorage);
-                const storageToken = myStorage.token;
-
-                const myHead = new Headers();
-                myHead.append('Content-Type', 'application/json');
-                myHead.append('Authorization', `Bearer ${storageToken}`);
-
-                const fbal = {
-                    method: 'GET',
-                    headers: myHead
-                }
-
-                let data = [];
-
-                const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${num}`;
-
-                fetch(url, fbal)
-                .then(response => response.json())
-                .then(result => {
-                    console.log(result)
-                    result.data.map((item) => {
-                        data +=`
-                            <tr>
-                            <td>${item.name}</td>
-                            <td>${item.email}</td>
-                            <td>${item.country}</td>
-                            <td>${item.state}</td>
-                            <td>${item.program_type}</td>
-                            <td>${item.level_of_education}</td>
-                            <td>${item.course_of_interest}</td>
-                            <td>${item.age}</td>
-                            <td>${item.balance}</td>
-                            <td>${item.year}</td>
-                            <td>${item.month}</td>
-                            <td>${item.date}</td>
-                            <td>${item.phone_number}</td>
-                            <td>${item.referral_code}</td>
-                            <td>${item.currency}</td>
-                            <td>${item.payment_plan}</td>
-                            <td>${item.amount_paid}</td>
-                            <td>${item.registeration_number}</td>
-                            <td>${item.enrollment_source}</td>
-                            <td><button class=${item.payment_status}>${item.payment_status}</button></td>
-                            </td>
-                        `
-                        coTable.innerHTML = data;
-                        getSpin.style.display = "none";
-                    })
-                })
-                .catch(error => console.log('error', error));
-            };
-        }(i);
-
-        myDiv.appendChild(pagButton);
-    }
-}
 
 // function to sort chat by date range
 function getChatItem() {
@@ -4194,6 +4115,73 @@ function cohortCourseModal(ccId) {
     localStorage.setItem("cod", ccId);
 }
 
+function cohortCoursesUpdate(event) {
+    event.preventDefault();
+    const getSpin = document.querySelector(".spin");
+    getSpin.style.display = "inline-block";
+
+    const params = new URLSearchParams(window.location.search);
+    let getId = params.get('cohort_id');
+
+    const getCod = localStorage.getItem("cod");
+    const coLink = document.querySelector(".colink").value;
+
+    if(coLink === "") {
+        Swal.fire({
+            icon: 'info',
+            text: 'This field is required',
+            confirmButtonColor: '#25067C'
+        })
+        getSpin.style.display = "none";
+    }
+    else {
+        const updateProfile = JSON.stringify({
+            "course_id": getCod,
+            "cohort_id": getId,
+            "community_link": coLink
+        });
+        const getMyStorage = localStorage.getItem("adminLogin");
+        const myStorage = JSON.parse(getMyStorage);
+        const storageToken = myStorage.token;
+
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json');
+        myHead.append('Authorization', `Bearer ${storageToken}`);
+
+        const fbal = {
+            method: 'POST',
+            headers: myHead,
+            body: updateProfile
+        }
+
+        const url = "https://backend.pluralcode.institute/admin/update-cohort-courses"
+        fetch(url, fbal)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result.message === "Link updated") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                setTimeout(() => {
+                    location.reload();
+                }, 3000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+}
+
 function goBackTo(event) {
     event.preventDefault();
     const params = new URLSearchParams(window.location.search);
@@ -4382,6 +4370,8 @@ function getStudentsUnderCohort(event) {
     const btnCoh2 = document.querySelector(".btn-coh2");
 
     const getAcrite = document.querySelector(".acrite");
+    let myDiv = document.querySelector(".mydiv");
+
 
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
@@ -4404,7 +4394,6 @@ function getStudentsUnderCohort(event) {
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        localStorage.setItem("pag", result.total_pages);
         cohNext = result.next_page;
         if (result.pre_page === null) {
             getPre.disabled = true;
@@ -4457,13 +4446,84 @@ function getStudentsUnderCohort(event) {
                 btnCoh2.style.color = "#fff";
             })
         }
+
+        for (let i = 1; i <= result.total_pages; i++) {
+            let pagButton = document.createElement("button");
+            pagButton.innerText = i;
+            pagButton.classList.add("monc");
+            myDiv.appendChild(pagButton);
+    
+            
+            pagButton.onclick = function(num) {
+                return function() {
+                    console.log(num);
+    
+                    const getSpin = document.querySelector(".pagemodal");
+                    getSpin.style.display = "block";
+    
+                    const params = new URLSearchParams(window.location.search);
+                    let getId = params.get('cohort_id');
+    
+                    const coTable = document.querySelector(".tableindexcohort");
+                    const getMyStorage = localStorage.getItem("adminLogin");
+                    const myStorage = JSON.parse(getMyStorage);
+                    const storageToken = myStorage.token;
+    
+                    const myHead = new Headers();
+                    myHead.append('Content-Type', 'application/json');
+                    myHead.append('Authorization', `Bearer ${storageToken}`);
+    
+                    const fbal = {
+                        method: 'GET',
+                        headers: myHead
+                    }
+    
+                    let data = [];
+    
+                    const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${num}`;
+    
+                    fetch(url, fbal)
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result)
+                        result.data.map((item) => {
+                            data +=`
+                                <tr>
+                                <td>${item.name}</td>
+                                <td>${item.email}</td>
+                                <td>${item.country}</td>
+                                <td>${item.state}</td>
+                                <td>${item.program_type}</td>
+                                <td>${item.level_of_education}</td>
+                                <td>${item.course_of_interest}</td>
+                                <td>${item.age}</td>
+                                <td>${item.balance}</td>
+                                <td>${item.year}</td>
+                                <td>${item.month}</td>
+                                <td>${item.date}</td>
+                                <td>${item.phone_number}</td>
+                                <td>${item.referral_code}</td>
+                                <td>${item.currency}</td>
+                                <td>${item.payment_plan}</td>
+                                <td>${item.amount_paid}</td>
+                                <td>${item.registeration_number}</td>
+                                <td>${item.enrollment_source}</td>
+                                <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                                </td>
+                            `
+                            coTable.innerHTML = data;
+                            getSpin.style.display = "none";
+                        })
+                    })
+                    .catch(error => console.log('error', error));
+                };
+            }(i);
+    
+        }
     })
     .catch(error => console.log('error', error));
 
 }
-
-
-
 
 
 
@@ -6065,5 +6125,9 @@ function logAdminOut(event) {
     localStorage.clear();
     location.href = "adminlog.html"
 }
+
+
+
+
 
 
