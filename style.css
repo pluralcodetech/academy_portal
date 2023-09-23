@@ -667,7 +667,7 @@ hr {
 .undecided, .not_interested, .next, .enrolled, 
 .update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
 .btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, 
-.advi-btn, .btn-sp, .btn-loop, .Active, .Inactive, .Complete, .Incomplete {
+.advi-btn, .btn-sp, .btn-loop, .Active, .Inactive, .Complete, .Incomplete, .cme-btn {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -713,7 +713,7 @@ hr {
     background: #991010;
 }
 
-.enrolled {
+.enrolled, .cme-btn {
     background: #2334A8;
 }
 
@@ -1063,7 +1063,7 @@ hr {
 }
 
 .mymodal {
-    display: none;
+    /* display: none; */
     position: fixed;
     z-index: 1;
     left: 0;
@@ -1436,7 +1436,7 @@ hr {
     display: none;
 }
 
-.head2 {
+.head2, .hidestate {
     display: none;
 }
 

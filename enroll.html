@@ -132,17 +132,137 @@
     </style>
 
 </head>
-<body onload="getCurrentDate()">
+<body onload="getCurrentDate(), getListOfCountries()">
     <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
     </div> -->
 
-    <div id="re-modal" class="mymodal mb-5">
+    <div id="en-modal" class="mymodal mb-5">
         <div class="modal-content">
             <div class="modal-header">
                 <span class="close" onclick="closehModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center">Admission Form</h4>
+                
+                <p class="itev mt-5 ml-3">
+                    Students Details
+                </p>
+                <form>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                          <label class="lab">Name</label>
+                          <input type="text" class="palo cName" placeholder="Enter name">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                          <label class="lab">Email</label>
+                          <input type="email" class="palo cName" placeholder="Enter email">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Phone Number</label>
+                            <input type="tel" class="palo cName" placeholder="Enter phone nmber">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Course of interest</label>
+                            <select class="palo ladv">
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Mode of Learning</label>
+                            <select class="palo">
+                                <option value="Onsite">Onsite</option>
+                                <option value="Virtual">Virtual</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                          <label class="lab">Currency</label>
+                          <select class="palo">
+                              <option>choose currency</option>
+                              <option value="NGN">NGN</option>
+                              <option value="USD">USD</option>
+                          </select>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Cohort List</label>
+                            <select class="palo">
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Course List</label>
+                            <select class="palo">
+                            </select>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Amount Paid</label>
+                            <input type="number" class="palo" placeholder="Enter amount">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Program type</label>
+                            <select class="palo">
+                                <option value="diploma">Diploma</option>
+                                <option value="entry">Entry</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Academic Level</label>
+                            <input type="text" class="palo" placeholder="Enter academic level">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Age</label>
+                            <input type="number" class="palo" placeholder="Enter age">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Country</label>
+                            <select class="palo country" onchange="getStateByCountry()">
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 hidestate">
+                            <label class="lab">State</label>
+                            <select class="palo">
+                            </select>
+                        </div>
+                    </div>
+                    <p class="itev mt-5 ml-3">Payment Details</p>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Payment Plan</label>
+                            <select class="palo ladv">
+                                <option value="part_payment">Part Payment</option>
+                                <option value="full_payment">Full Payment</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <p class="itev mt-5 ml-3">Referral Details</p>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Referral Code</label>
+                            <input type="text" class="palo culink" placeholder="Enter code">
+                        </div>
+                          <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Balance Payment</label>
+                            <input type="text" class="palo rlink" placeholder="Enter balance">
+                        </div>
+                    </div>
+
+                    <div class="form-footer-item text-center mt-5 mb-5">
+                      <button class="co-btn" onclick="createStudent(event)">
+                        <div class="spinner-border spinner-border-sm text-light spin" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                          Admit
+                      </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -213,7 +333,12 @@
 
        <main>
 
-        <h2 class="course-head mb-3">Enrolled Students</h2>
+        <div class="etop d-flex justify-content-between">
+            <h2 class="course-head mb-3">Enrolled Students</h2>
+            <button class="cme-btn">Create Manual Enrollment</button>
+        </div>
+
+        
         
         <div class="dash-cards mb-5">
             <div class="card-single nine">
