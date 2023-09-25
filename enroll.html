@@ -154,20 +154,27 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                           <label class="lab">Name</label>
-                          <input type="text" class="palo cName" placeholder="Enter name">
+                          <input type="text" class="palo ename" placeholder="Enter name">
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                           <label class="lab">Email</label>
-                          <input type="email" class="palo cName" placeholder="Enter email">
+                          <input type="email" class="palo enemail" placeholder="Enter email">
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Phone Number</label>
-                            <input type="tel" class="palo cName" placeholder="Enter phone nmber">
+                            <input type="number" class="palo ephone" placeholder="Enter phone nmber">
                         </div>
 
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Age</label>
-                            <input type="number" class="palo" placeholder="Enter age">
+                            <select class="palo eage">
+                                <option>Select Age Range</option>
+                                <option value="18-24">18 - 24</option>
+                                <option value="25-29">25 - 29</option>
+                                <option value="30-39">30 - 39</option>
+                                <option value="40-50">40 - 50</option>
+                                <option value="50+">50+</option>
+                            </select>
                         </div>
                     </div>
 
@@ -175,7 +182,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input onsite" type="radio" name="stone" checked>
+                                  <input class="form-check-input" type="radio" id="diploma" value="diploma" name="stone" checked onchange="showDiploma()">
                                   <label class="form-check-label" for="gridCheck">
                                     Diploma(Beginner to Advanced)
                                   </label>
@@ -185,7 +192,7 @@
                         <div class="col-sm-6 col-md-6 offset-lg-2 col-lg-4 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input vive" type="radio" id="gridCheck" name="stone">
+                                  <input class="form-check-input" type="radio" id="entry" value="entry" name="stone" onchange="showEntry()">
                                   <label class="form-check-label" for="gridCheck">
                                     Entry(Beginner)
                                   </label>
@@ -211,18 +218,22 @@
 
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-5">
                             <label class="lab">Amount Paid</label>
-                            <input type="number" class="palo" placeholder="Enter amount">
+                            <input type="number" class="palo eamount" placeholder="Enter amount">
                         </div>
 
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-5">
                             <label class="lab">Academic Level</label>
-                            <select class="palo">
-                                <option>Choose Academic Level</option>
-                                <option value="MSC">MSC</option>
-                                <option value="BSC">BSC</option>
-                                <option value="HND">HND</option>
-                                <option value="OND">OND</option>
-                                <option value="SSCE">SSCE</option>
+                            <select class="palo elevel">
+                                <option>Select Highest Academic Level</option>
+                                <option value="none">None</option>
+                                <option value="Msc">Msc</option>
+                                <option value="Bsc">Bsc</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Doctorate">Doctorate (PHD)</option>
+                                <option value="high">High School / Secondary School</option>
+                                <option value="under">Under Graduate</option>
+                                <option value="junior">Junior / Middle School</option>
+                                <option value="postgraduate">Post Graduate</option>
                             </select>
                         </div>
                         
@@ -232,7 +243,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 mt-5 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input onsite" type="radio" checked name="mode">
+                                  <input class="form-check-input evirtual" type="radio" checked name="mode" value="Virtual">
                                   <label class="form-check-label" for="gridCheck">
                                     Virtual Class
                                   </label>
@@ -242,7 +253,7 @@
                         <div class="col-sm-6 col-md-6 offset-lg-2 col-lg-4 mt-5 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input vive" type="radio" name="mode">
+                                  <input class="form-check-input ephysical" type="radio" name="mode" value="Onsite">
                                   <label class="form-check-label" for="gridCheck">
                                     Physical Class
                                   </label>
@@ -255,7 +266,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 mt-5 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input onsite" type="radio" name="baba" checked>
+                                  <input class="form-check-input" type="radio" name="baba" checked value="USD">
                                   <label class="form-check-label" for="gridCheck">
                                     USD
                                   </label>
@@ -265,7 +276,7 @@
                         <div class="col-sm-6 col-md-6 offset-lg-2 col-lg-4 mt-5 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input vive" type="radio" name="baba">
+                                  <input class="form-check-input" type="radio" name="baba" value="NGN">
                                   <label class="form-check-label" for="gridCheck">
                                     NGN
                                   </label>
@@ -293,7 +304,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input onsite" type="radio" name="pay" checked>
+                                  <input class="form-check-input efull" type="radio" name="pay" checked value="full payment">
                                   <label class="form-check-label" for="gridCheck">
                                     Full Payment
                                   </label>
@@ -303,7 +314,7 @@
                         <div class="col-sm-6 col-md-6 offset-lg-2 col-lg-4 mt-3 buh">
                             <div class="form-group">
                                 <div class="form-check">
-                                  <input class="form-check-input vive" type="radio" name="pay">
+                                  <input class="form-check-input epart" type="radio" name="pay" value="part payment">
                                   <label class="form-check-label" for="gridCheck">
                                     Part Payment
                                   </label>
@@ -316,16 +327,16 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Referral Code</label>
-                            <input type="text" class="palo culink" placeholder="Enter code">
+                            <input type="text" class="palo eref" placeholder="Enter code">
                         </div>
                           <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                             <label class="lab">Balance Payment</label>
-                            <input type="text" class="palo rlink" placeholder="Enter balance">
+                            <input type="text" class="palo ebal" placeholder="Enter balance">
                         </div>
                     </div>
 
                     <div class="form-footer-item text-center mt-5 mb-5">
-                      <button class="co-btn" onclick="createStudent(event)">
+                      <button class="co-btn" onclick="admitStudent(event)">
                         <div class="spinner-border spinner-border-sm text-light spin" role="status">
                             <span class="sr-only"></span>
                         </div>

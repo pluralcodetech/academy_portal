@@ -81,9 +81,10 @@ function enrolCourses() {
     .then(response => response.json())
     .then(result => {
         console.log(result)
+        localStorage.setItem("clist", JSON.stringify(result))
         result.diplomacourses.map((item) => {
             data +=`
-              <option value="${item.name}">${item.name}</option>
+              <option value="${item.id}">${item.name}</option>
             `
             course.innerHTML = data;
         })
@@ -123,4 +124,107 @@ function enrolCohort() {
         })
     })
     .catch(error => console.log('error', error));
+}
+
+function showEntry() {
+    const course = document.querySelector(".course")
+    const listEntry = localStorage.getItem("clist");
+    const listAll = JSON.parse(listEntry);
+
+    let data = [];
+
+    listAll.certcourses.map((item) => {
+        data +=`
+          <option value="${item.id}">${item.name}</option>
+        `
+        course.innerHTML = data;
+    })
+}
+
+function showDiploma() {
+    const course = document.querySelector(".course")
+    const listEntry = localStorage.getItem("clist");
+    const listAll = JSON.parse(listEntry);
+
+    let data = [];
+
+    listAll.diplomacourses.map((item) => {
+        data +=`
+          <option value="${item.id}">${item.name}</option>
+        `
+        course.innerHTML = data;
+    })
+}
+
+function admitStudent(event) {
+    event.preventDefault();
+
+    const getSpin = document.querySelector(".spin");
+    getSpin.style.display = "inline-block";
+
+    const eName = document.querySelector(".ename").value;
+    const eEmail = document.querySelector(".enemail").value;
+    const ePhone = document.querySelector(".ephone").value;
+    const eAge = document.querySelector(".eage").value;
+    const eMode = document.getElementsByName("stone");
+    const eCourse = document.querySelector(".course").value;
+    const eCohort = document.querySelector(".cohort").value;
+    const eAmount = document.querySelector(".eamount").value;
+    const eLevel = document.querySelector(".elevel").value;
+    const eClass = document.getElementsByName("mode");
+    const eCurrency = document.getElementsByName("baba");
+    const eCountry = document.querySelector(".country").value;
+    const eState = document.querySelector(".state").value;
+    const ePart = document.getElementsByName("pay");
+    const eRefe = document.querySelector(".eref").value;
+    const eBal = document.querySelector(".ebal").value;
+
+    const eCourse2 = document.querySelector(".course");
+    let text = eCourse2.options[eCourse2.selectedIndex].text;
+
+    let dmode;
+    let dclass;
+    let dpart;
+    let dcurrency;
+
+    for (let i = 0; i < eMode.length; i++) {
+        if (eMode[i].checked) {
+            dmode = eMode[i].value
+        }
+    }
+
+    for (let i = 0; i < eClass.length; i++) {
+        if (eClass[i].checked) {
+            dclass = eClass[i].value
+        }
+    }
+
+    for (let i = 0; i < ePart.length; i++) {
+        if (ePart[i].checked) {
+            dpart = ePart[i].value
+        }
+    }
+
+    for (let i = 0; i < eCurrency.length; i++) {
+        if (eCurrency[i].checked) {
+            dcurrency = eCurrency[i].value
+        }
+    }
+
+    if(eName === "" || eEmail === "" || ePhone === "" || eAge === "" || eCourse === "" 
+    || eCohort === "" || eAmount === "" || eLevel === "" 
+    || eCountry === "" || eState === "") {
+        Swal.fire({
+            icon: 'info',
+            text: 'All Fields are Required!',
+            confirmButtonColor: '#25067C'
+        })
+        getSpin.style.display = "none";
+    }
+    else {
+        
+    }
+
+
+
 }
