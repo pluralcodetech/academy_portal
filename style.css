@@ -1063,7 +1063,7 @@ hr {
 }
 
 .mymodal {
-    /* display: none; */
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -1432,6 +1432,18 @@ hr {
     cursor: pointer;
 }
 
+.wesg {
+    margin-top: 20px;
+}
+
+.mactive {
+    background: #2334A8;
+    color: #fff;
+    border-radius: 5px;
+    margin-top: 3px;
+}
+
+
 .get-url, .get-url2 {
     display: none;
 }
@@ -1664,3 +1676,5 @@ progress::-webkit-progress-value {
     font-weight: 800;
 }
 
+
+  

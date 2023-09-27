@@ -4360,6 +4360,8 @@ function getStudentsUnderCohort(event) {
 
     const params = new URLSearchParams(window.location.search);
     let getId = params.get('cohort_id');
+    const paginationContainer = document.getElementById('pagination-container');
+
 
     const coTable = document.querySelector(".tableindexcohort");
 
@@ -4394,132 +4396,214 @@ function getStudentsUnderCohort(event) {
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        cohNext = result.next_page;
-        if (result.pre_page === null) {
-            getPre.disabled = true;
-        }
-        else {
-            cohPrev = result.pre_page
-        }
-        if (result.data.length === 0) {
-            coTable.innerHTML = "No Records Found!";
+        result.data.map((item) => {
+            data +=`
+                <tr>
+                   <td>${item.name}</td>
+                   <td>${item.email}</td>
+                   <td>${item.country}</td>
+                   <td>${item.state}</td>
+                   <td>${item.program_type}</td>
+                   <td>${item.level_of_education}</td>
+                   <td>${item.course_of_interest}</td>
+                   <td>${item.age}</td>
+                   <td>${item.balance}</td>
+                   <td>${item.year}</td>
+                   <td>${item.month}</td>
+                   <td>${item.date}</td>
+                   <td>${item.phone_number}</td>
+                   <td>${item.referral_code}</td>
+                   <td>${item.currency}</td>
+                   <td>${item.payment_plan}</td>
+                   <td>${item.amount_paid}</td>
+                   <td>${item.registeration_number}</td>
+                   <td>${item.enrollment_source}</td>
+                   <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                </tr>
+            `
+            coTable.innerHTML = data;
+            getAcrite.style.display = "block";
+            xtable.style.display = "none";
+            xtable2.style.display = "block";
             getSpin.style.display = "none";
-        }
-        else {
-            result.data.map((item) => {
-                data +=`
-                    <tr>
-                       <td>${item.name}</td>
-                       <td>${item.email}</td>
-                       <td>${item.country}</td>
-                       <td>${item.state}</td>
-                       <td>${item.program_type}</td>
-                       <td>${item.level_of_education}</td>
-                       <td>${item.course_of_interest}</td>
-                       <td>${item.age}</td>
-                       <td>${item.balance}</td>
-                       <td>${item.year}</td>
-                       <td>${item.month}</td>
-                       <td>${item.date}</td>
-                       <td>${item.phone_number}</td>
-                       <td>${item.referral_code}</td>
-                       <td>${item.currency}</td>
-                       <td>${item.payment_plan}</td>
-                       <td>${item.amount_paid}</td>
-                       <td>${item.registeration_number}</td>
-                       <td>${item.enrollment_source}</td>
-                       <td><button class=${item.payment_status}>${item.payment_status}</button></td>
-                    </td>
-                `
-                coTable.innerHTML = data;
-                getAcrite.style.display = "block";
-                xtable.style.display = "none";
-                xtable2.style.display = "block";
-                getSpin.style.display = "none";
 
-                btnCoh.style.backgroundColor = "#fff",
-                btnCoh.style.color = "#2334A8";
-                btnCoh.border = "2px solid #2334A8";
+            btnCoh.style.backgroundColor = "#fff",
+            btnCoh.style.color = "#2334A8";
+            btnCoh.border = "2px solid #2334A8";
 
 
-                btnCoh2.style.backgroundColor = "#2334A8",
-                btnCoh2.style.color = "#fff";
-            })
-        }
+            btnCoh2.style.backgroundColor = "#2334A8",
+            btnCoh2.style.color = "#fff";
+        })
 
-        for (let i = 1; i <= result.total_pages; i++) {
-            let pagButton = document.createElement("button");
-            pagButton.innerText = i;
-            pagButton.classList.add("monc");
-            myDiv.appendChild(pagButton);
+        // for (let i = 1; i <= result.total_pages; i++) {
+        //     let pagButton = document.createElement("button");
+        //     pagButton.innerText = i;
+        //     pagButton.classList.add("monc");
+        //     myDiv.appendChild(pagButton);
     
             
-            pagButton.onclick = function(num) {
-                return function() {
-                    console.log(num);
+        //     pagButton.onclick = function(num) {
+        //         return function() {
+        //             console.log(num);
     
-                    const getSpin = document.querySelector(".pagemodal");
-                    getSpin.style.display = "block";
+        //             const getSpin = document.querySelector(".pagemodal");
+        //             getSpin.style.display = "block";
     
-                    const params = new URLSearchParams(window.location.search);
-                    let getId = params.get('cohort_id');
+        //             const params = new URLSearchParams(window.location.search);
+        //             let getId = params.get('cohort_id');
     
-                    const coTable = document.querySelector(".tableindexcohort");
-                    const getMyStorage = localStorage.getItem("adminLogin");
-                    const myStorage = JSON.parse(getMyStorage);
-                    const storageToken = myStorage.token;
+        //             const coTable = document.querySelector(".tableindexcohort");
+        //             const getMyStorage = localStorage.getItem("adminLogin");
+        //             const myStorage = JSON.parse(getMyStorage);
+        //             const storageToken = myStorage.token;
     
-                    const myHead = new Headers();
-                    myHead.append('Content-Type', 'application/json');
-                    myHead.append('Authorization', `Bearer ${storageToken}`);
+        //             const myHead = new Headers();
+        //             myHead.append('Content-Type', 'application/json');
+        //             myHead.append('Authorization', `Bearer ${storageToken}`);
     
-                    const fbal = {
-                        method: 'GET',
-                        headers: myHead
-                    }
+        //             const fbal = {
+        //                 method: 'GET',
+        //                 headers: myHead
+        //             }
     
-                    let data = [];
+        //             let data = [];
     
-                    const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${num}`;
+        //             const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${num}`;
     
-                    fetch(url, fbal)
-                    .then(response => response.json())
-                    .then(result => {
-                        console.log(result)
-                        result.data.map((item) => {
-                            data +=`
-                                <tr>
-                                <td>${item.name}</td>
-                                <td>${item.email}</td>
-                                <td>${item.country}</td>
-                                <td>${item.state}</td>
-                                <td>${item.program_type}</td>
-                                <td>${item.level_of_education}</td>
-                                <td>${item.course_of_interest}</td>
-                                <td>${item.age}</td>
-                                <td>${item.balance}</td>
-                                <td>${item.year}</td>
-                                <td>${item.month}</td>
-                                <td>${item.date}</td>
-                                <td>${item.phone_number}</td>
-                                <td>${item.referral_code}</td>
-                                <td>${item.currency}</td>
-                                <td>${item.payment_plan}</td>
-                                <td>${item.amount_paid}</td>
-                                <td>${item.registeration_number}</td>
-                                <td>${item.enrollment_source}</td>
-                                <td><button class=${item.payment_status}>${item.payment_status}</button></td>
-                                </td>
-                            `
-                            coTable.innerHTML = data;
-                            getSpin.style.display = "none";
-                        })
-                    })
-                    .catch(error => console.log('error', error));
-                };
-            }(i);
+        //             fetch(url, fbal)
+        //             .then(response => response.json())
+        //             .then(result => {
+        //                 console.log(result)
+        //                 result.data.map((item) => {
+        //                     data +=`
+        //                         <tr>
+        //                         <td>${item.name}</td>
+        //                         <td>${item.email}</td>
+        //                         <td>${item.country}</td>
+        //                         <td>${item.state}</td>
+        //                         <td>${item.program_type}</td>
+        //                         <td>${item.level_of_education}</td>
+        //                         <td>${item.course_of_interest}</td>
+        //                         <td>${item.age}</td>
+        //                         <td>${item.balance}</td>
+        //                         <td>${item.year}</td>
+        //                         <td>${item.month}</td>
+        //                         <td>${item.date}</td>
+        //                         <td>${item.phone_number}</td>
+        //                         <td>${item.referral_code}</td>
+        //                         <td>${item.currency}</td>
+        //                         <td>${item.payment_plan}</td>
+        //                         <td>${item.amount_paid}</td>
+        //                         <td>${item.registeration_number}</td>
+        //                         <td>${item.enrollment_source}</td>
+        //                         <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+        //                         </td>
+        //                     `
+        //                     coTable.innerHTML = data;
+        //                     getSpin.style.display = "none";
+        //                 })
+        //             })
+        //             .catch(error => console.log('error', error));
+        //         };
+        //     }(i);
     
+        // }
+
+        let totalPages = result.total_pages;
+        let currentPage = result.page;
+        let maxVisiblePages = 5;
+
+        function createPagination() {
+            paginationContainer.innerHTML = '';
+
+            const startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+            const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+            for (let page = startPage; page <= endPage; page++) {
+                const pageElement = document.createElement('span');
+                pageElement.textContent = page;
+                pageElement.className = page === currentPage ? 'mactive' : '';
+                pageElement.classList.add("monc");
+                pageElement.addEventListener('click', () => onPageClick(page));
+                paginationContainer.appendChild(pageElement);
+            }
+
+            if (startPage > 1) {
+                const prevDots = document.createElement('span');
+                prevDots.textContent = '...';
+                prevDots.className = 'dots';
+                paginationContainer.insertBefore(prevDots, paginationContainer.firstChild);
+            }
+            if (endPage < totalPages) {
+                const nextDots = document.createElement('span');
+                nextDots.textContent = '...';
+                nextDots.className = 'dots';
+                paginationContainer.appendChild(nextDots);
+            }
+            
         }
+        function onPageClick(page) {
+            currentPage = page;
+            console.log(currentPage)
+            const getSpin = document.querySelector(".pagemodal");
+            getSpin.style.display = "block";
+
+            const getMyStorage = localStorage.getItem("adminLogin");
+            const myStorage = JSON.parse(getMyStorage);
+            const storageToken = myStorage.token;
+
+            const myHead = new Headers();
+            myHead.append('Content-Type', 'application/json');
+            myHead.append('Authorization', `Bearer ${storageToken}`);
+
+            const fbal = {
+                method: 'GET',
+                headers: myHead
+            }
+
+            let data = [];
+            const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${currentPage}`;
+
+
+           fetch(url, fbal)
+           .then(response => response.json())
+           .then(result => {
+               console.log(result)
+               result.data.map((item) => {
+                data +=`
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td>${item.country}</td>
+                    <td>${item.state}</td>
+                    <td>${item.program_type}</td>
+                    <td>${item.level_of_education}</td>
+                    <td>${item.course_of_interest}</td>
+                    <td>${item.age}</td>
+                    <td>${item.balance}</td>
+                    <td>${item.year}</td>
+                    <td>${item.month}</td>
+                    <td>${item.date}</td>
+                    <td>${item.phone_number}</td>
+                    <td>${item.referral_code}</td>
+                    <td>${item.currency}</td>
+                    <td>${item.payment_plan}</td>
+                    <td>${item.amount_paid}</td>
+                    <td>${item.registeration_number}</td>
+                    <td>${item.enrollment_source}</td>
+                    <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                </tr>
+                `
+                coTable.innerHTML = data;
+                getSpin.style.display = "none";
+            })
+           })
+           .catch(error => console.log('error', error));
+            createPagination()
+        }
+
+        createPagination();
     })
     .catch(error => console.log('error', error));
 

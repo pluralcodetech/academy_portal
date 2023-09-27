@@ -1,3 +1,13 @@
+function showErolModal(event) {
+    event.preventDefault();
+    const getModal = document.getElementById("en-modal");
+    getModal.style.display = "block";
+}
+
+function closehModal() {
+    const myModal = document.getElementById("en-modal");
+    myModal.style.display = "none";
+}
 // function to get list of countries
 function getListOfCountries() {
     const getCountry = document.querySelector(".country")
@@ -222,9 +232,227 @@ function admitStudent(event) {
         getSpin.style.display = "none";
     }
     else {
-        
+
+        const manualProfile = JSON.stringify({
+            "name": eName,
+            "email": eEmail,
+            "phone_number": ePhone,
+            "course_of_interest": text,
+            "mode_of_learning": dclass,
+            "country": eCountry,
+            "state": eState,
+            "currency": dcurrency,
+            "cohort_id": eCohort,
+            "amount_paid": eAmount,
+            "program_type": dmode,
+            "academy_level": eLevel,
+            "age": eAge,
+            "payment_plan": dpart,
+            "course_id": eCourse,
+            "referral_code": eRefe,
+            "balance": eBal
+        });
+
+        const getMyStorage = localStorage.getItem("adminLogin");
+        const myStorage = JSON.parse(getMyStorage);
+        const storageToken = myStorage.token;
+
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json');
+        myHead.append('Authorization', `Bearer ${storageToken}`);
+
+        const fbal = {
+            method: 'POST',
+            headers: myHead,
+            body: manualProfile
+        }
+
+        const url = "https://backend.pluralcode.institute/admin/manual-enrollment";
+
+        fetch(url, fbal)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+
+            if (result.message === "Enrollment completed") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+
+                setTimeout(() => {
+                    location.reload()
+                }, 3000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+}
+
+function toGetManualEnrolment() {
+
+    const paginationContainer = document.getElementById('pagination-container');
+    const indexTable = document.querySelector(".tableindexErol");
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "inline-block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead,
     }
 
+    let data = [];
 
+    const url = "https://backend.pluralcode.institute/admin/get-enrolment-data/?enrollment_type=admission_form";
 
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.data.data.length === 0) {
+            indexTable.innerHTML = "No Records Found!";
+            getSpin.style.display = "none";
+        }
+        else {
+            result.data.data.map((item) => {
+                data +=`
+                   <tr>
+                     <td>${item.name}</td>
+                     <td>${item.email}</td>
+                     <td>${item.phone_number}</td>
+                     <td>${item.country}</td>
+                     <td>${item.state}</td>
+                     <td>${item.program_type}</td>
+                     <td>${item.mode_of_learning}</td>
+                     <td>${item.level_of_education}</td>
+                     <td>${item.course_of_interest}</td>
+                     <td>${item.age}</td>
+                     <td>${item.date}</td>
+                     <td>${item.year}</td>
+                     <td>${item.month}</td>
+                     <td>${item.amount_paid}</td>
+                     <td>${item.balance}</td>
+                     <td>${item.referral_code}</td>
+                     <td>${item.registeration_number}</td>
+                     <td>${item.enrollment_source}</td>
+                     <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                   </tr>
+                `
+                indexTable.innerHTML = data;
+                getSpin.style.display = "none";
+            })
+        }
+
+        let totalPages = result.data.total_pages;
+        let currentPage = result.data.page;
+        let maxVisiblePages = 5;
+
+        function createPagination() {
+            paginationContainer.innerHTML = '';
+
+            const startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+            const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+            for (let page = startPage; page <= endPage; page++) {
+                const pageElement = document.createElement('span');
+                pageElement.textContent = page;
+                pageElement.className = page === currentPage ? 'mactive' : '';
+                pageElement.classList.add("monc");
+                pageElement.addEventListener('click', () => onPageClick(page));
+                paginationContainer.appendChild(pageElement);
+            }
+
+            if (startPage > 1) {
+                const prevDots = document.createElement('span');
+                prevDots.textContent = '...';
+                prevDots.className = 'dots';
+                paginationContainer.insertBefore(prevDots, paginationContainer.firstChild);
+            }
+            if (endPage < totalPages) {
+                const nextDots = document.createElement('span');
+                nextDots.textContent = '...';
+                nextDots.className = 'dots';
+                paginationContainer.appendChild(nextDots);
+            }
+            
+        }
+        function onPageClick(page) {
+            currentPage = page;
+            console.log(currentPage)
+            const getSpin = document.querySelector(".pagemodal");
+            getSpin.style.display = "block";
+
+            const getMyStorage = localStorage.getItem("adminLogin");
+            const myStorage = JSON.parse(getMyStorage);
+            const storageToken = myStorage.token;
+
+            const myHead = new Headers();
+            myHead.append('Content-Type', 'application/json');
+            myHead.append('Authorization', `Bearer ${storageToken}`);
+
+            const fbal = {
+                method: 'GET',
+                headers: myHead
+            }
+
+            let data = [];
+
+           const url = `https://backend.pluralcode.institute/admin/get-enrolment-data/?enrollment_type=admission_form&page=${currentPage}`;
+
+           fetch(url, fbal)
+           .then(response => response.json())
+           .then(result => {
+               console.log(result)
+               result.data.data.map((item) => {
+                data +=`
+                   <tr>
+                     <td>${item.name}</td>
+                     <td>${item.email}</td>
+                     <td>${item.phone_number}</td>
+                     <td>${item.country}</td>
+                     <td>${item.state}</td>
+                     <td>${item.program_type}</td>
+                     <td>${item.mode_of_learning}</td>
+                     <td>${item.level_of_education}</td>
+                     <td>${item.course_of_interest}</td>
+                     <td>${item.age}</td>
+                     <td>${item.date}</td>
+                     <td>${item.year}</td>
+                     <td>${item.month}</td>
+                     <td>${item.amount_paid}</td>
+                     <td>${item.balance}</td>
+                     <td>${item.referral_code}</td>
+                     <td>${item.registeration_number}</td>
+                     <td>${item.enrollment_source}</td>
+                     <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                   </tr>
+                `
+                indexTable.innerHTML = data;
+                getSpin.style.display = "none";
+            })
+           })
+           .catch(error => console.log('error', error));
+            createPagination()
+        }
+
+        createPagination();
+    })
+    .catch(error => console.log('error', error));
 }
