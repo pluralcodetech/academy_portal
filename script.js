@@ -304,9 +304,7 @@ function adminLog(event) {
             "email": getEmail,
             "password": getPass
         })
-
-        console.log(getEmail, getPass)
-
+        
         const adminRequest = {
             method: 'POST',
             headers: myHead,
@@ -2769,6 +2767,11 @@ function closehModal() {
     myModal.style.display = "none";
 }
 
+function closehModal1() {
+    const myModal = document.getElementById("re-modal");
+    myModal.style.display = "none";
+}
+
 function closehModal2() {
     const myModal = document.getElementById("in-modal");
     const upct = document.querySelector(".upct");
@@ -2798,6 +2801,7 @@ function closehModal2() {
     }
     myModal.style.display = "none";
 }
+
 
 function closehModal3() {
     const myModal = document.getElementById("loop-modal");
@@ -4012,9 +4016,10 @@ function cohortCourseList() {
                 data += `
                   <tr>
                     <td>${item.name}</td>
-                    <td>${item.onsite_price}</td>
-                    <td>${item.virtual_price}</td>
+                    <td>₦${item.onsite_price}</td>
+                    <td>₦${item.virtual_price}</td>
                     <td>${item.school}</td>
+                    <td>${item.course_type}</td>
                     <td>${item.advisor_name}</td>
                     <td>${item.advisor_contact_detail}</td>
                     <td><a class="update" href="view-materials.html?course_id=${item.id}&cohort_id=${getId}">View Materials</a></td>
@@ -4079,9 +4084,10 @@ function getcohortCourseList(event) {
                 data += `
                   <tr>
                     <td>${item.name}</td>
-                    <td>${item.onsite_price}</td>
-                    <td>${item.virtual_price}</td>
+                    <td>₦${item.onsite_price}</td>
+                    <td>₦${item.virtual_price}</td>
                     <td>${item.school}</td>
+                    <td>${item.course_type}</td>
                     <td>${item.advisor_name}</td>
                     <td>${item.advisor_contact_detail}</td>
                     <td><a class="update" href="view-materials.html?course_id=${item.id}&cohort_id=${getId}">View Materials</a></td>
@@ -4397,7 +4403,8 @@ function getStudentsUnderCohort(event) {
     .then(result => {
         console.log(result)
         result.data.map((item) => {
-            data +=`
+            if (item.currency === "NGN") {
+                data +=`
                 <tr>
                    <td>${item.name}</td>
                    <td>${item.email}</td>
@@ -4415,12 +4422,40 @@ function getStudentsUnderCohort(event) {
                    <td>${item.referral_code}</td>
                    <td>${item.currency}</td>
                    <td>${item.payment_plan}</td>
-                   <td>${item.amount_paid}</td>
+                   <td>₦${item.amount_paid}</td>
                    <td>${item.registeration_number}</td>
                    <td>${item.enrollment_source}</td>
                    <td><button class=${item.payment_status}>${item.payment_status}</button></td>
                 </tr>
             `
+            }
+            if (item.currency === "USD") {
+                data +=`
+                <tr>
+                   <td>${item.name}</td>
+                   <td>${item.email}</td>
+                   <td>${item.country}</td>
+                   <td>${item.state}</td>
+                   <td>${item.program_type}</td>
+                   <td>${item.level_of_education}</td>
+                   <td>${item.course_of_interest}</td>
+                   <td>${item.age}</td>
+                   <td>${item.balance}</td>
+                   <td>${item.year}</td>
+                   <td>${item.month}</td>
+                   <td>${item.date}</td>
+                   <td>${item.phone_number}</td>
+                   <td>${item.referral_code}</td>
+                   <td>${item.currency}</td>
+                   <td>${item.payment_plan}</td>
+                   <td>$${item.amount_paid}</td>
+                   <td>${item.registeration_number}</td>
+                   <td>${item.enrollment_source}</td>
+                   <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                </tr>
+            `
+            }
+            
             coTable.innerHTML = data;
             getAcrite.style.display = "block";
             xtable.style.display = "none";
@@ -4435,80 +4470,6 @@ function getStudentsUnderCohort(event) {
             btnCoh2.style.backgroundColor = "#2334A8",
             btnCoh2.style.color = "#fff";
         })
-
-        // for (let i = 1; i <= result.total_pages; i++) {
-        //     let pagButton = document.createElement("button");
-        //     pagButton.innerText = i;
-        //     pagButton.classList.add("monc");
-        //     myDiv.appendChild(pagButton);
-    
-            
-        //     pagButton.onclick = function(num) {
-        //         return function() {
-        //             console.log(num);
-    
-        //             const getSpin = document.querySelector(".pagemodal");
-        //             getSpin.style.display = "block";
-    
-        //             const params = new URLSearchParams(window.location.search);
-        //             let getId = params.get('cohort_id');
-    
-        //             const coTable = document.querySelector(".tableindexcohort");
-        //             const getMyStorage = localStorage.getItem("adminLogin");
-        //             const myStorage = JSON.parse(getMyStorage);
-        //             const storageToken = myStorage.token;
-    
-        //             const myHead = new Headers();
-        //             myHead.append('Content-Type', 'application/json');
-        //             myHead.append('Authorization', `Bearer ${storageToken}`);
-    
-        //             const fbal = {
-        //                 method: 'GET',
-        //                 headers: myHead
-        //             }
-    
-        //             let data = [];
-    
-        //             const url = `https://backend.pluralcode.institute/admin/get-cohort-students?cohort_id=${getId}&page=${num}`;
-    
-        //             fetch(url, fbal)
-        //             .then(response => response.json())
-        //             .then(result => {
-        //                 console.log(result)
-        //                 result.data.map((item) => {
-        //                     data +=`
-        //                         <tr>
-        //                         <td>${item.name}</td>
-        //                         <td>${item.email}</td>
-        //                         <td>${item.country}</td>
-        //                         <td>${item.state}</td>
-        //                         <td>${item.program_type}</td>
-        //                         <td>${item.level_of_education}</td>
-        //                         <td>${item.course_of_interest}</td>
-        //                         <td>${item.age}</td>
-        //                         <td>${item.balance}</td>
-        //                         <td>${item.year}</td>
-        //                         <td>${item.month}</td>
-        //                         <td>${item.date}</td>
-        //                         <td>${item.phone_number}</td>
-        //                         <td>${item.referral_code}</td>
-        //                         <td>${item.currency}</td>
-        //                         <td>${item.payment_plan}</td>
-        //                         <td>${item.amount_paid}</td>
-        //                         <td>${item.registeration_number}</td>
-        //                         <td>${item.enrollment_source}</td>
-        //                         <td><button class=${item.payment_status}>${item.payment_status}</button></td>
-        //                         </td>
-        //                     `
-        //                     coTable.innerHTML = data;
-        //                     getSpin.style.display = "none";
-        //                 })
-        //             })
-        //             .catch(error => console.log('error', error));
-        //         };
-        //     }(i);
-    
-        // }
 
         let totalPages = result.total_pages;
         let currentPage = result.page;
@@ -4571,30 +4532,58 @@ function getStudentsUnderCohort(event) {
            .then(result => {
                console.log(result)
                result.data.map((item) => {
-                data +=`
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.country}</td>
-                    <td>${item.state}</td>
-                    <td>${item.program_type}</td>
-                    <td>${item.level_of_education}</td>
-                    <td>${item.course_of_interest}</td>
-                    <td>${item.age}</td>
-                    <td>${item.balance}</td>
-                    <td>${item.year}</td>
-                    <td>${item.month}</td>
-                    <td>${item.date}</td>
-                    <td>${item.phone_number}</td>
-                    <td>${item.referral_code}</td>
-                    <td>${item.currency}</td>
-                    <td>${item.payment_plan}</td>
-                    <td>${item.amount_paid}</td>
-                    <td>${item.registeration_number}</td>
-                    <td>${item.enrollment_source}</td>
-                    <td><button class=${item.payment_status}>${item.payment_status}</button></td>
-                </tr>
+                if (item.currency === "NGN") {
+                    data +=`
+                    <tr>
+                       <td>${item.name}</td>
+                       <td>${item.email}</td>
+                       <td>${item.country}</td>
+                       <td>${item.state}</td>
+                       <td>${item.program_type}</td>
+                       <td>${item.level_of_education}</td>
+                       <td>${item.course_of_interest}</td>
+                       <td>${item.age}</td>
+                       <td>${item.balance}</td>
+                       <td>${item.year}</td>
+                       <td>${item.month}</td>
+                       <td>${item.date}</td>
+                       <td>${item.phone_number}</td>
+                       <td>${item.referral_code}</td>
+                       <td>${item.currency}</td>
+                       <td>${item.payment_plan}</td>
+                       <td>₦${item.amount_paid}</td>
+                       <td>${item.registeration_number}</td>
+                       <td>${item.enrollment_source}</td>
+                       <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                    </tr>
                 `
+                }
+                if (item.currency === "USD") {
+                    data +=`
+                    <tr>
+                       <td>${item.name}</td>
+                       <td>${item.email}</td>
+                       <td>${item.country}</td>
+                       <td>${item.state}</td>
+                       <td>${item.program_type}</td>
+                       <td>${item.level_of_education}</td>
+                       <td>${item.course_of_interest}</td>
+                       <td>${item.age}</td>
+                       <td>${item.balance}</td>
+                       <td>${item.year}</td>
+                       <td>${item.month}</td>
+                       <td>${item.date}</td>
+                       <td>${item.phone_number}</td>
+                       <td>${item.referral_code}</td>
+                       <td>${item.currency}</td>
+                       <td>${item.payment_plan}</td>
+                       <td>$${item.amount_paid}</td>
+                       <td>${item.registeration_number}</td>
+                       <td>${item.enrollment_source}</td>
+                       <td><button class=${item.payment_status}>${item.payment_status}</button></td>
+                    </tr>
+                `
+                }
                 coTable.innerHTML = data;
                 getSpin.style.display = "none";
             })
@@ -5021,8 +5010,8 @@ function getAllCourse() {
                    <td>${item.advisor_name}</td>
                    <td>${item.advisor_contact_detail}</td>
                    <td>${item.course_type}</td>
-                   <td>$${item.onsite_price}</td>
-                   <td>$${item.virtual_price}</td>
+                   <td>₦${item.onsite_price}</td>
+                   <td>₦${item.virtual_price}</td>
                    <td>${item.discount_deadline}</td>
                    <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">
                    ${item.status}
@@ -5104,8 +5093,8 @@ function filterByActiveLead() {
                         <td>${item.advisor_name}</td>
                         <td>${item.advisor_contact_detail}</td>
                         <td>${item.course_type}</td>
-                        <td>$${item.onsite_price}</td>
-                        <td>$${item.virtual_price}</td>
+                        <td>₦$${item.onsite_price}</td>
+                        <td>₦$${item.virtual_price}</td>
                         <td>${item.discount_deadline}</td>
                         <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
                         <td><i class="fas fa-edit" onclick="courseModal(${item.id})"></i></td>
@@ -5172,8 +5161,8 @@ function filterByInactiveLead() {
                         <td>${item.advisor_name}</td>
                         <td>${item.advisor_contact_detail}</td>
                         <td>${item.course_type}</td>
-                        <td>$${item.onsite_price}</td>
-                        <td>$${item.virtual_price}</td>
+                        <td>₦$${item.onsite_price}</td>
+                        <td>₦$${item.virtual_price}</td>
                         <td>${item.discount_deadline}</td>
                         <td><button class="${item.status}" onclick="updateCourseStatus(${item.id})">${item.status}</button></td>
                         <td><i class="fas fa-edit" onclick="courseModal(${item.id})"></i></td>
@@ -5409,6 +5398,9 @@ function getLoopCourses(event) {
     stn.style.pointerEvents = "all"
     stn2.style.pointerEvents = "all"
 
+    stn.classList.remove("cardshow");
+    stn2.classList.remove("cardshow");
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -5463,8 +5455,7 @@ function getLoopCourses(event) {
                 statusLoopData.push({"status":item.status, id:item.id})
                 localStorage.setItem("loop", JSON.stringify(statusLoopData))
             })
-            stn.classList.remove("cardshow");
-            stn2.classList.remove("cardshow");
+            
 
 
         }
@@ -6192,7 +6183,7 @@ function listOutCohort() {
                         <td>${item.year}</td>
                         <td>${item.totalenrollment}</td>
                         <td><a class="update" href="view-cohort.html?cohort_id=${item.id}">View</a></td>
-                        <td><button class="deactive">End Cohort</button></td>
+                        <td><button class="deactive" onclick="deactivateCohort(${item.id})">End Cohort</button></td>
                     </tr>
                 `
                 cohortTable.innerHTML = data;
@@ -6201,6 +6192,76 @@ function listOutCohort() {
         }
     })
     .catch(error => console.log('error', error));
+}
+
+function deactivateCohort(cohortId) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+            const cohortProfile = JSON.stringify({
+                "status": "Inactive",
+                "id": cohortId
+            })
+
+            const getMyStorage = localStorage.getItem("adminLogin");
+            const myStorage = JSON.parse(getMyStorage);
+            const storageToken = myStorage.token;
+
+            const myHead = new Headers();
+            myHead.append('Content-Type', 'application/json');
+            myHead.append('Authorization', `Bearer ${storageToken}`);
+
+            const comethod = {
+                method: 'POST',
+                headers: myHead,
+                body: cohortProfile
+            }
+            
+            const url = "https://backend.pluralcode.institute/admin/close-cohort";
+
+            fetch(url, comethod)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                if(result.message === "cohort closed") {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'cohort closed.',
+                        'success'
+                    )
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000)
+                }
+            })
+            .catch(error => console.log('error', error));
+        } 
+        else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your records are safe :)',
+            'error'
+          )
+        }
+    })
 }
 
 // function logout

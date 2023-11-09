@@ -662,6 +662,10 @@ hr {
     border-radius: 5px;
 }
 
+.swal2-cancel {
+    margin-right: 10px !important;
+}
+
 .complete, .pending, .un-paid, .interested, 
 .unreachable, .active, .dele-btn, .assigned, 
 .undecided, .not_interested, .next, .enrolled, 
@@ -816,8 +820,9 @@ hr {
 
 .view-adv {
     background: #2334A8;
-    width: 100px;
+    width: 150px;
     margin-top: -8px;
+    padding: 10px 0;
 }
 
 .advi-btn {

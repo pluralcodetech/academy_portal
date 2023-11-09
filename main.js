@@ -332,7 +332,8 @@ function toGetManualEnrolment() {
         }
         else {
             result.data.data.map((item) => {
-                data +=`
+                if (item.currency === "USD") {
+                    data +=`
                    <tr>
                      <td>${item.name}</td>
                      <td>${item.email}</td>
@@ -347,14 +348,42 @@ function toGetManualEnrolment() {
                      <td>${item.date}</td>
                      <td>${item.year}</td>
                      <td>${item.month}</td>
-                     <td>${item.amount_paid}</td>
-                     <td>${item.balance}</td>
+                     <td>$${item.amount_paid}</td>
+                     <td>$${item.balance}</td>
                      <td>${item.referral_code}</td>
                      <td>${item.registeration_number}</td>
                      <td>${item.enrollment_source}</td>
                      <td><button class="${item.payment_status}">${item.payment_status}</button></td>
                    </tr>
                 `
+                }
+
+                if (item.currency === "NGN") {
+                    data +=`
+                   <tr>
+                     <td>${item.name}</td>
+                     <td>${item.email}</td>
+                     <td>${item.phone_number}</td>
+                     <td>${item.country}</td>
+                     <td>${item.state}</td>
+                     <td>${item.program_type}</td>
+                     <td>${item.mode_of_learning}</td>
+                     <td>${item.level_of_education}</td>
+                     <td>${item.course_of_interest}</td>
+                     <td>${item.age}</td>
+                     <td>${item.date}</td>
+                     <td>${item.year}</td>
+                     <td>${item.month}</td>
+                     <td>₦${item.amount_paid}</td>
+                     <td>₦${item.balance}</td>
+                     <td>${item.referral_code}</td>
+                     <td>${item.registeration_number}</td>
+                     <td>${item.enrollment_source}</td>
+                     <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                   </tr>
+                `
+                }
+                
                 indexTable.innerHTML = data;
                 getSpin.style.display = "none";
             })
@@ -421,7 +450,8 @@ function toGetManualEnrolment() {
            .then(result => {
                console.log(result)
                result.data.data.map((item) => {
-                data +=`
+                if (item.currency === "USD") {
+                    data +=`
                    <tr>
                      <td>${item.name}</td>
                      <td>${item.email}</td>
@@ -436,14 +466,41 @@ function toGetManualEnrolment() {
                      <td>${item.date}</td>
                      <td>${item.year}</td>
                      <td>${item.month}</td>
-                     <td>${item.amount_paid}</td>
-                     <td>${item.balance}</td>
+                     <td>$${item.amount_paid}</td>
+                     <td>$${item.balance}</td>
                      <td>${item.referral_code}</td>
                      <td>${item.registeration_number}</td>
                      <td>${item.enrollment_source}</td>
                      <td><button class="${item.payment_status}">${item.payment_status}</button></td>
                    </tr>
                 `
+                }
+
+                if (item.currency === "NGN") {
+                    data +=`
+                   <tr>
+                     <td>${item.name}</td>
+                     <td>${item.email}</td>
+                     <td>${item.phone_number}</td>
+                     <td>${item.country}</td>
+                     <td>${item.state}</td>
+                     <td>${item.program_type}</td>
+                     <td>${item.mode_of_learning}</td>
+                     <td>${item.level_of_education}</td>
+                     <td>${item.course_of_interest}</td>
+                     <td>${item.age}</td>
+                     <td>${item.date}</td>
+                     <td>${item.year}</td>
+                     <td>${item.month}</td>
+                     <td>₦${item.amount_paid}</td>
+                     <td>₦${item.balance}</td>
+                     <td>${item.referral_code}</td>
+                     <td>${item.registeration_number}</td>
+                     <td>${item.enrollment_source}</td>
+                     <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                   </tr>
+                `
+                }
                 indexTable.innerHTML = data;
                 getSpin.style.display = "none";
             })
@@ -453,6 +510,50 @@ function toGetManualEnrolment() {
         }
 
         createPagination();
+    })
+    .catch(error => console.log('error', error));
+}
+
+function myAdvisorList() {
+    const getPage = document.querySelector(".pagemodal");
+    getPage.style.display = "block";
+
+    const tableVisor = document.querySelector(".tablevisor")
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const courseMethod = {
+        method: 'GET',
+        headers: myHead
+    }
+
+    let data = [];
+
+    const url = "https://backend.pluralcode.institute/admin/get-advisors";
+
+    fetch(url, courseMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        result.data.map((item) => {
+            data += `
+               <tr>
+                 <td>${item.name}</td>
+                 <td>${item.email}</td>
+                 <td>${item.contact_details}</td>
+                 <td>${item.school}</td>
+                 <td>${item.referral_code}</td>
+                 <td><a href="advisor-view.html?ref=${item.referral_code}"><button class="view-adv">View Enrolment</button></a></td>
+               </tr>
+            `
+            tableVisor.innerHTML = data;
+            getPage.style.display = "none";
+        })
     })
     .catch(error => console.log('error', error));
 }
