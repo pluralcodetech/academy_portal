@@ -1441,11 +1441,15 @@ hr {
     margin-top: 20px;
 }
 
-.mactive {
+.mactive, .mactive2 {
     background: #2334A8;
     color: #fff;
     border-radius: 5px;
     margin-top: 3px;
+}
+
+.mactive2 {
+    background: rgb(4, 149, 4);
 }
 
 

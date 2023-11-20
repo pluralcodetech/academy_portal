@@ -98,12 +98,12 @@
     </style>
 
 </head>
-<body onload="getCurrentDate()">
-    <!-- <div class="pagemodal">
+<body onload="getCurrentDate(), getEnrolByRef(), advName(), enrolCourses()">
+    <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
         </div>
-    </div> -->
+    </div>
 
 
 
@@ -208,13 +208,13 @@
 
        <main>
 
-        <h2 class="course-head">Advisor</h2>
+        <h2 class="course-head"></h2>
 
         <div class="jumbotron bg-light">
             <div class="head-shift">
                 <form>
                     <label for="course">Course</label>
-                    <select class="form-control spincourse" id="input" onchange="visorCourse(event)">
+                    <select class="form-control scourse" id="input" onchange="visorCourse(event)">
                     </select>
                 </form>
             </div>
@@ -237,24 +237,40 @@
                </center>
             </form>
 
-            <div class="outer-wrapper">
+            <div class="outer-wrapper mt-5">
                 <div class="table-wrapper mb-5">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Advisor Name</th>
-                                <th>Advisor Email</th>
-                                <th>Advisor Phone</th>
-                                <th>Advisor School</th>
-                                <th>Referral Code</th>
-                                <th>View Profile</th>
+                                <th>Date</th>
+                                <th>Student Name</th>
+                                <th>Student Email</th>
+                                <th>Student Phone</th>
+                                <th>Student Country</th>
+                                <th>Student State</th>
+                                <th>level of Education</th>
+                                <th>Program Type</th>
+                                <th>Age</th>
+                                <th>Amount Paid</th>
+                                <th>Balance</th>
+                                <th>Currency</th>
+                                <th>Mode of Learning</th>
+                                <th>Course Of Interest</th>
+                                <th>Payment Plan</th>
+                                <th>Registration Number</th>
+                                <th>Payment Status</th>
                             </tr>
                         </thead>
-                        <tbody class="tablevisor">
+                        <tbody class="tablevisor2">
                           
                         </tbody>
                     </table>
                 </div>
+                <nav class="mt-5 mio">
+                    <ul class="pagination pg-blue justify-content-center">
+                        <div id="pagination-container" class="wesg"></div>
+                    </ul>
+                </nav>
             </div>
         </div>
         

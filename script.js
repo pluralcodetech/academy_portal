@@ -5695,9 +5695,11 @@ function courseLoopModal(loopId) {
         const ladv = document.querySelector(".loopupladv");
         const lcap = document.querySelector(".loopcaplink");
 
+
         localStorage.setItem("lc", `${result.loopdata.teachable_course_id}`)
 
         lName.setAttribute("value", `${result.loopdata.name}`);
+
         lcap.setAttribute("value", `${result.loopdata.capstone_project_instruction_link}`);
 
         for (let i = 0; i < ladv.length; i++) {
@@ -6208,7 +6210,7 @@ function deactivateCohort(cohortId) {
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'Yes, End it!',
         cancelButtonText: 'No, cancel!',
         reverseButtons: true
       }).then((result) => {
