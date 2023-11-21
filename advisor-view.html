@@ -98,7 +98,7 @@
     </style>
 
 </head>
-<body onload="getCurrentDate(), getEnrolByRef(), advName(), enrolCourses()">
+<body onload="getCurrentDate(), getEnrolByRef(), advName(), enrolCourses(), allCoursesList()">
     <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
@@ -191,14 +191,7 @@
                </label>
            </h2>
            <div>
-               <form>
-                <div style="max-width:400px; margin:auto">
-                    <div class="input-icons">
-                        <i class="fa fa-search icon"></i>
-                        <input class="input-field" type="text" placeholder="Search">
-                    </div>
-                </div>
-               </form>
+               
            </div>
            <div class="mt-3">
                <p class="currentDta"></p>
@@ -214,26 +207,34 @@
             <div class="head-shift">
                 <form>
                     <label for="course">Course</label>
-                    <select class="form-control scourse" id="input" onchange="visorCourse(event)">
+                    <select class="form-control scourse" id="input">
                     </select>
+                </form>
+                <form class="mt-4">
+                    <div style="max-width:400px; margin:auto">
+                        <div class="input-icons">
+                            <i class="fa fa-search icon" onclick="byEmailNameCourse(event)"></i>
+                            <input class="input-field valueItem" type="text" placeholder="Search">
+                        </div>
+                    </div>
                 </form>
             </div>
             <form>
                 <div class="row mt-3">
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <label for="">Start date</label>
-                        <input type="date" name="myDate" class="mb-2 form-control firstValue">
+                        <input type="date" name="myDate" class="mb-2 form-control firstValue2">
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <div class="dashSelectBox">
                             
                             <label for="">End date</label>
-                            <input type="date" name="myDate" class="mb-2 form-control secondValue">
+                            <input type="date" name="myDate" class="mb-2 form-control secondValue2">
                         </div>
                     </div>
                </div>
-               <center>
-                 <button class="sort-btn" onclick="searchTheDate(event)">sort by range</button>
+               <center class="mt-5">
+                 <button class="sort-btn" onclick="searchTheDate2(event)">sort by course & date range</button>
                </center>
             </form>
 

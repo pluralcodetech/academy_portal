@@ -2022,7 +2022,6 @@ function courses4() {
         for (i = 0; i < mdata.length; i++) {
             result.unshift(mdata[i]);
         }
-        console.log(result);
 
         result.map((item)=> {
             if (item.name === "All") {

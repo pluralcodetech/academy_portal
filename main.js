@@ -777,3 +777,311 @@ function getEnrolByRef() {
     .catch(error => console.log('error', error));
 
 }
+
+function allCoursesList() {
+    const sCourse = document.querySelector(".scourse");
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead,
+    }
+
+    let mone = {
+        name: "All"
+    };
+
+    let mdata = [];
+    mdata.push(mone)
+
+    let data = [];
+
+    const url = "https://backend.pluralcode.institute/admin/get-course-list-dropdown";
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        for (i = 0; i < mdata.length; i++) {
+            result.message.unshift(mdata[i]);
+        }
+        console.log(result);
+        result.message.map((item)=> {
+            if (item.name === "All") {
+                return data += `
+                 <option value="">${item.name}</option>
+
+                `
+            }
+            else {
+                return data += `
+                <option value="${item.name}">${item.name}</option>
+            `
+            }
+            
+        })
+
+        sCourse.innerHTML = data;
+        getSpin.style.display = "none";
+    })
+    .catch(error => console.log('error', error));
+}
+
+function searchTheDate2(event) {
+    event.preventDefault();
+
+    const paginationContainer = document.getElementById('pagination-container');
+    const tableIndex = document.querySelector(".tablevisor2");
+    const mio = document.querySelector(".mio");
+
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getValue = document.querySelector(".firstValue2").value;
+    const getSecondValue = document.querySelector(".secondValue2").value;
+    const sCourse = document.querySelector(".scourse").value;
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead,
+    }
+
+    let cdata = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-enrolment-data/?enrollment_type=admission_form&searchterm=${sCourse}&start_date=${getValue}&end_date=${getSecondValue}`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.data.data.length === 0) {
+            tableIndex.innerHTML = "No Records Found!";
+            getSpin.style.display = "none";
+            mio.style.display = "none";
+        }
+        else {
+            result.data.data.map((item) => {
+                if (item.currency === "USD") {
+                    cdata += `
+                    <tr>
+                     <td>${item.date}</td>
+                     <td>${item.name}</td>
+                     <td>${item.email}</td>
+                     <td>${item.phone_number}</td>
+                     <td>${item.country}</td>
+                     <td>${item.state}</td>
+                     <td>${item.level_of_education}</td>
+                     <td>${item.program_type}</td>
+                     <td>${item.age}</td>
+                     <td>$${item.amount_paid}</td>
+                     <td>$${item.balance}</td>
+                     <td>${item.currency}</td>
+                     <td>${item.mode_of_learning}</td>
+                     <td>${item.course_of_interest}</td>
+                     <td>${item.payment_plan}</td>
+                     <td>${item.registeration_number}</td>
+                     <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                   </tr>
+                   `
+                }
+                if (item.currency === "NGN") {
+                    cdata +=`
+                   <tr>
+                     <td>${item.date}</td>
+                     <td>${item.name}</td>
+                     <td>${item.email}</td>
+                     <td>${item.phone_number}</td>
+                     <td>${item.country}</td>
+                     <td>${item.state}</td>
+                     <td>${item.level_of_education}</td>
+                     <td>${item.program_type}</td>
+                     <td>${item.age}</td>
+                     <td>₦${item.amount_paid}</td>
+                     <td>₦${item.balance}</td>
+                     <td>${item.currency}</td>
+                     <td>${item.mode_of_learning}</td>
+                     <td>${item.course_of_interest}</td>
+                     <td>${item.payment_plan}</td>
+                     <td>${item.registeration_number}</td>
+                     <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                   </tr>
+                `
+                }
+
+                tableIndex.innerHTML = cdata;
+                getSpin.style.display = "none";
+            })
+        }
+
+        let totalPages = result.data.total_pages;
+        let currentPage = result.data.page;
+        let maxVisiblePages = 5;
+
+        function createPagination() {
+            paginationContainer.innerHTML = '';
+
+            const startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+            const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+            for (let page = startPage; page <= endPage; page++) {
+                const pageElement = document.createElement('span');
+                pageElement.textContent = page;
+                pageElement.className = page === currentPage ? 'mactive2' : '';
+                pageElement.classList.add("monc");
+                pageElement.addEventListener('click', () => onPageClick(page));
+                paginationContainer.appendChild(pageElement);
+            }
+
+            if (startPage > 1) {
+                const prevDots = document.createElement('span');
+                prevDots.textContent = '...';
+                prevDots.className = 'dots';
+                paginationContainer.insertBefore(prevDots, paginationContainer.firstChild);
+            }
+            if (endPage < totalPages) {
+                const nextDots = document.createElement('span');
+                nextDots.textContent = '...';
+                nextDots.className = 'dots';
+                paginationContainer.appendChild(nextDots);
+            } 
+        }
+        function onPageClick(page) {
+            currentPage = page;
+            const getSpin = document.querySelector(".pagemodal");
+            getSpin.style.display = "block";
+
+            const getMyStorage = localStorage.getItem("adminLogin");
+            const myStorage = JSON.parse(getMyStorage);
+            const storageToken = myStorage.token;
+
+            const myHead = new Headers();
+            myHead.append('Content-Type', 'application/json');
+            myHead.append('Authorization', `Bearer ${storageToken}`);
+
+            const fbal = {
+                method: 'GET',
+                headers: myHead
+            }
+
+            let data2 = [];
+
+            const url = `https://backend.pluralcode.institute/admin/get-enrolment-data/?enrollment_type=admission_form&searchterm=${sCourse}&start_date=${getValue}&end_date=${getSecondValue}&page=${currentPage}`;
+
+           fetch(url, fbal)
+           .then(response => response.json())
+           .then(result => {
+               console.log(result)
+               result.data.data.map((item) => {
+                if (item.currency === "USD") {
+                    data2 +=`
+                    <tr>
+                    <td>${item.date}</td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td>${item.phone_number}</td>
+                    <td>${item.country}</td>
+                    <td>${item.state}</td>
+                    <td>${item.level_of_education}</td>
+                    <td>${item.program_type}</td>
+                    <td>${item.age}</td>
+                    <td>$${item.amount_paid}</td>
+                    <td>$${item.balance}</td>
+                    <td>${item.currency}</td>
+                    <td>${item.mode_of_learning}</td>
+                    <td>${item.course_of_interest}</td>
+                    <td>${item.payment_plan}</td>
+                    <td>${item.registeration_number}</td>
+                    <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                  </tr>
+                `
+                }
+
+                if (item.currency === "NGN") {
+                    data2 +=`
+                    <tr>
+                    <td>${item.date}</td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td>${item.phone_number}</td>
+                    <td>${item.country}</td>
+                    <td>${item.state}</td>
+                    <td>${item.level_of_education}</td>
+                    <td>${item.program_type}</td>
+                    <td>${item.age}</td>
+                    <td>$${item.amount_paid}</td>
+                    <td>$${item.balance}</td>
+                    <td>${item.currency}</td>
+                    <td>${item.mode_of_learning}</td>
+                    <td>${item.course_of_interest}</td>
+                    <td>${item.payment_plan}</td>
+                    <td>${item.registeration_number}</td>
+                    <td><button class="${item.payment_status}">${item.payment_status}</button></td>
+                  </tr>
+                `
+                }
+                tableIndex.innerHTML = data2;
+                getSpin.style.display = "none";
+            })
+           })
+           .catch(error => console.log('error', error));
+            createPagination()
+        }
+
+        createPagination();
+    })
+    .catch(error => console.log('error', error));
+}
+
+function byEmailNameCourse(event) {
+    event.preventDefault();
+
+    const paginationContainer = document.getElementById('pagination-container');
+    const tableIndex = document.querySelector(".tablevisor2");
+    const valueItem = document.querySelector(".valueItem").value;
+
+    const mio = document.querySelector(".mio");
+
+    const getSpin = document.querySelector(".pagemodal");
+    getSpin.style.display = "block";
+
+    const getMyStorage = localStorage.getItem("adminLogin");
+    const myStorage = JSON.parse(getMyStorage);
+    const storageToken = myStorage.token;
+
+    const myHead = new Headers();
+    myHead.append('Content-Type', 'application/json');
+    myHead.append('Authorization', `Bearer ${storageToken}`);
+
+    const fbal = {
+        method: 'GET',
+        headers: myHead,
+    }
+
+    let cdata = [];
+
+    const url = `https://backend.pluralcode.institute/admin/get-enrolment-data/?enrollment_type=admission_form&searchterm=${valueItem}`;
+
+    fetch(url, fbal)
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
+}
