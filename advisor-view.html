@@ -95,6 +95,61 @@
             color: #000;
         }
 
+        .selectdiv {
+          position: relative;
+        }
+
+        .selectdiv:after {
+            content: '\f078';
+            font: normal normal normal 17px/1 FontAwesome;
+            color: rgb(173, 168, 168);
+            right: 11px;
+            top: 6px;
+            height: 30px;
+            padding: 15px 0px 0px 8px;
+            border-left: 1px solid rgb(173, 168, 168);
+            position: absolute;
+            pointer-events: none;
+            font-weight: 900;
+        }
+
+        /* IE11 hide native button (thanks Matt!) */
+        select::-ms-expand {
+          display: none;
+        }
+
+        .selectdiv select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            /* Add some styling */
+            
+            display: block;
+            width: 200px;
+            max-width: 320px;
+            height: 45px;
+            float: right;
+            margin: 5px 0px;
+            padding: 0px 24px;
+            font-size: 16px;
+            line-height: 1.75;
+            color: #333;
+            background-color: #ffffff;
+            background-image: none;
+            border: 1px solid rgb(173, 168, 168);
+            -ms-word-break: normal;
+            word-break: normal;
+            border-radius: 10px;
+        }
+
+        .raa {
+            margin-bottom: -11px;
+        }
+
+        ::after, ::before {
+            box-sizing: content-box !important;
+        }
+
     </style>
 
 </head>
@@ -205,11 +260,12 @@
 
         <div class="jumbotron bg-light">
             <div class="head-shift">
-                <form>
-                    <label for="course">Course</label>
-                    <select class="form-control scourse" id="input">
-                    </select>
-                </form>
+                <div class="selectdiv mt-4">
+                    <label class="raa">
+                        <select class="scourse">
+                        </select>
+                    </label>
+                </div>
                 <form class="mt-4">
                     <div style="max-width:400px; margin:auto">
                         <div class="input-icons">

@@ -1639,6 +1639,12 @@ progress::-webkit-progress-value {
 
 .papy {
     margin-top: 126%;
+    position: realtive;
+}
+
+.te, .tcp, .tip {
+    position: absolute;
+    bottom: 0;
 }
 
 @media screen and (max-width: 992px) {

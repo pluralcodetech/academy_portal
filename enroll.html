@@ -129,11 +129,70 @@
               width: 59%;
             }
         }
+
+        .btn-sp, .btn-loop {
+            width: 200px;
+        }
+
+        .selectdiv {
+          position: relative;
+        }
+
+        .selectdiv:after {
+            content: '\f078';
+            font: normal normal normal 17px/1 FontAwesome;
+            color: rgb(173, 168, 168);
+            right: 11px;
+            top: 6px;
+            height: 30px;
+            padding: 15px 0px 0px 8px;
+            border-left: 1px solid rgb(173, 168, 168);
+            position: absolute;
+            pointer-events: none;
+            font-weight: 900;
+        }
+
+        /* IE11 hide native button (thanks Matt!) */
+        select::-ms-expand {
+          display: none;
+        }
+
+        .selectdiv select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            /* Add some styling */
+            
+            display: block;
+            width: 200px;
+            max-width: 320px;
+            height: 45px;
+            float: right;
+            margin: 5px 0px;
+            padding: 0px 24px;
+            font-size: 16px;
+            line-height: 1.75;
+            color: #333;
+            background-color: #ffffff;
+            background-image: none;
+            border: 1px solid rgb(173, 168, 168);
+            -ms-word-break: normal;
+            word-break: normal;
+            border-radius: 10px;
+        }
+
+        .raa {
+            margin-bottom: -11px;
+        }
+
+        ::after, ::before {
+            box-sizing: content-box !important;
+        }
         
     </style>
 
 </head>
-<body onload="getCurrentDate(), getListOfCountries(), enrolCourses(), enrolCohort(), toGetManualEnrolment()">
+<body onload="getCurrentDate(), getListOfCountries(), enrolCourses(), enrolCohort(), toGetManualEnrolment(), allCoursesList()">
     <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
@@ -431,55 +490,8 @@
                     </div>
                     <p class="text-secondary">Top countries</p>
 
-                    <div class="section-pro">
-                        <div class="congo d-flex justify-content-between">
-                          <p class="mt-2">Nigeria</p>
-                          <div>
-                            <p>400 enrollment</p>
-                            <p>(60%/100%)</p>
-                          </div>
-                        </div>
-                        <progress value="60" max="100"></progress>
-                    </div>
-                    <div class="section-pro">
-                        <div class="congo d-flex justify-content-between">
-                          <p class="mt-2">USA</p>
-                          <div>
-                            <p>90 enrollment</p>
-                            <p>(10%/100%)</p>
-                          </div>
-                        </div>
-                        <progress value="10" max="100"></progress>
-                    </div>
-                    <div class="section-pro">
-                        <div class="congo d-flex justify-content-between">
-                          <p class="mt-2">Rwanda</p>
-                          <div>
-                            <p>270 enrollment</p>
-                            <p>(45%/100%)</p>
-                          </div>
-                        </div>
-                        <progress value="45" max="100"></progress>
-                    </div>
-                    <div class="section-pro">
-                        <div class="congo d-flex justify-content-between">
-                          <p class="mt-2">Kenya</p>
-                          <div>
-                            <p>100 enrollment</p>
-                            <p>(20%/100%)</p>
-                          </div>
-                        </div>
-                        <progress value="20" max="100"></progress>
-                    </div>
-                    <div class="section-pro">
-                        <div class="congo d-flex justify-content-between">
-                          <p class="mt-2">South Africa</p>
-                          <div>
-                            <p>200 enrollment</p>
-                            <p>(30%/100%)</p>
-                          </div>
-                        </div>
-                        <progress value="30" max="100"></progress>
+                    <div id="progress-section">
+
                     </div>
                 </div>
             </div>
@@ -488,7 +500,7 @@
                 <div class="card-body">
                     <div>
                         <h5 class="rex">Total Enrolled</h5>
-                        <h5 class="gb"><b>16</b></h5>
+                        <h5 class="te"></h5>
                     </div>
                 </div>
             </div>
@@ -496,7 +508,7 @@
                 <div class="card-body">
                     <div>
                         <h5 class="rex">Total Completed Payment </h5>
-                        <h5 class="gb"><b>8</b></h5>
+                        <h5 class="tcp"></h5>
                     </div>
                 </div>
             </div>
@@ -504,26 +516,54 @@
                 <div class="card-body">
                     <div>
                         <h5 class="rex">Total Incomplete Payment</h5>
-                        <h5 class="gb"><b>300</b></h5>
+                        <h5 class="tip"></h5>
                     </div>
                 </div>
             </div>
         </div>
-    
+
+
+        <form class="m-3">
+            <button class="btn-sp mr-3" onclick="getSelfPacedEnrollment(event)">Instructor lead enrollment</button>
+            <button class="btn-loop" onclick="getLoopEnrollment(event)">Loop enrollment</button>
+        </form>
 
         <div class="outer-wrapper pt-3 pl-3 pr-3">
-            <div class="sort-sec">
-                <!-- <div class="sort-btn-item">
-                    <button class="btn-coh2">Website Enrollment</button>
-                    <button class="btn-coh">Manual Enrollment</button>
-                </div> -->
-                <div class="d mb-2">
-                    <form>
-                        <label class="d-block"></label>
-                        <input type="datetime-local" name="" id="" class="d-block palo">
-                    </form>
+            <div class="head-shift">
+                <div class="selectdiv mt-4">
+                    <label class="raa">
+                        <select class="scourse">
+                        </select>
+                    </label>
                 </div>
+                <form class="mt-4">
+                    <div style="max-width:400px; margin:auto">
+                        <div class="input-icons">
+                            <i class="fa fa-search icon" onclick="ebyEmailNameCourse(event)"></i>
+                            <input class="input-field valueItem" type="text" placeholder="Search">
+                        </div>
+                    </div>
+                </form>
             </div>
+            <form>
+                <div class="row mt-3">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <label for="">Start date</label>
+                        <input type="date" name="myDate" class="mb-2 form-control efirstValue">
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="dashSelectBox">
+                            
+                            <label for="">End date</label>
+                            <input type="date" name="myDate" class="mb-2 form-control esecondValue">
+                        </div>
+                    </div>
+               </div>
+               <center class="mt-5 mb-3">
+                 <button class="sort-btn" onclick="searchByEnrolTheDate(event)">sort by course & date range</button>
+               </center>
+            </form>
+            
             
             
             <hr class="chr">
@@ -560,9 +600,7 @@
             
             <nav class="mt-5 mio">
                 <ul class="pagination pg-blue justify-content-center">
-                    <!-- <button class="get-previous" onclick="prevPageItem(event)"><i class="fa fa-chevron-left"></i></button> -->
                     <div id="pagination-container" class="wesg"></div>
-                    <button class="get-next" onclick="nextPageItem(event)"><i class="fa fa-chevron-right"></i></button>
                 </ul>
             </nav>
         </div>
