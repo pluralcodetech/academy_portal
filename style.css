@@ -839,6 +839,10 @@ hr {
     padding: 13px 0;
 }
 
+.btn-sp:hover {
+    background: #0C1E5B;
+}
+
 .btn-loop {
     background: #fff;
     border: 1px solid #2334A8;
@@ -1497,7 +1501,7 @@ hr {
     margin-right: 10px;
 }
 
-.flex-left {
+.flex-left, .quiz-section {
     display: flex;
     justify-content: space-between;
 }
@@ -1614,6 +1618,10 @@ hr {
 
     .jumbotron h4 {
         font-size: 18px;
+    }
+
+    .input-field {
+        width: 100%; 
     }
 }
 

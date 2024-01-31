@@ -4920,6 +4920,7 @@ function getTeachableCourse() {
     const mycour3 = document.querySelector(".loopuptcourse");
 
 
+
     const getMyStorage = localStorage.getItem("adminLogin");
     const myStorage = JSON.parse(getMyStorage);
     const storageToken = myStorage.token;
@@ -4948,8 +4949,6 @@ function getTeachableCourse() {
             mycour.innerHTML = tdata;
             mycour2.innerHTML = tdata;
             mycour3.innerHTML = tdata;
-
-
         })
     })
     .catch(error => console.log('error', error))

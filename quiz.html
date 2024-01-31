@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <script type="text/javascript" src="oauth.js"></script>
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <!-- font awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .outer-wrapper {
+            background: #fff;
+            margin: 0;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .mio {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .modal-header {
+            background: #fff;
+            border: none;
+        }
+
+
+        .close {
+            color: #000;
+        }
+
+        .modal-body h4, .itev {
+            color: #222057;
+            font-weight: 600;
+        }
+
+        .mymodal {
+            left: 115px;
+        }
+        .modal-content {
+            width: 62%;
+        }
+
+        input[type="checkbox"] {
+          accent-color: #232323;
+        }
+
+        @media screen and (max-width: 650px) {
+
+            .mymodal {
+                left: 0;
+            }
+
+            .buh {
+                width: 0;
+                margin-right: 120px;
+            }
+        }
+        
+        @media screen and (max-width: 1250px) {
+            .mymodal {
+                left: 0;
+            }
+
+            .modal-content {
+                width: 100%;
+            }
+        }
+
+        @media screen and (min-width: 1300px) and (max-width: 1800px){
+            .modal-content {
+              width: 59%;
+            }
+        }
+
+    </style>
+
+</head>
+<body onload="getCurrentDate(), getTeachableCourse(), enrolCourses()">
+    <!-- <div class="pagemodal">
+        <div class="preloader">
+            <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
+        </div>
+    </div> -->
+
+    <div id="re-modal" class="mymodal mb-5">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closehModal1()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center">Create Quiz</h4>
+                <p class="itev mt-5 ml-3">
+                    Quiz Details
+                </p>
+                <form>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                          <label class="lab">Question:</label>
+                          <input type="text" class="palo cName" placeholder="Enter Question">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                          <label class="lab">Course</label>
+                          <select class="palo qcourse">
+                          </select>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Course School</label>
+                            <select class="palo cschool">
+                                <option value="software">Software</option>
+                                <option value="product">Product</option>
+                                <option value="data">Data</option>
+                                <option value="cloud">Cloud</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Course Type</label>
+                            <select class="palo ct" onchange="showPercentage(event)">
+                                <option value="entry">Certificate</option>
+                                <option value="diploma">Diploma</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Mode of Learning</label>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                          <input class="form-check-input onsite" type="checkbox" id="gridCheck" checked onchange="hideOnsite()">
+                                          <label class="form-check-label" for="gridCheck">
+                                            Onsite
+                                          </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                          <input class="form-check-input vive" type="checkbox" id="gridCheck" checked onchange="hideVirtualPrice()">
+                                          <label class="form-check-label" for="gridCheck">
+                                            Virtual 
+                                          </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 perc">
+                          <label class="lab">Percentage For Part Payment</label>
+                          <select class="palo cpercentage">
+                              <option>choose percentage value</option>
+                              <option value="10">10%</option>
+                              <option value="20">20%</option>
+                              <option value="30">30%</option>
+                              <option value="40">40%</option>
+                              <option value="50">50%</option>
+                              <option value="60">60%</option>
+                              <option value="70">70%</option>
+                              <option value="80">80%</option>
+                              <option value="90">90%</option>
+                          </select>
+                        </div>
+                        
+                    </div>
+                    <p class="itev mt-5 ml-3">Advisor Details</p>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Select Advisor</label>
+                            <select class="palo ladv">
+                            </select>
+                        </div>
+                    </div>
+
+                    <p class="itev mt-5 ml-3">Link Details</p>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Create Community Link</label>
+                            <input type="text" class="palo culink" placeholder="Enter link">
+                        </div>
+                          <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
+                            <label class="lab">Study Pack Resourse Link</label>
+                            <input type="text" class="palo rlink" placeholder="Enter link">
+                        </div>
+                    </div>
+                    <p class="itev mt-5 ml-3">Price Details</p>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 hidesite">
+                            <label class="lab">Onsite Price(USD)</label>
+                            <input type="text" class="palo osprice" placeholder="100(USD)">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 hidevirtual">
+                            <label class="lab">Virtual Price(USD)</label>
+                            <input type="text" class="palo virprice" placeholder="100(USD)">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="combi"> 
+                                <label class="switch mt-5">
+                                    <input type="checkbox" class="tog" onclick="toBoolean()">
+                                    <span class="slider round"></span>
+                                </label>
+                                <p class="ejk">Add to Loop</p>
+                            </div>
+        
+                            <div class="capstone">
+                                <label class="lab mt-5">Capstone Project Instruction Link</label>
+                                <input type="text" class="palo caplink" placeholder="enter link">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="combi"> 
+                                <label class="switch mt-5">
+                                    <input type="checkbox" class="tog2" onclick="displayDiscount()">
+                                    <span class="slider round"></span>
+                                </label>
+                                <p class="ejk">Add Discount</p>
+                            </div>
+        
+                            <div class="socra">
+                                <label class="lab mt-5">Deadline Offset</label>
+                                <input type="number" class="palo offset" placeholder="enter link">
+
+                                <label class="lab mt-5">Discount deadline</label>
+                                <input type="date" class="palo discount_deadline" placeholder="enter link">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer-item text-center mt-5 mb-5">
+                      <button class="co-btn" onclick="createCourse(event)">
+                        <div class="spinner-border spinner-border-sm text-light spin" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                          Create Course
+                      </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <input type="checkbox" id="nav-toggle">
+    <div class="sidebar bg-dark">
+       <div class="sidebar-brand mb-5">
+       <a href="dashboard.html"><img class="imglog" src="assets/logo.png" alt="wave"></a>
+       </div>
+
+       <div class="sidebar-menu">
+        <ul>
+            <li>
+             <a href="dashboard.html" style="text-decoration: none;"><i class="fa fa-dashboard mr-2" style="color: #fff;"></i><span>Dashboard</span></a>
+            </li>
+            
+            <li class="erol">
+             <a href="enroll.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Enrolled</span></a>
+            </li>
+            <li class="up">
+                <a href="update.html" style="text-decoration: none;"><i class="fa fa-refresh mr-2" style="color: #fff;"></i><span>Update Course</span></a>
+            </li>
+            <li class="adv">
+                <a href="advisor.html" style="text-decoration: none;"><i class="fa fa-user mr-2" style="color: #fff;"></i><span>Advisor Profile</span></a>
+            </li>
+            <li class="coh">
+                <a href="cohort.html" style="text-decoration: none;"><i class="fa fa-calendar-alt mr-2" style="color: #fff;"></i><span>Cohort</span></a>
+            </li>
+            <li class="cour">
+                <a href="course.html" style="text-decoration: none;"><i class="fa fa-graduation-cap mr-2" style="color: #fff;"></i><span>Course</span></a>
+            </li>
+            <!-- <li class="mth">
+                <a href="monthly.html" style="text-decoration: none;"><i class="fa fa-calendar mr-2" style="color: #fff;"></i><span>monthly Summary</span></a>
+            </li> -->
+
+            <li class="quiz">
+                <a href="quiz.html" class="active" style="text-decoration: none;"><i class="fa fa-question mr-2" style="color: #fff;"></i><span>Quiz</span></a>
+            </li>
+            
+            <li class="sett">
+                <a href="setting.html" style="text-decoration: none;"><i class="fa fa-cog mr-2" style="color: #fff;"></i><span>Settings</span></a>
+            </li>
+            <br><br><br><br>
+            <li>
+             <a onclick="logAdminOut(event)" style="text-decoration: none;"><i class="fas fa-sign-out mr-2" style="color: #fff;"></i><span class="logspan">Logout</span></a>
+            </li>
+       </ul>
+    </div>
+    </div>
+
+    <div class="main-content">
+       <header>
+           <h2 class="mt-3">
+               <label for="nav-toggle">
+                   <i class="fa fa-bars"></i>
+               </label>
+           </h2>
+           <div>
+               <form>
+                <div style="max-width:400px;margin:auto">
+                    <div class="input-icons">
+                        <i class="fa fa-search icon"></i>
+                        <input class="input-field" type="text" placeholder="Search">
+                    </div>
+                </div>
+               </form>
+           </div>
+           <div class="mt-3">
+               <p class="currentDta"></p>
+           </div>
+           
+        </header>
+
+       <main>
+
+        <div class="quiz-section">
+           <h2 class="course-head">Quiz</h2>
+
+           <button class="btn-sp" onclick="quizModal(event)">Create Quiz</button>
+        </div>
+    
+
+        <div class="outer-wrapper">
+            
+            
+            
+        </div>
+       </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <!-- custom javascript -->
+    <script src="script.js"></script>
+    <script src="main.js"></script>
+    <script src="access.js"></script>
+    
+</body>
+</html>

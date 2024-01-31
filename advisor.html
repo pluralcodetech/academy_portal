@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advisor</title>
+    <script type="text/javascript" src="oauth.js"></script>
+
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -107,7 +109,7 @@
 
 
 
-    <div id="re-modal" class="mymodal mb-5">
+    <!-- <div id="re-modal" class="mymodal mb-5">
         <div class="modal-content">
             <div class="modal-header">
                 <span class="close" onclick="closehModal()">&times;</span>
@@ -138,7 +140,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
     </div>
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar bg-dark">
@@ -190,16 +192,7 @@
                    <i class="fa fa-bars"></i>
                </label>
            </h2>
-           <div>
-               <form>
-                <div style="max-width:400px; margin:auto">
-                    <div class="input-icons">
-                        <i class="fa fa-search icon"></i>
-                        <input class="input-field" type="text" placeholder="Search">
-                    </div>
-                </div>
-               </form>
-           </div>
+           
            <div class="mt-3">
                <p class="currentDta"></p>
            </div>
@@ -208,10 +201,13 @@
 
        <main>
 
-        <h2 class="course-head">Advisors</h2>
+        <div class="space-item-section d-flex justify-content-between">
+            <h2 class="course-head">Advisors</h2>
+            <button class="cme-btn" onclick="showAdModal(event)">Create Advisor</button>
+        </div>
     
 
-        <div class="outer-wrapper">
+        <div class="outer-wrapper mt-5">
             <div class="table-wrapper mb-5">
                 <table class="table">
                     <thead>
@@ -231,9 +227,47 @@
             </div>
         </div>
 
-        
 
-          
+        <div id="ree-modal" class="mymodal mb-5">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="closeAhModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <h4 class="itev mt-5">
+                        Enter Advisor Details
+                    </h4>
+                    <form>
+    
+                        <label class="lab">Name</label>
+                        <input type="text" class="palo aname" placeholder="Enter name">
+    
+                        <label class="lab">Email</label>
+                        <input type="email" class="palo aemail" placeholder="Enter email">
+
+                        <label class="lab">Phone number</label>
+                        <input type="text" class="palo aphone" placeholder="Enter phone number">
+
+                        <label class="lab">Select School</label>
+                        <select class="palo aschool">
+                            <option>All School</option>
+                            <option value="software">Software</option>
+                            <option value="product">Product</option>
+                            <option value="data">Data</option>
+                        </select>
+    
+                        <div class="form-footer-item text-center mt-5 mb-5">
+                            <button class="co-btn" onclick="createAdvisorDetails(event)">
+                                <div class="spinner-border spinner-border-sm text-light spin" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                                Create Advisor
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
           
        </main>
     </div>
@@ -247,7 +281,6 @@
     <!-- custom javascript -->
     <script src="script.js"></script>
     <script src="main.js"></script>
-    <script type="text/javascript" src="oauth.js"></script>
     <script src="access.js"></script>
 
     

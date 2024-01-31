@@ -98,10 +98,17 @@ function enrolCourses() {
               <option value="${item.id}">${item.name}</option>
             `
             course.innerHTML = data;
+            course2.innerHTML = data;
+
 
         })
     })
     .catch(error => console.log('error', error));
+}
+
+function getCourseQuiz() {
+    const getCourse = localStorage.getItem("clist");
+    const courseItem = JSON.parse(getCourse)
 }
 
 // cohort list
@@ -290,7 +297,7 @@ function admitStudent(event) {
             else {
                 Swal.fire({
                     icon: 'info',
-                    text: `${result.message}`,
+                    text: `${result.error.status}`,
                     confirmButtonColor: '#25067C'
                 })
                 getSpin.style.display = "none";
@@ -2089,6 +2096,18 @@ function searchByEnrolTheDate(event) {
     .catch(error => console.log('error', error));
 }
 
+function showAdModal(event) {
+    event.preventDefault();
+
+    const getModal = document.getElementById('ree-modal');
+    getModal.style.display = "block"
+}
+
+function closeAhModal() {
+    const getModal = document.getElementById('ree-modal');
+    getModal.style.display = "none";
+}
+
 function ebyEmailNameCourse(event) {
     event.preventDefault();
 
@@ -2317,4 +2336,86 @@ function ebyEmailNameCourse(event) {
         })
         .catch(error => console.log('error', error));
     }
+}
+
+function createAdvisorDetails(event) {
+    event.preventDefault();
+
+    const getSpin = document.querySelector(".spin");
+    getSpin.style.display = "inline-block";
+
+    const aName = document.querySelector(".aname").value;
+    const aEmail = document.querySelector(".aemail").value;
+    const aPhone = document.querySelector(".aphone").value;
+    const aSchool = document.querySelector(".aschool").value;
+
+    if (aName === "" || aEmail === "" || aPhone === "" || aSchool === "") {
+        Swal.fire({
+            icon: 'info',
+            text: 'All fields are required!',
+            confirmButtonColor: '#25067C'
+        })
+
+        getSpin.style.display = "none";
+    }
+    else {
+        const getMyStorage = localStorage.getItem("adminLogin");
+        const myStorage = JSON.parse(getMyStorage);
+        const storageToken = myStorage.token;
+    
+        const myHead = new Headers();
+        myHead.append('Content-Type', 'application/json');
+        myHead.append('Authorization', `Bearer ${storageToken}`);
+
+        const advisorProfile = JSON.stringify({
+            "name": aName,
+            "email": aEmail,
+            "phone_number": aPhone,
+            "school": aSchool
+        });
+
+        const adMethod = {
+            method: 'POST',
+            headers: myHead,
+            body: advisorProfile
+        }
+
+        const url = "https://backend.pluralcode.institute/admin/create-advisor";
+
+        fetch(url, adMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+
+            if(result.message === "Advisor Created") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+
+                setTimeout(() => {
+                    location.reload();
+                }, 3000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+        })
+        .catch(error => console.log('error', error));
+
+    }
+
+}
+
+function quizModal(event) {
+    event.preventDefault();
+
+    const openModal = document.getElementById("re-modal");
+    openModal.style.display = "block";
 }
