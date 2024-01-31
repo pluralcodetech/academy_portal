@@ -98,7 +98,6 @@ function enrolCourses() {
               <option value="${item.id}">${item.name}</option>
             `
             course.innerHTML = data;
-            course2.innerHTML = data;
 
 
         })
@@ -107,8 +106,20 @@ function enrolCourses() {
 }
 
 function getCourseQuiz() {
+    const qCourse = document.querySelector(".qcourse");
     const getCourse = localStorage.getItem("clist");
-    const courseItem = JSON.parse(getCourse)
+    const courseItem = JSON.parse(getCourse);
+
+    let data = [];
+
+    courseItem.diplomacourses.map((item) => {
+        data +=`
+            <option value="${item.id}">${item.name}</option>
+        `
+        qCourse.innerHTML = data;
+    })
+
+
 }
 
 // cohort list

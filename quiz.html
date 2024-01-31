@@ -87,7 +87,7 @@
     </style>
 
 </head>
-<body onload="getCurrentDate(), getTeachableCourse(), enrolCourses()">
+<body onload="getCurrentDate(), getCourseQuiz()">
     <!-- <div class="pagemodal">
         <div class="preloader">
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
@@ -115,129 +115,22 @@
                           <select class="palo qcourse">
                           </select>
                         </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Course School</label>
-                            <select class="palo cschool">
-                                <option value="software">Software</option>
-                                <option value="product">Product</option>
-                                <option value="data">Data</option>
-                                <option value="cloud">Cloud</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Course Type</label>
-                            <select class="palo ct" onchange="showPercentage(event)">
-                                <option value="entry">Certificate</option>
-                                <option value="diploma">Diploma</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Mode of Learning</label>
-                            <div class="row">
-                                <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                          <input class="form-check-input onsite" type="checkbox" id="gridCheck" checked onchange="hideOnsite()">
-                                          <label class="form-check-label" for="gridCheck">
-                                            Onsite
-                                          </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-6 col-lg-6 mt-3 buh">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                          <input class="form-check-input vive" type="checkbox" id="gridCheck" checked onchange="hideVirtualPrice()">
-                                          <label class="form-check-label" for="gridCheck">
-                                            Virtual 
-                                          </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 perc">
-                          <label class="lab">Percentage For Part Payment</label>
-                          <select class="palo cpercentage">
-                              <option>choose percentage value</option>
-                              <option value="10">10%</option>
-                              <option value="20">20%</option>
-                              <option value="30">30%</option>
-                              <option value="40">40%</option>
-                              <option value="50">50%</option>
-                              <option value="60">60%</option>
-                              <option value="70">70%</option>
-                              <option value="80">80%</option>
-                              <option value="90">90%</option>
-                          </select>
-                        </div>
-                        
-                    </div>
-                    <p class="itev mt-5 ml-3">Advisor Details</p>
 
-                    <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Select Advisor</label>
-                            <select class="palo ladv">
-                            </select>
+                            <label class="lab">Multiple Options:</label>
+                            <input type="text" class="palo c1 mb-2" placeholder="Enter option one">
+                            <input type="text" class="palo c2 mb-2" placeholder="Enter option two">
+                            <input type="text" class="palo c3 mb-2" placeholder="Enter option three">
+                            <input type="text" class="palo c4" placeholder="Enter option four">
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 il">
+                            <label class="lab">Correct Answer:</label>
+                            <input type="text" class="palo cans mb-2" placeholder="Enter the correct answer">
                         </div>
                     </div>
+                    <div class="itemaddcontrols">
 
-                    <p class="itev mt-5 ml-3">Link Details</p>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Create Community Link</label>
-                            <input type="text" class="palo culink" placeholder="Enter link">
-                        </div>
-                          <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                            <label class="lab">Study Pack Resourse Link</label>
-                            <input type="text" class="palo rlink" placeholder="Enter link">
-                        </div>
-                    </div>
-                    <p class="itev mt-5 ml-3">Price Details</p>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 hidesite">
-                            <label class="lab">Onsite Price(USD)</label>
-                            <input type="text" class="palo osprice" placeholder="100(USD)">
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 mt-3 hidevirtual">
-                            <label class="lab">Virtual Price(USD)</label>
-                            <input type="text" class="palo virprice" placeholder="100(USD)">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-6">
-                            <div class="combi"> 
-                                <label class="switch mt-5">
-                                    <input type="checkbox" class="tog" onclick="toBoolean()">
-                                    <span class="slider round"></span>
-                                </label>
-                                <p class="ejk">Add to Loop</p>
-                            </div>
-        
-                            <div class="capstone">
-                                <label class="lab mt-5">Capstone Project Instruction Link</label>
-                                <input type="text" class="palo caplink" placeholder="enter link">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6">
-                            <div class="combi"> 
-                                <label class="switch mt-5">
-                                    <input type="checkbox" class="tog2" onclick="displayDiscount()">
-                                    <span class="slider round"></span>
-                                </label>
-                                <p class="ejk">Add Discount</p>
-                            </div>
-        
-                            <div class="socra">
-                                <label class="lab mt-5">Deadline Offset</label>
-                                <input type="number" class="palo offset" placeholder="enter link">
-
-                                <label class="lab mt-5">Discount deadline</label>
-                                <input type="date" class="palo discount_deadline" placeholder="enter link">
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-footer-item text-center mt-5 mb-5">
@@ -245,10 +138,17 @@
                         <div class="spinner-border spinner-border-sm text-light spin" role="status">
                             <span class="sr-only"></span>
                         </div>
-                          Create Course
+                          Submit Questions
                       </button>
                     </div>
                 </form>
+
+                <div class="button-controls d-flex justify-content-between">
+                    <button class="btn-sp">Add Question inputs</button>
+                    <button class="btn-sp2">Remove Question inputs</button>
+                </div>
+                
+
             </div>
         </div>
     </div>

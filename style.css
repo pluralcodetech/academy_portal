@@ -671,7 +671,7 @@ hr {
 .undecided, .not_interested, .next, .enrolled, 
 .update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
 .btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, 
-.advi-btn, .btn-sp, .btn-loop, .Active, .Inactive, .Complete, .Incomplete, .cme-btn {
+.advi-btn, .btn-sp, .btn-loop, .Active, .Inactive, .Complete, .Incomplete, .cme-btn, .btn-sp2 {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -1456,7 +1456,7 @@ hr {
     background: rgb(4, 149, 4);
 }
 
-.mactive3 {
+.mactive3, .btn-sp2 {
     background: rgb(216, 13, 13);
 }
 
@@ -1702,5 +1702,8 @@ progress::-webkit-progress-value {
     font-weight: 800;
 }
 
+.il {
+    margin: 13% 0;
+}
 
   
