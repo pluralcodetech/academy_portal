@@ -108,7 +108,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                           <label class="lab">Question:</label>
-                          <input type="text" class="palo cName" placeholder="Enter Question">
+                          <input type="text" class="palo cQues" placeholder="Enter Question">
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
                           <label class="lab">Course</label>
@@ -124,17 +124,17 @@
                             <input type="text" class="palo c4" placeholder="Enter option four">
                         </div>
 
-                        <div class="col-sm-12 col-md-12 col-lg-6 il">
+                        <div class="col-sm-12 col-md-12 col-lg-6 il2">
                             <label class="lab">Correct Answer:</label>
                             <input type="text" class="palo cans mb-2" placeholder="Enter the correct answer">
                         </div>
                     </div>
-                    <div class="itemaddcontrols">
+                    <div id="itemaddcontrols">
 
                     </div>
 
                     <div class="form-footer-item text-center mt-5 mb-5">
-                      <button class="co-btn" onclick="createCourse(event)">
+                      <button class="co-btn" onclick="createQuiz(event)">
                         <div class="spinner-border spinner-border-sm text-light spin" role="status">
                             <span class="sr-only"></span>
                         </div>
@@ -143,12 +143,11 @@
                     </div>
                 </form>
 
-                <div class="button-controls d-flex justify-content-between">
-                    <button class="btn-sp">Add Question inputs</button>
-                    <button class="btn-sp2">Remove Question inputs</button>
+                <div class="button-controls">
+                    <button class="btn-sp" onclick="addInput(event)"><i class="fa fa-plus mr-3"></i>Add Question inputs</button>
+                    <button class="btn-sp2" onclick="removeInput(event)"><i class="fa fa-minus mr-3"></i>Remove Question inputs</button>
                 </div>
                 
-
             </div>
         </div>
     </div>
@@ -227,13 +226,6 @@
            <h2 class="course-head">Quiz</h2>
 
            <button class="btn-sp" onclick="quizModal(event)">Create Quiz</button>
-        </div>
-    
-
-        <div class="outer-wrapper">
-            
-            
-            
         </div>
        </main>
     </div>

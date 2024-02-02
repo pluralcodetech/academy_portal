@@ -2430,3 +2430,127 @@ function quizModal(event) {
     const openModal = document.getElementById("re-modal");
     openModal.style.display = "block";
 }
+
+function addInput(event) {
+    event.preventDefault();
+
+    let formField = document.getElementById("itemaddcontrols");
+
+    let createDiv = document.createElement('div');
+    createDiv.setAttribute('class', 'row');
+    
+    let createClass = document.createElement('div');
+    createClass.classList.add("col-sm-12", "col-md-12", "col-lg-6", "mt-3");
+
+    createDiv.appendChild(createClass);
+
+    let createLabel = document.createElement('label');
+    createLabel.setAttribute('class', 'lab');
+    createLabel.innerHTML = "Question:";
+
+    createClass.appendChild(createLabel);
+
+    let createInput = document.createElement('input');
+    createInput.setAttribute('type', 'text');
+    createInput.setAttribute('placeholder', 'Enter Question');
+    createInput.classList.add("palo", "cQues")
+
+    createClass.appendChild(createInput)
+
+    let createMo = document.createElement('div');
+    createMo.classList.add("col-sm-12", "col-md-12", "col-lg-6", "il2");
+
+    let createLabel2 = document.createElement('label');
+    createLabel2.innerHTML = "Multiple Options:";
+    createLabel2.classList.add('lab', 'mt-3')
+
+    createClass.appendChild(createLabel2)
+
+    let opt1 = document.createElement('input');
+    opt1.setAttribute('type', 'text');
+    opt1.classList.add("palo", "c1", "mb-2");
+    opt1.setAttribute('placeholder', 'Enter option one');
+
+    let opt2 = document.createElement('input');
+    opt2.setAttribute('type', 'text');
+    opt2.classList.add("palo", "c2", "mb-2");
+    opt2.setAttribute('placeholder', 'Enter option two');
+
+    let opt3 = document.createElement('input');
+    opt3.setAttribute('type', 'text');
+    opt3.classList.add("palo", "c3", "mb-2");
+    opt3.setAttribute('placeholder', 'Enter option three');
+
+    let opt4 = document.createElement('input');
+    opt4.setAttribute('type', 'text');
+    opt4.classList.add("palo", "c4");
+    opt4.setAttribute('placeholder', 'Enter option four');
+
+    createClass.appendChild(opt1);
+    createClass.appendChild(opt2);
+    createClass.appendChild(opt3);
+    createClass.appendChild(opt4);
+
+    let createLabel3 = document.createElement('label');
+    createLabel3.innerHTML = "Correct Answer:";
+    createLabel3.classList.add('lab', 'mt-3')
+
+    let createCa = document.createElement('input');
+    createCa.setAttribute('type', 'text');
+    createCa.setAttribute('placeholder', 'Enter the correct answer');
+    createCa.classList.add("palo", "cans", "mb-2")
+
+    createMo.appendChild(createLabel3);
+    createMo.appendChild(createCa);
+
+
+    createDiv.appendChild(createMo)
+
+    formField.appendChild(createDiv)
+}
+
+
+
+function removeInput(event) {
+
+    event.preventDefault();
+
+    let formField = document.getElementById("itemaddcontrols");
+
+    const input_tags = formField.getElementsByClassName('row');
+    if(input_tags.length > 0) {
+      formField.removeChild(input_tags[(input_tags.length) - 1]);
+    }
+}
+
+function createQuiz(event) {
+    event.preventDefault();
+
+    let ans = [];
+
+    const getQuestion = document.querySelectorAll(".cQues");
+    const getCorrectAns = document.querySelectorAll(".cans");
+    const getOptions = document.querySelectorAll(".c1");
+    const getOptions2 = document.querySelectorAll(".c2");
+    const getOption3 = document.querySelectorAll(".c3");
+    const getOptions4 = document.querySelectorAll(".c4");
+
+
+    
+
+    for (i = 0; i < getQuestion.length; i++) {
+        for (let j = 0; j < getOptions.length; j++) {
+           ans.push(getOptions[j].value);
+        }
+        const item = {}
+        item.question = getQuestion[i].value;
+        item.question_type = "single";
+        item.correct_answers = getCorrectAns[i].value
+        item.answers = [getOptions[i].value, getOptions2[i].value, getOption3[i].value, getOptions4[i].value];
+        console.log(item)
+
+    }
+
+
+
+}

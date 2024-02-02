@@ -1460,6 +1460,10 @@ hr {
     background: rgb(216, 13, 13);
 }
 
+.btn-sp2:hover {
+    background: rgb(163, 11, 11);
+}
+
 .get-url, .get-url2 {
     display: none;
 }
@@ -1706,4 +1710,26 @@ progress::-webkit-progress-value {
     margin: 13% 0;
 }
 
-  
+.il2 {
+    margin: 20% 0;
+}
+
+.button-controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 680px) {
+    .button-controls {
+        flex-direction: column;
+    }
+
+    .btn-sp {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .btn-sp2 {
+        padding: 12px 10px;
+    }
+}
