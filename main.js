@@ -106,7 +106,12 @@ function enrolCourses() {
 }
 
 function getCourseQuiz() {
+    const pageSpin = document.querySelector(".pagemodal2");
+    pageSpin.style.display = "block";
+
     const qCourse = document.querySelector(".qcourse");
+    const qCourse2 = document.querySelector(".qcourse2");
+
     const getCourse = localStorage.getItem("clist");
     const courseItem = JSON.parse(getCourse);
 
@@ -117,6 +122,9 @@ function getCourseQuiz() {
             <option value="${item.id}">${item.name}</option>
         `
         qCourse.innerHTML = data;
+        qCourse2.innerHTML = data;
+        pageSpin.style.display = "none";
+
     })
 
 
@@ -2526,6 +2534,9 @@ function removeInput(event) {
 function createQuiz(event) {
     event.preventDefault();
 
+    const getSpin = document.querySelector(".spin");
+    getSpin.style.display = "inline-block";
+
     let ans = [];
 
     const getQuestion = document.querySelectorAll(".cQues");
@@ -2534,23 +2545,128 @@ function createQuiz(event) {
     const getOptions2 = document.querySelectorAll(".c2");
     const getOption3 = document.querySelectorAll(".c3");
     const getOptions4 = document.querySelectorAll(".c4");
+    const qCourse = document.querySelector(".qcourse").value;
 
+    if (getQuestion === "" || getCorrectAns === "" || getOptions === "" || getOptions2 === "" || getOption3 === "" || getOptions4 === "") {
+        Swal.fire({
+            icon: 'info',
+            text: 'All fields are required.',
+            confirmButtonColor: '#25067C'
+        })
 
-    
-
-    for (i = 0; i < getQuestion.length; i++) {
-        for (let j = 0; j < getOptions.length; j++) {
-           ans.push(getOptions[j].value);
-        }
-        const item = {}
-        item.question = getQuestion[i].value;
-        item.question_type = "single";
-        item.correct_answers = getCorrectAns[i].value
-        item.answers = [getOptions[i].value, getOptions2[i].value, getOption3[i].value, getOptions4[i].value];
-        console.log(item)
-
+        getSpin.style.display = "none"
     }
 
+    else {
+        const myHeader = new Headers();
+        myHeader.append("Content-Type", "application/json");
 
+        for (i = 0; i < getQuestion.length; i++) {
+            const item = {}
+            item.question = getQuestion[i].value;
+            item.question_type = "single";
+            item.correct_answers = getCorrectAns[i].value
+            item.answers = [getOptions[i].value, getOptions2[i].value, getOption3[i].value, getOptions4[i].value];
+            ans.push(item)
+        }
 
+        const questionContent = JSON.stringify({
+            "quiz": {
+                "questions": ans
+            },
+            "course_id": qCourse
+        })
+    
+        console.log(ans)
+        console.log(questionContent)
+
+        const quesMethod = {
+            method: 'POST',
+            headers: myHeader,
+            body: questionContent
+        }
+
+        const url = "https://backend.pluralcode.institute/student/create-quiz";
+
+        fetch(url, quesMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result.message === "Updated") {
+                Swal.fire({
+                    icon: 'success',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+                setTimeout(() => {
+                    location.reload();
+                }, 3000)
+            }
+            else {
+                Swal.fire({
+                    icon: 'info',
+                    text: `${result.message}`,
+                    confirmButtonColor: '#25067C'
+                })
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+}
+
+function getQuestion() {
+    const quiz = document.querySelector(".showquiz-section");
+    const quizHead = document.querySelector(".quiz-heading");
+
+    const qcourse = document.querySelector(".qcourse2").value;
+    console.log(qcourse)
+
+    const pageSpin = document.querySelector(".pagemodal2");
+    pageSpin.style.display = "block";
+
+    const myHeader = new Headers();
+    myHeader.append("Content-Type", "application/json");
+
+    const method = {
+        method: 'GET',
+        headers: myHeader
+    }
+
+    let data = [];
+    let ir = []
+
+    const url = `https://backend.pluralcode.institute/student/get-quiz?course_id=${qcourse}`
+
+    fetch(url, method)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result.message.questions.length === 0) {
+            quiz.innerHTML = `<center><h2>No Quiz Records Found!</h2></center>`;
+        }
+        else {
+            result.message.questions.map((item, index = 1) => {
+                
+                data += `
+                <div class="container">
+                  <h4 class="mb-3">${index + 1}. ${item.question}</h4>
+                  <div class="option-item">
+                    <p><i class="fas fa-check-circle" style="color: #2334A8"></i> ${item.answers[0]}</p>
+                    <p><i class="fas fa-check-circle" style="color: #2334A8"></i> ${item.answers[1]}</p>
+                    <p><i class="fas fa-check-circle" style="color: #2334A8"></i> ${item.answers[2]}</p>
+                    <p><i class="fas fa-check-circle" style="color: #2334A8"></i> ${item.answers[3]}</p>
+                  </div>
+                  <label class="mt-3">Correct Answer:</label>
+                  <p><i class="fas fa-check-circle" style="color: #4A9A5B"></i> ${item.correct_answers}</p>
+                  </div>
+                `
+                quiz.innerHTML = data;
+                quizHead.style.display = "block";
+            })
+
+        }
+        pageSpin.style.display = "none";
+
+    })
+    .catch(error => console.log('error', error));
 }

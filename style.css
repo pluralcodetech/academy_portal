@@ -1120,9 +1120,7 @@ hr {
     border-top-right-radius: 5px;
 }
 
-.modal-body {
-    /* padding: 10px 20px; */
-}
+
 
 
 .close {
@@ -1200,6 +1198,10 @@ hr {
 
 .en-text {
     color: #2334A8;
+}
+
+#fai {
+    color: #4A9A5B;
 }
 
 .up-btn {
@@ -1732,4 +1734,12 @@ progress::-webkit-progress-value {
     .btn-sp2 {
         padding: 12px 10px;
     }
+}
+
+.quiz-heading {
+    display: none;
+    margin: 40px 0;
+    color: #0d38c4;
+    border-bottom: 2px solid rgb(167, 164, 164);
+
 }
