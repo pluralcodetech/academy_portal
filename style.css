@@ -671,7 +671,8 @@ hr {
 .undecided, .not_interested, .next, .enrolled, 
 .update, .deactive, .co-btn, .cnew-btn, .btn-coh, 
 .btn-coh2, .s-btn, .d-btn, .a-btn, .btn-lock, .view-adv, 
-.advi-btn, .btn-sp, .btn-loop, .Active, .Inactive, .Complete, .Incomplete, .cme-btn, .btn-sp2 {
+.advi-btn, .btn-sp, .btn-loop, .Active, .Inactive, 
+.Complete, .Incomplete, .cme-btn, .btn-sp2, .v-btn {
     background-color: green;
     color: #fff;
     padding: 5px 10px;
@@ -860,6 +861,20 @@ hr {
 
 .Complete, .Incomplete {
     width: 100px;
+}
+
+.v-btn {
+    padding: 12px;
+    background: goldenrod;
+    width: 164px;
+    font-family: 500;
+    font-size: 17px;
+}
+
+.v-btn:hover {
+    background: #fff;
+    color: goldenrod;
+    border: 1px solid goldenrod;
 }
 
 .ltable, .co2, .acrite {

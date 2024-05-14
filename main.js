@@ -115,17 +115,37 @@ function getCourseQuiz() {
     const getCourse = localStorage.getItem("clist");
     const courseItem = JSON.parse(getCourse);
 
-    let data = [];
+    let coData = [];
+    let mone = {
+        id: 83,
+        name: "All"
+    };
+
+    let mdata = [];
+    mdata.push(mone)
+
+    for (i = 0; i < mdata.length; i++) {
+        courseItem.diplomacourses.unshift(mdata[i]);
+    }
 
     courseItem.diplomacourses.map((item) => {
-        data +=`
+        if (item.name === "All") {
+            return coData += `
+             <option value="">${item.name}</option>
+
+            `
+        }
+        else {
+            return coData += `
             <option value="${item.id}">${item.name}</option>
         `
-        qCourse.innerHTML = data;
-        qCourse2.innerHTML = data;
-        pageSpin.style.display = "none";
+        }
+        
 
     })
+    qCourse.innerHTML = coData;
+    qCourse2.innerHTML = coData;
+    pageSpin.style.display = "none";
 
 
 }
@@ -2641,7 +2661,7 @@ function getQuestion() {
     .then(response => response.json())
     .then(result => {
         console.log(result)
-        if (result.message.questions.length === 0) {
+        if (result.message === "All fields are required") {
             quiz.innerHTML = `<center><h2>No Quiz Records Found!</h2></center>`;
         }
         else {
@@ -2669,4 +2689,28 @@ function getQuestion() {
 
     })
     .catch(error => console.log('error', error));
+}
+
+function showcaseAdvisor() {
+    const getAdvisor = document.querySelector(".eadvisor");
+    const saMethod = {
+        method: 'GET',
+    };
+
+    let data = [];
+
+    const url = "https://backend.pluralcode.institute/admin/get-pluralcode-advisors";
+
+    fetch(url, saMethod)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        result.getAdvisors.map((item) => {
+            data += `
+               <option value="${item.referral_code}">${item.name}</option>
+            `
+            getAdvisor.innerHTML = data;
+        })
+    })
+    .catch(error => console.log('error', error))
 }
