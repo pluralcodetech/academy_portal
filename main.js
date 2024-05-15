@@ -2691,6 +2691,11 @@ function getQuestion() {
     .catch(error => console.log('error', error));
 }
 
+function changeValue(price) {
+    const amount = document.querySelector(".eamount");
+    return amount.value = price;
+}
+
 function showcaseAdvisor() {
     const getAdvisor = document.querySelector(".eadvisor");
     const saMethod = {
@@ -2713,4 +2718,67 @@ function showcaseAdvisor() {
         })
     })
     .catch(error => console.log('error', error))
+}
+
+function verifyVoucher(event) {
+    event.preventDefault();
+
+    const getAmount = document.querySelector(".eamount").value
+    const cobtn = document.querySelector(".co-btn")
+
+    const getSpin = document.querySelector(".spinad");
+    getSpin.style.display = "inline-block";
+
+    const getVoucher = document.querySelector(".evoucher").value;
+    if (getVoucher === "") {
+        Swal.fire({
+            icon: 'info',
+            text: "Voucher is required!",
+            confirmButtonColor: '#25067C'
+        })
+        getSpin.style.display = "none";
+    }
+
+    else {
+        const vdata = new FormData();
+        vdata.append("voucher_code", getVoucher);
+
+        const vMethod = {
+            method: 'POST',
+            body: vdata
+        };
+
+        const url = "https://pluralcode.net/apis/v1/verify_voucher.php";
+
+        fetch(url, vMethod)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result.status === "valid") {
+                let str = result.discount.replace( /%/g, "" );
+                const getDiscountPrice = parseInt(str) * getAmount / 100;
+                const total = getAmount - getDiscountPrice;
+                changeValue(total);
+                cobtn.innerHTML = `You are to Pay ₦${total}`;
+                Swal.fire({
+                    icon: 'success',
+                    text: `Pay ${total}`,
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'invalid voucher',
+                    confirmButtonColor: '#25067C'
+                })
+                getSpin.style.display = "none";
+            }
+            
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    
 }
