@@ -234,8 +234,9 @@ function admitStudent(event) {
     const eCountry = document.querySelector(".country").value;
     const eState = document.querySelector(".state").value;
     const ePart = document.getElementsByName("pay");
-    const eRefe = document.querySelector(".eref").value;
+    const eRefe = document.querySelector(".evoucher").value;
     const eBal = document.querySelector(".ebal").value;
+    const eadv = document.querySelector(".eadvisor").value;
 
     const eCourse2 = document.querySelector(".course");
     let text = eCourse2.options[eCourse2.selectedIndex].text;
@@ -271,7 +272,7 @@ function admitStudent(event) {
 
     if(eName === "" || eEmail === "" || ePhone === "" || eAge === "" || eCourse === "" 
     || eCohort === "" || eAmount === "" || eLevel === "" 
-    || eCountry === "" || eState === "") {
+    || eCountry === "" || eState === "" || eadv === "") {
         Swal.fire({
             icon: 'info',
             text: 'All Fields are Required!',
@@ -297,7 +298,8 @@ function admitStudent(event) {
             "age": eAge,
             "payment_plan": dpart,
             "course_id": eCourse,
-            "referral_code": eRefe,
+            "voucher_code": eRefe,
+            "referral_code": eadv,
             "balance": eBal
         });
 
