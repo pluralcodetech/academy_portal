@@ -245,6 +245,7 @@ function admitStudent(event) {
     let dclass;
     let dpart;
     let dcurrency;
+    let cf;
 
     for (let i = 0; i < eMode.length; i++) {
         if (eMode[i].checked) {
@@ -281,6 +282,18 @@ function admitStudent(event) {
         getSpin.style.display = "none";
     }
     else {
+        const getList = localStorage.getItem("clist");
+        const list = JSON.parse(getList);
+        console.log(list)
+        list.diplomacourses.map((item) => {
+            if (item.id === JSON.parse(eCourse) && dclass === "Onsite" && dcurrency === "NGN") cf = item.course_onsite_fees.onsite_course_full_payment_fees_ngn.onsite_course_fee_ngn;
+            if (item.id === JSON.parse(eCourse) && dclass === "Onsite" && dcurrency === "USD") cf = item.course_onsite_fees.onsite_course_full_payment_fees_usd.onsite_course_fee_usd;
+            if (item.id === JSON.parse(eCourse) && dclass === "Virtual" && dcurrency === "NGN") cf = item.course_virtual_fee.virtual_course_full_payment_fees_ngn.virtual_course_fee_ngn;
+            if (item.id === JSON.parse(eCourse) && dclass === "Virtual" && dcurrency === "USD") cf = item.course_virtual_fee.virtual_course_full_payment_fees_usd.virtual_course_fee_usd;
+        })
+
+
+
 
         const manualProfile = JSON.stringify({
             "name": eName,
@@ -300,7 +313,8 @@ function admitStudent(event) {
             "course_id": eCourse,
             "voucher_code": eRefe,
             "referral_code": eadv,
-            "balance": eBal
+            "balance": eBal,
+            "course_fee": cf
         });
 
         const getMyStorage = localStorage.getItem("adminLogin");
@@ -338,7 +352,7 @@ function admitStudent(event) {
             else {
                 Swal.fire({
                     icon: 'info',
-                    text: `${result.error.status}`,
+                    text: `${result.message}`,
                     confirmButtonColor: '#25067C'
                 })
                 getSpin.style.display = "none";
